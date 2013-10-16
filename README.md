@@ -26,6 +26,7 @@ UPRRP Grade Entry System
 1. Install [Node.js](http://nodejs.org/) with `brew install node`.
 2. Install [nodemon](http://remy.github.io/nodemon/) with `npm install -g nodemon`.
 3. Install [Heroku Toolbelt](https://toolbelt.heroku.com/).
+4. Install [Sails.js](http://sailsjs.org/#!getStarted) with `sudo npm install -g sails`.
 4. Download [Postgres.app](http://postgresapp.com/) ([Instructions](http://www.postgresql.org/download/linux/ubuntu/) for Ubuntu).
 4. Clone repo with `git clone git@github.com:crzrcn/UPRRP-Grades-Entry-System.git`.
 5. Install Node.js dependencies with `npm install`.
