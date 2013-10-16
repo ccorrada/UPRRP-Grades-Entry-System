@@ -16,7 +16,7 @@ UPRRP Grade Entry System
 # Tech stack
 
 * Node.js
-* Express.js
+* Sails.js
 * PostgreSQL
 * Bootstrap
 
