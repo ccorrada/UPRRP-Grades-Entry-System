@@ -16,26 +16,34 @@ module.exports.adapters = {
 
   // If you leave the adapter config unspecified 
   // in a model definition, 'default' will be used.
-  'default': 'disk',
+  'default': 'postgresql',
 
   // In-memory adapter for DEVELOPMENT ONLY
-  memory: {
-    module: 'sails-memory'
-  },
+  // memory: {
+  //   module: 'sails-memory'
+  // },
 
   // Persistent adapter for DEVELOPMENT ONLY
   // (data IS preserved when the server shuts down)
-  disk: {
-    module: 'sails-disk'
-  },
+  // disk: {
+  //   module: 'sails-disk'
+  // },
 
   // MySQL is the world's most popular relational database.
   // Learn more: http://en.wikipedia.org/wiki/MySQL
-  mysql: {
-    module: 'sails-mysql',
-    host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_MYSQL_USER',
-    password: 'YOUR_MYSQL_PASSWORD',
-    database: 'YOUR_MYSQL_DB'
+  // mysql: {
+  //   module: 'sails-mysql',
+  //   host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
+  //   user: 'YOUR_MYSQL_USER',
+  //   password: 'YOUR_MYSQL_PASSWORD',
+  //   database: 'YOUR_MYSQL_DB'
+  // }
+
+  postgresql: {
+    module: 'sails-postgresql',
+    host: process.env.DATABASE_URL, // ip address or whatever for DB.
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME
   }
 };
