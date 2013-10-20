@@ -3,7 +3,16 @@ html
   head
     title WEPA!
     meta(name='viewport', content='width=device-width, initial-sace=1, maximum-scale-1')
+    link(href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css", rel="stylesheet")
+    // STYLES
+    
+    // STYLES END
   body
-    script(type='text/javascript', src='/js/socket.io.js')
-    script(type='text/javascript', src='/js/sails.io.js')
-    script(type='text/javascript', src='/js/app.js')
+    block content
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")
+    // SCRIPTS
+    script(type="text/javascript", src="/linker/js/socket.io.js")
+    script(type="text/javascript", src="/linker/js/sails.io.js")
+    script(type="text/javascript", src="/linker/js/app.js")
+    // SCRIPTS END
