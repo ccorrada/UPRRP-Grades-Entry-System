@@ -13,17 +13,21 @@ var transport = nodemailer.createTransport(process.env.EMAIL_TRANSPORT_TYPE, {
 });
 
 module.exports = {
-  sendActivationEmail: function (prof_email, token) {
+  sendActivationEmail: function (prof_email, token, callback) {
     transport.sendMail({
       from: process.env.EMAIL_USERNAME,
       to: prof_email,
-      subject: 'Your password reset link for UPRRP: GES.',
+      subject: 'Your activation link for UPRRP: GES.',
       text: 'Reset your password at http://localhost:5000/password?token=' + token,
       html: 'Reset your <a href="http://localhost:5000/password?token=' + token +'">password</a>'
     }, function (error, response) {
-      // if (error) {
-      //   console.log(response.message);
-      // }
+      console.log('Tried sending email.');
+      if (error) {
+        console.log(require('util').inspect(error));
+      } else {
+        console.log(response.message);
+      }
+      callback();
     });
   }
 }
