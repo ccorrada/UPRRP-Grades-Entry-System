@@ -28,9 +28,10 @@
 
 module.exports.routes = {
 
-  'get /': 'AuthenticationController.new'
   'get /': 'AuthenticationController.new',
-  'post /authenticate/create': 'AuthenticationController.create'
+  'post /authenticate/create': 'AuthenticationController.create',
+  'get /password': 'PasswordController.new',
+  'post /password/change': 'PasswordController.change'
 
   // By default, your root route (aka home page) points to a view
   // located at `views/home/index.ejs`
