@@ -1,0 +1,19 @@
+.vertical-bar {
+  width: 2px;
+  background-color: black;
+  height: 100px;
+  opacity: 0.3;
+  margin-left: 50%;
+}
+
+.landing-page {
+  margin-top: 25%;
+}
+
+.landing-page-text-header {
+  margin-bottom: 45px;
+}
+
+body, html {
+  height: 100%;
+}

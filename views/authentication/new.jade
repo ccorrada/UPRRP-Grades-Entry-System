@@ -3,12 +3,25 @@ extends ../layout
 block content
   .container
     .row
-      .col-md-6
-        form.form-horizontal(method='POST', action='/authentication/login')
-          input(type='email', placeholder='email', name='email')
-          input(type='password', placeholder='password', name='password')
-          button Log In
-      .col-md-6
-        form.form-horizontal(method='POST', action='/authentication/signup')
-          input(type='email', placeholder='email', name='email')
-          button Sign up
+    .landing-page
+      .row
+        .col-md-12
+          .landing-page-text-header
+            h1.text-center Welcome to UPRRP: Grades Entry System
+      .row
+        .col-md-5
+          form.form-horizontal(method='POST', action='/authentication/login', role='form')
+            .form-group
+              input.form-control(type='email', placeholder='email', name='email')
+            .form-group
+              input.form-control(type='password', placeholder='password', name='password')
+            .form-group
+              button.btn.btn-default(type='submit') Log In
+        .col-md-2
+          .vertical-bar
+        .col-md-5
+          form.form-horizontal(method='POST', action='/authentication/signup')
+            .form-group
+              input.form-control(type='email', placeholder='email', name='email', role='form')
+            .form-group
+              button.btn.btn-default(type='submit') Sign up
