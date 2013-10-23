@@ -56,9 +56,7 @@ module.exports = {
         }
       });
     } else {
-      req.session.flash = {
-        err: [{result: false, message: 'Can\'t change to an empty password!'}]
-      }
+      req.session.flash = FlashMessages.emptyPasswordChange();
       res.redirect('/password/new?token=' + req.param('token'));
     }
   },
