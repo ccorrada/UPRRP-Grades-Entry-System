@@ -53,9 +53,9 @@ module.exports = {
               console.log(require('util').inspect(err));
             } else {
               // Send email now.
-              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken);
-
-              res.send({result: true});
+              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
+                res.send({result: true});
+              });
             }
           });
         } else {
@@ -71,9 +71,9 @@ module.exports = {
                   console.log(require('util').inspect(err));
                 } else {
                   // Send email now.
-                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken);
-
-                  res.send({result: true});
+                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
+                    res.send({result: true});
+                  });
                 }
               });
             });
