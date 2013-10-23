@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-md-6
+        form.form-horizontal(method='POST', action='/authentication/login')
+          input(type='email', placeholder='email', name='email')
+          input(type='password', placeholder='password', name='password')
+          button Log In
+      .col-md-6
+        form.form-horizontal(method='POST', action='/authentication/signup')
+          input(type='email', placeholder='email', name='email')
+          button Sign up
