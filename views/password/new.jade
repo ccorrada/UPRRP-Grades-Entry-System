@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-md-12
+        h1 Please choose a good password!
+        form.form(method='POST', action='/password/change?token=#{token}')
+          input(type='password', placeholder='new password', name='password')
+          button Change Password
