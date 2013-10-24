@@ -55,7 +55,7 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 
 [Fernando Martinez](http://crzrcn.github.io)
 
-[Carlos Barba](http://github.com/carloscheddor)
+[Carlos Barba](http://github.com/carloscheddar)
 
 [Roxana Gonzalez](http://github.com/rogonzalez)
 
