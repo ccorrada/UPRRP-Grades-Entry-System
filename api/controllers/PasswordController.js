@@ -34,7 +34,7 @@ module.exports = {
    *    `/passwor/change`
    */
    change: function (req, res) {
-    if (req.param('password')) {
+    if (req.param('password') && req.param('token')) {
       Professor.findOneByPasswordResetToken(req.param('token')).done(function (err, prof) {
         if (prof) {
           require('bcrypt').genSalt(10, function (err, salt) {
