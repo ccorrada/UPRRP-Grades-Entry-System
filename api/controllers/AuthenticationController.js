@@ -22,7 +22,9 @@ module.exports = {
    *    `/authentication/new`
    */
    new: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash);
     res.view();
+    req.session.flash = undefined;
   },
 
 
@@ -82,9 +84,7 @@ module.exports = {
       });
     } else {
       // No email entered.
-      req.session.flash = {
-        err: [{result: false, message: 'No email entered.'}]
-      }
+      req.session.flash = FlashMessages.noEmailEntered();
       res.redirect('/authentication/new');
     }
 
@@ -99,9 +99,7 @@ module.exports = {
     
     req.session.destroy();
 
-    req.session.flash = {
-      err: [{message: 'You have been logged out.'}]
-    }
+    req.session.flash = FlashMessages.successfulLogout();
 
     res.redirect('/authenticate/new');
   },
