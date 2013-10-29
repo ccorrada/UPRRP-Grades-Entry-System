@@ -82,7 +82,7 @@ module.exports = {
     } else {
       // No email entered.
       req.session.flash = FlashMessages.noEmailEntered();
-      res.redirect('/authentication/new');
+      res.redirect('/');
     }
 
   },
@@ -98,7 +98,7 @@ module.exports = {
 
     req.session.flash = FlashMessages.successfulLogout();
 
-    res.redirect('/authenticate/new');
+    res.redirect('/');
   },
 
   login: function (req, res) {
