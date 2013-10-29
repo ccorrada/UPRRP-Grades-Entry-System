@@ -49,7 +49,7 @@ module.exports = {
       Professor.findOneByEmail(current_email).done(function (err, prof) {
         if (prof) {
           prof.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
-          prof.password_reset_timestamp = new Date(); // ms since epoch
+          // prof.password_reset_timestamp = new Date(); // ms since epoch
           prof.save(function (err) {
             if (err) {
             } else {
@@ -65,7 +65,7 @@ module.exports = {
                 email: current_email,
                 password: hash,
                 passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
-                password_reset_timestamp: new Date()
+                // password_reset_timestamp: new Date()
               }).done(function (err, prof) {
                 if (err) {
                 } else {
