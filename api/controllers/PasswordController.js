@@ -45,6 +45,7 @@ module.exports = {
                 if (err) {
                 } else {
                   // Redirect to login screen.
+                  req.session.flash = FlashMessages.successfulPasswordChange();
                   res.redirect('/');
                 }
               });
