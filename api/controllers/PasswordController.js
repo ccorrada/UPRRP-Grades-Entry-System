@@ -23,7 +23,9 @@ module.exports = {
    *    `/password/new`
    */
    new: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash);
     res.view({token: req.param('token')});
+    req.session.flash = undefined; // Clear flash messages.
   },
 
 
