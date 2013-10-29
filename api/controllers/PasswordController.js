@@ -40,10 +40,9 @@ module.exports = {
           require('bcrypt').genSalt(10, function (err, salt) {
             require('bcrypt').hash(req.param('password'), salt, function (err, hash) {
               prof.password = hash;
-              prof.findOneByPasswordResetToken = '';
+              prof.passwordResetToken = '';
               prof.save(function (err) {
                 if (err) {
-                  console.log(require('util').inspect(err));
                 } else {
                   // Redirect to login screen.
                   res.redirect('/');
