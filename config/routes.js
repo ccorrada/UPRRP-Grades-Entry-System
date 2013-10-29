@@ -29,7 +29,8 @@
 module.exports.routes = {
 
   'get /': 'AuthenticationController.new',
-  'post /authenticate/create': 'AuthenticationController.create',
+  'post /authenticate/signup': 'AuthenticationController.signup',
+  'post /authentication/login': 'AuthenticationController.login',
   'get /password': 'PasswordController.new',
   'post /password/change': 'PasswordController.change'
 
