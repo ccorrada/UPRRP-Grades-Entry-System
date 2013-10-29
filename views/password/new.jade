@@ -13,7 +13,9 @@ block content
     .row
       .col-md-12
         h1 Please choose a good password!
-        form.form(method='POST', action='/password/change?token=#{token}')
-          input(type='password', placeholder='new password', name='password')
-          button Change Password
+        form.form-horizontal(method='POST', action='/password/change?token=#{token}')
+          .form-group
+            input.form-control(type='password', placeholder='new password', name='password')
+          .form-group
+            button.btn.btn-default Change Password
           input(type='hidden', name='_csrf', value='#{_csrf}')
