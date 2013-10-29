@@ -22,7 +22,9 @@ module.exports = {
    *    `/authentication/new`
    */
    new: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash);
     res.view();
+    req.session.flash = undefined;
   },
 
 
@@ -50,12 +52,10 @@ module.exports = {
           prof.password_reset_timestamp = new Date(); // ms since epoch
           prof.save(function (err) {
             if (err) {
-              console.log(require('util').inspect(err));
             } else {
-              // Send email now.
-              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
-                res.send({result: true});
-              });
+              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+              req.session.flash = FlashMessages.requestActivationLink();
+              res.redirect('/');
             }
           });
         } else {
@@ -68,12 +68,11 @@ module.exports = {
                 password_reset_timestamp: new Date()
               }).done(function (err, prof) {
                 if (err) {
-                  console.log(require('util').inspect(err));
                 } else {
                   // Send email now.
-                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
-                    res.send({result: true});
-                  });
+                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+                  req.session.flash = FlashMessages.requestActivationLink();
+                  res.redirect('/');
                 }
               });
             });
@@ -82,9 +81,7 @@ module.exports = {
       });
     } else {
       // No email entered.
-      req.session.flash = {
-        err: [{result: false, message: 'No email entered.'}]
-      }
+      req.session.flash = FlashMessages.noEmailEntered();
       res.redirect('/authentication/new');
     }
 
@@ -99,9 +96,7 @@ module.exports = {
     
     req.session.destroy();
 
-    req.session.flash = {
-      err: [{message: 'You have been logged out.'}]
-    }
+    req.session.flash = FlashMessages.successfulLogout();
 
     res.redirect('/authenticate/new');
   },

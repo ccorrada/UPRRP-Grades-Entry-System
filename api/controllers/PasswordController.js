@@ -23,7 +23,9 @@ module.exports = {
    *    `/password/new`
    */
    new: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash);
     res.view({token: req.param('token')});
+    req.session.flash = undefined; // Clear flash messages.
   },
 
 
@@ -38,12 +40,12 @@ module.exports = {
           require('bcrypt').genSalt(10, function (err, salt) {
             require('bcrypt').hash(req.param('password'), salt, function (err, hash) {
               prof.password = hash;
-              prof.findOneByPasswordResetToken = '';
+              prof.passwordResetToken = '';
               prof.save(function (err) {
                 if (err) {
-                  console.log(require('util').inspect(err));
                 } else {
                   // Redirect to login screen.
+                  req.session.flash = FlashMessages.successfulPasswordChange();
                   res.redirect('/');
                 }
               });
