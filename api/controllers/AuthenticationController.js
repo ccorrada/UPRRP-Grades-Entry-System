@@ -52,12 +52,10 @@ module.exports = {
           prof.password_reset_timestamp = new Date(); // ms since epoch
           prof.save(function (err) {
             if (err) {
-              console.log(require('util').inspect(err));
             } else {
-              // Send email now.
-              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
-                res.send({result: true});
-              });
+              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+              req.session.flash = FlashMessages.requestActivationLink();
+              res.redirect('/');
             }
           });
         } else {
@@ -70,12 +68,11 @@ module.exports = {
                 password_reset_timestamp: new Date()
               }).done(function (err, prof) {
                 if (err) {
-                  console.log(require('util').inspect(err));
                 } else {
                   // Send email now.
-                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {
-                    res.send({result: true});
-                  });
+                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+                  req.session.flash = FlashMessages.requestActivationLink();
+                  res.redirect('/');
                 }
               });
             });
