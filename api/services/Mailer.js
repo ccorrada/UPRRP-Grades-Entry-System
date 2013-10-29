@@ -21,11 +21,10 @@ module.exports = {
       text: 'Reset your password at http://localhost:5000/password?token=' + token,
       html: 'Reset your <a href="http://localhost:5000/password?token=' + token +'">password</a>'
     }, function (error, response) {
-      console.log('Tried sending email.');
       if (error) {
         console.log(require('util').inspect(error));
       } else {
-        console.log(response.message);
+        // console.log(response.message);
       }
       callback();
     });
