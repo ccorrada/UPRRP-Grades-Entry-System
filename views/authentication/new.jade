@@ -24,6 +24,7 @@ block content
               input.form-control(type='password', placeholder='password', name='password')
             .form-group
               button.btn.btn-default(type='submit') Log In
+            input(type='hidden', name='_csrf', value='#{_csrf}')
         .col-md-2
           .vertical-bar
         .col-md-5
@@ -32,3 +33,4 @@ block content
               input.form-control(type='email', placeholder='email', name='email', role='form')
             .form-group
               button.btn.btn-default(type='submit') Sign up
+            input(type='hidden', name='_csrf', value='#{_csrf}')

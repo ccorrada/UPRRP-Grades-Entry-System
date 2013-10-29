@@ -16,3 +16,4 @@ block content
         form.form(method='POST', action='/password/change?token=#{token}')
           input(type='password', placeholder='new password', name='password')
           button Change Password
+          input(type='hidden', name='_csrf', value='#{_csrf}')
