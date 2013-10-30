@@ -1,5 +1,5 @@
 /**
- * Professor
+ * User
  * 
  * Default password is null.
  *

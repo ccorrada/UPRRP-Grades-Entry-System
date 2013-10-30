@@ -44,11 +44,11 @@ module.exports = {
       // The link in the email is a get request to /reset-password/HASH. The HASH is comprised of [email]:[timestamp]
       // Insert a hash string into this.passwordResetToken and the current time into this.password_reset_timestamp.
 
-      // Check if this is the first time this Professor tries to sign-up.
+      // Check if this is the first time this User tries to sign-up.
       // If it is not then overwrite its passwordResetToken and timestamp then resend email.
-      // Otherwise, create Professor with default values, new password reset token and timestamp then send email.
+      // Otherwise, create User with default values, new password reset token and timestamp then send email.
 
-      Professor.findOneByEmail(current_email).done(function (err, prof) {
+      User.findOneByEmail(current_email).done(function (err, prof) {
         if (prof) {
           prof.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
           // prof.password_reset_timestamp = new Date(); // ms since epoch
@@ -63,7 +63,7 @@ module.exports = {
         } else {
           require('bcrypt').genSalt(10, function (err, salt) {
             require('bcrypt').hash(require('crypto').randomBytes(20).toString('hex'), salt, function (err, hash) {
-              Professor.create({
+              User.create({
                 email: current_email,
                 password: hash,
                 passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
@@ -113,7 +113,7 @@ module.exports = {
     var current_password = req.param('password');
 
     if (current_email && current_password) {
-      Professor.findOneByEmail(current_email).done(function (err, prof) {
+      User.findOneByEmail(current_email).done(function (err, prof) {
         if (prof) {
           // Found a prof with that email.
           require('bcrypt').compare(current_password, prof.password, function (err, result) {

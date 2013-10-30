@@ -36,7 +36,7 @@ module.exports = {
    change: function (req, res) {
     req.session.flash = [];
     if (req.param('password') && req.param('token')) {
-      Professor.findOneByPasswordResetToken(req.param('token')).done(function (err, prof) {
+      User.findOneByPasswordResetToken(req.param('token')).done(function (err, prof) {
         if (prof) {
           require('bcrypt').genSalt(10, function (err, salt) {
             require('bcrypt').hash(req.param('password'), salt, function (err, hash) {
