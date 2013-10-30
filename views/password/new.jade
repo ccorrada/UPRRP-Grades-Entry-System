@@ -2,14 +2,7 @@ extends ../layout
 
 block content
   .container
-    if typeof flash !== 'undefined'
-      .row.flash-stage
-        if flash.result
-          .alert.alert-dismissable.alert-success= flash.message
-            button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
-        else
-          .alert.alert-dismissable.alert-danger= flash.message
-            button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
+    include ../_flash_stage.jade
     .row
       .col-md-12
         h1 Please choose a good password!

@@ -23,5 +23,9 @@ module.exports = {
 
   requestActivationLink: function () {
     return {result: true, message: 'You should recieve an activation email soon!'}
+  },
+
+  invalidActivationToken: function () {
+    return {result: false, message: 'Invalid activation token!'}
   }
 }

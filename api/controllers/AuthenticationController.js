@@ -22,9 +22,9 @@ module.exports = {
    *    `/authentication/new`
    */
    new: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash);
+    res.locals.flash = _.clone(req.session.flash) || [];
     res.view();
-    req.session.flash = undefined;
+    req.session.flash = []; // Clear flash messages.
   },
 
 
@@ -33,6 +33,8 @@ module.exports = {
    *    `/authentication/create`
    */
    signup: function (req, res) {
+
+    req.session.flash = [];
 
     var current_email = req.param('email');
     
@@ -54,7 +56,7 @@ module.exports = {
             if (err) {
             } else {
               Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
-              req.session.flash = FlashMessages.requestActivationLink();
+              req.session.flash.push(FlashMessages.requestActivationLink());
               res.redirect('/');
             }
           });
@@ -71,7 +73,7 @@ module.exports = {
                 } else {
                   // Send email now.
                   Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
-                  req.session.flash = FlashMessages.requestActivationLink();
+                  req.session.flash.push(FlashMessages.requestActivationLink());
                   res.redirect('/');
                 }
               });
@@ -81,7 +83,7 @@ module.exports = {
       });
     } else {
       // No email entered.
-      req.session.flash = FlashMessages.noEmailEntered();
+      req.session.flash.push(FlashMessages.noEmailEntered());
       res.redirect('/');
     }
 
@@ -96,12 +98,16 @@ module.exports = {
     
     req.session.destroy();
 
-    req.session.flash = FlashMessages.successfulLogout();
+    req.session.flash = [];
+
+    req.session.flash.push(FlashMessages.successfulLogout());
 
     res.redirect('/');
   },
 
   login: function (req, res) {
+
+    req.session.flash = [];
 
     var current_email = req.param('email');
     var current_password = req.param('password');
@@ -119,19 +125,19 @@ module.exports = {
               // Redirect to course selection screen.
             } else {
               // Invalid credentials.
-              req.session.flash = FlashMessages.invalidCredentials();
+              req.session.flash.push(FlashMessages.invalidCredentials());
               res.redirect('/');
             }
           });
         } else {
           // Invalid credentials.
-          req.session.flash = FlashMessages.invalidCredentials();
+          req.session.flash.push(FlashMessages.invalidCredentials());
           res.redirect('/');
         }
       });
     } else {
       // Invalid credentials.
-      req.session.flash = FlashMessages.invalidCredentials();
+      req.session.flash.push(FlashMessages.invalidCredentials());
       res.redirect('/');
     }
 

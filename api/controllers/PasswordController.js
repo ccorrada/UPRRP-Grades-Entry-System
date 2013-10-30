@@ -23,9 +23,9 @@ module.exports = {
    *    `/password/new`
    */
    new: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash);
+    res.locals.flash = _.clone(req.session.flash) || [];
     res.view({token: req.param('token')});
-    req.session.flash = undefined; // Clear flash messages.
+    req.session.flash = []; // Clear flash messages.
   },
 
 
@@ -34,6 +34,7 @@ module.exports = {
    *    `/passwor/change`
    */
    change: function (req, res) {
+    req.session.flash = [];
     if (req.param('password') && req.param('token')) {
       Professor.findOneByPasswordResetToken(req.param('token')).done(function (err, prof) {
         if (prof) {
@@ -45,7 +46,7 @@ module.exports = {
                 if (err) {
                 } else {
                   // Redirect to login screen.
-                  req.session.flash = FlashMessages.successfulPasswordChange();
+                  req.session.flash.push(FlashMessages.successfulPasswordChange());
                   res.redirect('/');
                 }
               });
@@ -54,11 +55,12 @@ module.exports = {
         } else {
           // Trying to change password of an account you do not own.
           // Redirect to login screen
+          req.session.flash.push(FlashMessages.invalidActivationToken());
           res.redirect('/');
         }
       });
     } else {
-      req.session.flash = FlashMessages.emptyPasswordChange();
+      req.session.flash.push(FlashMessages.emptyPasswordChange());
       res.redirect('/password/new?token=' + req.param('token'));
     }
   },
