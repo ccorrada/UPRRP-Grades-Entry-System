@@ -18,7 +18,7 @@ module.exports = {
     password	: 'STRING',
 
 
-    passwordResetToken	: 'STRING'
+    passwordResetToken	: 'STRING',
 
 
     admin	: 'BOOLEAN'
