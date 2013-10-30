@@ -61,24 +61,26 @@ module.exports = {
             }
           });
         } else {
-          require('bcrypt').genSalt(10, function (err, salt) {
-            require('bcrypt').hash(require('crypto').randomBytes(20).toString('hex'), salt, function (err, hash) {
-              User.create({
-                email: current_email,
-                password: hash,
-                passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
-                // password_reset_timestamp: new Date()
-              }).done(function (err, prof) {
-                if (err) {
-                } else {
-                  // Send email now.
-                  Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
-                  req.session.flash.push(FlashMessages.requestActivationLink());
-                  res.redirect('/');
-                }
-              });
-            });
-          });
+          // require('bcrypt').genSalt(10, function (err, salt) {
+          //   require('bcrypt').hash(require('crypto').randomBytes(20).toString('hex'), salt, function (err, hash) {
+          //     User.create({
+          //       email: current_email,
+          //       password: hash,
+          //       passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
+          //       // password_reset_timestamp: new Date()
+          //     }).done(function (err, prof) {
+          //       if (err) {
+          //       } else {
+          //         // Send email now.
+          //         Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+          //         req.session.flash.push(FlashMessages.requestActivationLink());
+          //         res.redirect('/');
+          //       }
+          //     });
+          //   });
+          // });
+          req.session.flash.push(FlashMessages.invalidCredentials());
+          res.redirect('/');
         }
       });
     } else {
