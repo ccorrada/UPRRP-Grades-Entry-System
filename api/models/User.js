@@ -11,10 +11,6 @@
 module.exports = {
 
   attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
     
     email	: 'STRING',
 
@@ -25,7 +21,7 @@ module.exports = {
     passwordResetToken	: 'STRING'
 
 
-    // password_reset_timestamp	: 'DATETIME'
+    admin	: 'BOOLEAN'
   }
 
 };
