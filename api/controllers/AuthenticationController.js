@@ -48,14 +48,14 @@ module.exports = {
       // If it is not then overwrite its passwordResetToken and timestamp then resend email.
       // Otherwise, create User with default values, new password reset token and timestamp then send email.
 
-      User.findOneByEmail(current_email).done(function (err, prof) {
-        if (prof) {
-          prof.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
-          // prof.password_reset_timestamp = new Date(); // ms since epoch
-          prof.save(function (err) {
+      User.findOneByEmail(current_email).done(function (err, user) {
+        if (user) {
+          user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
+          // user.password_reset_timestamp = new Date(); // ms since epoch
+          user.save(function (err) {
             if (err) {
             } else {
-              Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+              Mailer.sendActivationEmail(user.email, user.passwordResetToken, function () {});
               req.session.flash.push(FlashMessages.requestActivationLink());
               res.redirect('/');
             }
@@ -68,11 +68,11 @@ module.exports = {
           //       password: hash,
           //       passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
           //       // password_reset_timestamp: new Date()
-          //     }).done(function (err, prof) {
+          //     }).done(function (err, user) {
           //       if (err) {
           //       } else {
           //         // Send email now.
-          //         Mailer.sendActivationEmail(prof.email, prof.passwordResetToken, function () {});
+          //         Mailer.sendActivationEmail(user.email, user.passwordResetToken, function () {});
           //         req.session.flash.push(FlashMessages.requestActivationLink());
           //         res.redirect('/');
           //       }
@@ -115,16 +115,23 @@ module.exports = {
     var current_password = req.param('password');
 
     if (current_email && current_password) {
-      User.findOneByEmail(current_email).done(function (err, prof) {
-        if (prof) {
-          // Found a prof with that email.
-          require('bcrypt').compare(current_password, prof.password, function (err, result) {
+      User.findOneByEmail(current_email).done(function (err, user) {
+        if (user) {
+          // Found a user with that email.
+          require('bcrypt').compare(current_password, user.password, function (err, result) {
             if (result) {
               // Password match
               // Create session.
               req.session.authenticated = true;
-              req.session.prof = prof;
+              req.session.user = user;
               // Redirect to course selection screen.
+              if (user.admin) {
+                req.session.admin = true;
+                res.redirect('/admin');
+              } else {
+                req.session.admin = false;
+                // res.redirect('/grades');
+              }
             } else {
               // Invalid credentials.
               req.session.flash.push(FlashMessages.invalidCredentials());
