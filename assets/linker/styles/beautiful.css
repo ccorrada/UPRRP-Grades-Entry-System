@@ -16,6 +16,8 @@
 
 .flash-stage {
   margin-top: 15px;
+  position: absolute;
+  width: 100%;
 }
 
 body, html {
