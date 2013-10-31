@@ -123,7 +123,7 @@ module.exports = {
               // Password match
               // Create session.
               req.session.authenticated = true;
-              req.session.user = user;
+              req.session.user_id = user.id;
               // Redirect to course selection screen.
               if (user.admin) {
                 req.session.admin = true;
