@@ -27,5 +27,9 @@ module.exports = {
 
   invalidActivationToken: function () {
     return {result: false, message: 'Invalid activation token!'}
+  },
+
+  successfullyAddedUser: function () {
+    return {result: true, message: 'Added new user.'}
   }
 }
