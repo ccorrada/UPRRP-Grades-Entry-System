@@ -10,18 +10,32 @@
 
 module.exports = {
 
+  tableName: 'uprrp_ges_users',
+
   attributes: {
     
-    email	: 'STRING',
+    email	: {
+      type: 'EMAIL',
+      required: true
+    },
 
 
-    password	: 'STRING',
+    password	: {
+      type: 'STRING',
+      required: true,
+      minLength: 8,
+      defaultsTo: require('bcrypt').hashSync(require('crypto').randomBytes(20).toString('hex'), require('bcrypt').genSaltSync(10))
+    },
 
+    passwordResetToken	: {
+      type: 'STRING'
+    },
 
-    passwordResetToken	: 'STRING',
-
-
-    admin	: 'BOOLEAN'
+    admin	: {
+      type: 'BOOLEAN',
+      defaultsTo: false,
+      required: true
+    }
   }
 
 };
