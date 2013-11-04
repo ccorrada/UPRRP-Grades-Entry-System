@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  .container
+    include ../_flash_stage
+    .main-content
+      form.form-horizontal(method='POST', action='/admin/create')
+        .form-group
+          input.form-control(type='text', placeholder='email', name='email')
+        .form-group
+          label.control-label(for='admin-check') Admin?
+          input.form-control(type='checkbox', name='admin', id='admin-check')
+        .form-group
+          button.btn.btn-default(type='submit') Add User
+        input(type='hidden', name='_csrf', value='#{_csrf}')

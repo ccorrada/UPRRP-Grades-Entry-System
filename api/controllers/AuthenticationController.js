@@ -127,7 +127,7 @@ module.exports = {
               // Redirect to course selection screen.
               if (user.admin) {
                 req.session.admin = true;
-                res.redirect('/admin');
+                res.redirect('/admin/index');
               } else {
                 req.session.admin = false;
                 // res.redirect('/grades');

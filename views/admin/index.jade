@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .container
+    include ../_flash_stage
+    .main-content
+      .row
+        .col-md-11
+          .table-responsive
+            table.table
+              each user in users
+                tr
+                  td= user.email
+                  if user.admin
+                    td Admin
+                  else
+                    td Professor
+        .col-md-1
+          a.btn.btn-default(href='/admin/new') +
+
+
