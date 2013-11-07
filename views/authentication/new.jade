@@ -23,7 +23,7 @@ block content
         .col-md-5
           form.form-horizontal(method='POST', action='/authentication/signup')
             .form-group
-              input.form-control(type='email', placeholder='email', name='email', role='form')
+              input.form-control(type='email', placeholder='email', name='email')
             .form-group
               button.btn.btn-default(type='submit') Sign up
             input(type='hidden', name='_csrf', value='#{_csrf}')
