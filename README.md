@@ -51,6 +51,8 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 
 # TODO
 
+* Client-side validations
+
 # Team
 
 [Fernando Martinez](http://crzrcn.github.io)
