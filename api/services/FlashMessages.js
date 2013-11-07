@@ -1,35 +1,29 @@
 // Flash messages come from here.
 
+var buildFlash = function (flash_result, flash_message) {
+  return {result: flash_result, message: flash_message}
+}
+
 module.exports = {
-  invalidCredentials: function () {
-    return {result: false, message: 'Invalid credentials.'}
-  },
+  invalidCredentials: buildFlash(false, 'Invalid credentials.'),
 
-  emptyPasswordChange: function () {
-    return {result: false, message: 'Can\'t change to an empty password!'}
-  },
+  emptyPasswordChange: buildFlash(false, 'Can\'t change to an empty password!'),
 
-  successfulLogout: function () {
-    return {result: true, message: 'You have been logged out.'}
-  },
+  successfulLogout: buildFlash(true, 'You have been logged out.'),
 
-  noEmailEntered: function () {
-    return {result: false, message: 'No email entered.'}
-  }, 
+  noEmailEntered: buildFlash(false, 'No email entered.'),
 
-  successfulPasswordChange: function () {
-    return {result: true, message: 'Nice password change!'}
-  },
+  successfulPasswordChange: buildFlash(true, 'Nice password change!'),
 
-  requestActivationLink: function () {
-    return {result: true, message: 'You should recieve an activation email soon!'}
-  },
+  requestActivationLink: buildFlash(true, 'You should recieve an activation email soon!'),
 
-  invalidActivationToken: function () {
-    return {result: false, message: 'Invalid activation token!'}
-  },
+  invalidActivationToken: buildFlash(false, 'Invalid activation token!'),
 
-  successfullyAddedUser: function () {
-    return {result: true, message: 'Added new user.'}
-  }
+  successfullyAddedUser: buildFlash(true, 'Added new user.'),
+
+  invalidRoleSelected: buildFlash(false, 'Invalid role selected.'),
+
+  invalidNames: buildFlash(false, 'Invalid first or last names.'),
+
+  invalidSSN4: buildFlash(false, 'Invalid SSN4.')
 }
