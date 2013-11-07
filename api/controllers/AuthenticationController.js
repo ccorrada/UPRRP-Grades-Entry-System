@@ -51,41 +51,23 @@ module.exports = {
       User.findOneByEmail(current_email).done(function (err, user) {
         if (user) {
           user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
-          // user.password_reset_timestamp = new Date(); // ms since epoch
           user.save(function (err) {
             if (err) {
+              console.log(require('util').inspect(err, false, null));
             } else {
               Mailer.sendActivationEmail(user.email, user.passwordResetToken, function () {});
-              req.session.flash.push(FlashMessages.requestActivationLink());
+              req.session.flash.push(FlashMessages.requestActivationLink);
               res.redirect('/');
             }
           });
         } else {
-          // require('bcrypt').genSalt(10, function (err, salt) {
-          //   require('bcrypt').hash(require('crypto').randomBytes(20).toString('hex'), salt, function (err, hash) {
-          //     User.create({
-          //       email: current_email,
-          //       password: hash,
-          //       passwordResetToken: require('crypto').randomBytes(20).toString('hex'),
-          //       // password_reset_timestamp: new Date()
-          //     }).done(function (err, user) {
-          //       if (err) {
-          //       } else {
-          //         // Send email now.
-          //         Mailer.sendActivationEmail(user.email, user.passwordResetToken, function () {});
-          //         req.session.flash.push(FlashMessages.requestActivationLink());
-          //         res.redirect('/');
-          //       }
-          //     });
-          //   });
-          // });
-          req.session.flash.push(FlashMessages.invalidCredentials());
+          req.session.flash.push(FlashMessages.invalidCredentials);
           res.redirect('/');
         }
       });
     } else {
       // No email entered.
-      req.session.flash.push(FlashMessages.noEmailEntered());
+      req.session.flash.push(FlashMessages.noEmailEntered);
       res.redirect('/');
     }
 
@@ -102,7 +84,7 @@ module.exports = {
 
     req.session.flash = [];
 
-    req.session.flash.push(FlashMessages.successfulLogout());
+    req.session.flash.push(FlashMessages.successfulLogout);
 
     res.redirect('/');
   },
@@ -125,7 +107,7 @@ module.exports = {
               req.session.authenticated = true;
               req.session.user_id = user.id;
               // Redirect to course selection screen.
-              if (user.admin) {
+              if (user.role === 'admin') {
                 req.session.admin = true;
                 res.redirect('/admin/index');
               } else {
@@ -134,19 +116,19 @@ module.exports = {
               }
             } else {
               // Invalid credentials.
-              req.session.flash.push(FlashMessages.invalidCredentials());
+              req.session.flash.push(FlashMessages.invalidCredentials);
               res.redirect('/');
             }
           });
         } else {
           // Invalid credentials.
-          req.session.flash.push(FlashMessages.invalidCredentials());
+          req.session.flash.push(FlashMessages.invalidCredentials);
           res.redirect('/');
         }
       });
     } else {
       // Invalid credentials.
-      req.session.flash.push(FlashMessages.invalidCredentials());
+      req.session.flash.push(FlashMessages.invalidCredentials);
       res.redirect('/');
     }
 
