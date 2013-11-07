@@ -20,7 +20,6 @@ module.exports = {
       unique: true
     },
 
-
     password	: {
       type: 'STRING',
       required: true,
@@ -32,10 +31,27 @@ module.exports = {
       type: 'STRING'
     },
 
-    admin	: {
-      type: 'BOOLEAN',
-      defaultsTo: false,
+    first_names: {
+      type: 'STRING',
       required: true
+    },
+
+    last_names: {
+      type: 'STRING',
+      required: true
+    },
+
+    role: {
+      type: 'STRING',
+      defaultsTo: 'professor',
+      required: true
+    },
+
+    SSN4: {
+      type: 'INT',
+      required: true,
+      minLength: 4,
+      maxLength: 4
     }
   }
 
