@@ -44,6 +44,7 @@ module.exports = {
     role: {
       type: 'STRING',
       defaultsTo: 'professor',
+      in: ['admin', 'professor'],
       required: true
     },
 
