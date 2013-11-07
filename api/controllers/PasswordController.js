@@ -46,7 +46,7 @@ module.exports = {
                 if (err) {
                 } else {
                   // Redirect to login screen.
-                  req.session.flash.push(FlashMessages.successfulPasswordChange());
+                  req.session.flash.push(FlashMessages.successfulPasswordChange);
                   res.redirect('/');
                 }
               });
@@ -55,12 +55,12 @@ module.exports = {
         } else {
           // Trying to change password of an account you do not own.
           // Redirect to login screen
-          req.session.flash.push(FlashMessages.invalidActivationToken());
+          req.session.flash.push(FlashMessages.invalidActivationToken);
           res.redirect('/');
         }
       });
     } else {
-      req.session.flash.push(FlashMessages.emptyPasswordChange());
+      req.session.flash.push(FlashMessages.emptyPasswordChange);
       res.redirect('/password/new?token=' + req.param('token'));
     }
   },
