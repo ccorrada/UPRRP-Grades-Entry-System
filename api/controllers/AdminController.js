@@ -50,15 +50,25 @@ module.exports = {
    create: function (req, res) {
     User.create({
       email: req.param('email'),
-      admin: req.param('admin') === 'on' ? true : false
+      role: req.param('role'),
+      first_names: req.param('first_names'),
+      last_names: req.param('last_names'),
+      SSN4: parseInt(req.param('SSN4')) // Can there be SSN4s with leading zeroes?
     }).done(function (err, user) {
       if (err) {
         console.log(require('util').inspect(err, false, null));
         if (err.ValidationError.email)
-          req.session.flash.push(FlashMessages.noEmailEntered());
+          req.session.flash.push(FlashMessages.noEmailEntered);
+        if (err.ValidationError.role)
+          req.session.flash.push(FlashMessages.invalidRoleSelected);
+        if (err.ValidationError.first_names || err.ValidationError.last_names)
+          req.session.flash.push(FlashMessages.invalidNames);
+        if (err.ValidationError.SSN4)
+          req.session.flash.push(FlashMessages.invalidSSN4);
+
         res.redirect('/admin/new');
       } else {
-        req.session.flash.push(FlashMessages.successfullyAddedUser());
+        req.session.flash.push(FlashMessages.successfullyAddedUser);
         res.redirect('/admin/index');
       }
     });
