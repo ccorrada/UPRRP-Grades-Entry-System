@@ -57,6 +57,7 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 * Make sure all error messages are added.
 * UI re-design.
 * Retain form values afetr error.
+* Test model validations.
 
 # Team
 
