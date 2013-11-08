@@ -11,7 +11,7 @@ module.exports = {
   tableName: 'uprrp_ges_grades',
 
   attributes: {
-    
+
     course_id	: {
       type: 'INTEGER',
       required: true

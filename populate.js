@@ -32,6 +32,7 @@ for (var i = 0; i < 100; i++) {
   }).done(createSuccess);
 }
 
+//Create Random Courses
 var courses = ['MATE', 'CCOM', 'BIOL'];
 var semesters = 3;
 
@@ -43,5 +44,16 @@ for (var i = 1; i <= semesters * 3; i++) {
     already_dumped: false,
     session: 'B0' + i,
     section: '00' + i
+  }).done(createSuccess);
+}
+
+//Create Random Grades
+var grades = ['A', 'B', 'C', 'D', 'F'];
+
+for (var i = 0; i < 100; i++) {
+  Grade.create({
+    course_id: Math.floor(Math.random() * (9 - 1 + 1)) + 1,
+    student_id: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+    grade: grades[i % 5]
   }).done(createSuccess);
 }

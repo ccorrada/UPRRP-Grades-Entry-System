@@ -16,7 +16,8 @@ module.exports = {
       type: 'INTEGER',
       required: true,
       minLength: 9,
-      maxLength: 9
+      maxLength: 9,
+      unique: true
     }
   }
 
