@@ -10,12 +10,12 @@ block content
             table.table
               each user in users
                 tr
-                  td= user.email
-                  if user.admin
+                  td
+                    a(href='/admin/edit/#{user.id}') #{user.email}
+                  if user.role === 'admin'
                     td Admin
                   else
                     td Professor
         .col-md-1
           a.btn.btn-default(href='/admin/new') +
-
 
