@@ -16,8 +16,8 @@
  */
 
 module.exports = {
-    
-  
+
+
   /**
    * Action blueprints:
    *    `/admin/index`
@@ -77,10 +77,16 @@ module.exports = {
 
   /**
    * Action blueprints:
-   *    `/admin/edit`
+   *    `/admin/edit/:id`
    */
    edit: function (req, res) {
-
+    User.findOne(req.param('id'))
+    .then(
+      function (user){
+        return res.view({user: user});
+    },function (err) {
+        res.send('Sorry, cant find that', 404);
+    });
   },
 
 
@@ -101,5 +107,5 @@ module.exports = {
    */
   _config: {}
 
-  
+
 };
