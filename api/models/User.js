@@ -1,6 +1,6 @@
 /**
  * User
- * 
+ *
  * Default password is null.
  *
  * @module      :: Model
@@ -13,7 +13,7 @@ module.exports = {
   tableName: 'uprrp_ges_users',
 
   attributes: {
-    
+
     email	: {
       type: 'EMAIL',
       required: true,
