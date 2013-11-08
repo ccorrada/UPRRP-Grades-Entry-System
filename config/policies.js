@@ -25,7 +25,7 @@ module.exports.policies = {
   	'*': ['authenticated', 'isAdmin']
   },
   CourseController: {
-    '*': ['authenticated', 'isProfessor']
+    '*': ['authenticated', 'canGrade']
   }
 
   /*
