@@ -11,10 +11,12 @@ module.exports = {
   tableName: 'uprrp_ges_students',
 
   attributes: {
-    
+
     student_number	: {
       type: 'INTEGER',
-      required: true
+      required: true,
+      minLength: 9,
+      maxLength: 9
     }
   }
 
