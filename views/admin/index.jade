@@ -12,7 +12,7 @@ block content
                 tr
                   td
                     a(href='/admin/edit/#{user.id}') #{user.email}
-                  if user.admin
+                  if user.role === 'admin'
                     td Admin
                   else
                     td Professor

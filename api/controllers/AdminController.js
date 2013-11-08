@@ -80,6 +80,7 @@ module.exports = {
    *    `/admin/edit/:id`
    */
    edit: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash) || [];
     User.findOne(req.param('id'))
     .then(
       function (user){
@@ -87,6 +88,7 @@ module.exports = {
     },function (err) {
         res.send('Sorry, cant find that', 404);
     });
+    req.session.flash = []; // Clear flash messages.
   },
 
 
