@@ -11,7 +11,7 @@ module.exports = {
   tableName: 'uprrp_ges_courses',
 
   attributes: {
-    
+
     course_code	: {
       type: 'STRING',
       required: true
@@ -31,7 +31,7 @@ module.exports = {
       type: 'BOOLEAN',
       defaultsTo: false
     },
-    
+
     session	: {
       type: 'STRING',
       required: true

@@ -31,3 +31,17 @@ for (var i = 0; i < 100; i++) {
     student_number: Math.floor(Math.random() * (999999999 - 100000000 + 1)) + 100000000
   }).done(createSuccess);
 }
+
+var courses = ['MATE', 'CCOM', 'BIOL'];
+var semesters = 3;
+
+for (var i = 1; i <= semesters * 3; i++) {
+  Course.create({
+    course_code: courses[i % 3],
+    user_id: Math.floor(Math.random() * (15 - 1 + 1)) + 1,
+    done: false,
+    already_dumped: false,
+    session: 'B0' + i,
+    section: '00' + i
+  }).done(createSuccess);
+}
