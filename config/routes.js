@@ -35,9 +35,9 @@ module.exports.routes = {
   'post /password/change': 'PasswordController.change',
   'get /admin/index': 'AdminController.index',
   'get /admin/new': 'AdminController.new',
-  'post /admin/create': 'AdminController.create'
+  'post /admin/create': 'AdminController.create',
   'get /admin/edit/:id': 'AdminController.edit',
-  'post /admin/save/:id': 'AdminController.save'
+  'post /admin/save/:id': 'AdminController.save',
   'get /courses': 'CourseController.index',
   'get /course/:course_id': 'CourseController.show',
   'post /course/:course_id/save': 'CourseController.save'
