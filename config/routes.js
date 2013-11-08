@@ -36,7 +36,9 @@ module.exports.routes = {
   'get /admin/index': 'AdminController.index',
   'get /admin/new': 'AdminController.new',
   'post /admin/create': 'AdminController.create',
-  'post /admin/edit/:id': 'AdminController.edit'
+  'get /admin/edit/:id': 'AdminController.edit',
+  'post /admin/save/:id': 'AdminController.save'
+
 
   // By default, your root route (aka home page) points to a view
   // located at `views/home/index.ejs`

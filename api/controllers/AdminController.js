@@ -84,6 +84,8 @@ module.exports = {
     User.findOne(req.param('id'))
     .then(
       function (user){
+        //Capture if user is undefined
+        if (!user) {return res.send('Sorry, cant find that', 404);}
         return res.view({user: user});
     },function (err) {
         res.send('Sorry, cant find that', 404);
@@ -91,6 +93,32 @@ module.exports = {
     req.session.flash = []; // Clear flash messages.
   },
 
+  /**
+   * Action blueprints:
+   *    `/admin/save/:id`
+   */
+   save: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash) || [];
+    User.findOne(req.param('id'))
+    .then(
+      function (user){
+        user.email = req.param('email'),
+        user.role = req.param('role'),
+        user.first_names = req.param('first_names'),
+        user.last_names = req.param('last_names'),
+        user.SSN4 = parseInt(req.param('SSN4')) // Can there be SSN4s with leading zeroes?
+        user.save(function (err){
+          if (err) {console.log(err);}
+        });
+        res.redirect('/admin/index');
+      },
+      function (err){
+        console.log(err);
+        console.log(require('util').inspect(err, false, null));
+        res.send("Wrong values", 500);
+      });
+    req.session.flsah = [];
+  },
 
   /**
    * Action blueprints:
@@ -99,10 +127,6 @@ module.exports = {
    destroy: function (req, res) {
 
   },
-
-
-
-
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to AdminController)

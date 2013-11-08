@@ -4,7 +4,7 @@ block content
   .container
     include ../_flash_stage
     .main-content
-      form.form-horizontal(method='POST', action='/admin/save', id='edit-user')
+      form.form-horizontal(method='POST', action='/admin/save/#{user.id}', id='edit-user')
         .form-group
           input.form-control(type='text', placeholder='email', name='email', value='#{user.email}')
         .form-group
