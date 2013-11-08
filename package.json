@@ -11,7 +11,10 @@
     "jade": "~0.35.0",
     "sails-postgresql": "~0.9.4",
     "nodemailer": "~0.5.3",
-    "bcrypt": "~0.7.7"
+    "bcrypt": "~0.7.7",
+    "validator": "~2.0.0",
+    "Faker": "~0.5.11",
+    "async": "~0.2.9"
   },
   "scripts": {
     "start": "node app.js",

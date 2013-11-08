@@ -105,14 +105,12 @@ module.exports = {
               // Password match
               // Create session.
               req.session.authenticated = true;
-              req.session.user_id = user.id;
+              req.session.user = user;
               // Redirect to course selection screen.
               if (user.role === 'admin') {
-                req.session.admin = true;
                 res.redirect('/admin/index');
               } else {
-                req.session.admin = false;
-                // res.redirect('/grades');
+                res.redirect('/courses');
               }
             } else {
               // Invalid credentials.

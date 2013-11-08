@@ -25,5 +25,9 @@ module.exports = {
 
   invalidNames: buildFlash(false, 'Invalid first or last names.'),
 
-  invalidSSN4: buildFlash(false, 'Invalid SSN4.')
+  invalidSSN4: buildFlash(false, 'Invalid SSN4.'),
+
+  successfulDraftSave: buildFlash(true, 'Your grade draft has been saved.'),
+
+  successfulFinalSave: buildFlash(true, 'Your grades have been saved and submitted. You will recieve an email with a report of your progress.')
 }

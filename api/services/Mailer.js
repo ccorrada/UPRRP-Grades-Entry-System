@@ -28,5 +28,22 @@ module.exports = {
       }
       callback();
     });
+  },
+
+  sendProgressReportEmail: function (prof_email, callback) {
+    transport.sendMail({
+      from: process.env.EMAIL_USERNAME,
+      to: prof_email,
+      subject: 'Your grades progress report.',
+      text: 'REPORT GOES HERE!',
+      html: ''
+    }, function (error, response) {
+      if (error) {
+        console.log(require('util').inspect(error));
+      } else {
+        // console.log(response.message);
+      }
+      callback();
+    });
   }
 }
