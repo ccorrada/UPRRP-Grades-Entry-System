@@ -41,6 +41,21 @@ module.exports = {
       type: 'STRING',
       required: true
     }
+  },
+
+  beforeCreate: function (values, next) {
+    Course.find()
+    .where({section: values.section, session: values.session, course_code: values.course_code})
+    .then(function (courses) {
+      if (courses.length > 1) {
+        // Course is not unique
+        return next(new Error('Course is not unique!'));
+      } else {
+        next();
+      }
+    }).fail(function (err) {
+      return next(err);
+    });
   }
 
 };

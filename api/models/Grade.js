@@ -26,6 +26,21 @@ module.exports = {
       type: 'STRING',
       in: ['A', 'B', 'C', 'D', 'F']
     }
+  },
+
+  beforeCreate: function (values, next) {
+    Grade.find()
+    .where({student_id: values.student_id, course_id: values.course_id})
+    .then(function (grades) {
+      if (grades.length > 1) {
+        // Grade is not unique
+        return next(new Error('Grade is not unique!'));
+      } else {
+        next();
+      }
+    }).fail(function (err) {
+      return next(err);
+    });
   }
 
 };
