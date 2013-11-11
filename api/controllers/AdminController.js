@@ -144,14 +144,25 @@ module.exports = {
   },
 
   courseEdit: function (req, res) {
-    Course.findOne(req.param('id'))
-    .done(function (err, course) {
-      User.findOne(course.user_id)
-      .done(function (err, user) {
-        res.locals.flash = _.clone(req.session.flash) || [];
-        course.professorEmail = user.email;
-        res.view({course: course, controllerAction: 'edit'});
-        req.session.flash = [];
+    Course.findOne(req.param('id'), function (err, course) {
+      User.findOne(course.user_id, function (err, user) {
+        // Find all grades in that course.
+        var course_id_param = require('validator').sanitize(req.param('id')).escape();
+        var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
+                    course_id_param + ';' 
+        Grade.query(query, null, function (err, results) {
+          // console.log(require('util').inspect(err || results, false, null));
+          if (err) {
+            // No results
+            console.log(err);
+          } else {
+            // Results
+            res.locals.flash = _.clone(req.session.flash) || [];
+            course.professorEmail = user.email
+            res.view({course: course, grades: results.rows, controllerAction: 'edit'});
+            req.session.flash = []; // Clear flash messages.
+          }
+        });
       });
     });
   },
@@ -159,18 +170,46 @@ module.exports = {
   courseSave: function (req, res) {
     Course.findOne(req.param('id'))
     .then(function (course) {
-      User.findOne({email: req.param('professor_email')})
+      User.findOne({email: req.param('professorEmail')})
       .done(function (err, user) {
+        console.log(user)
         if (user) {
-          course.user_id = user.id;
-          course.section = req.param('section');
-          course.session = req.param('session');
-          course.course_code = req.param('course_code');
-          course.save(function (err) {
-            if (err) 
+          var body_array = [];
+
+          // Need to convert req.body into an array because caolan/async has not merged async.each for objects.
+          for (var key in req.body) {
+            if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'course_code' && key !== 'section' && key !== 'session' && key !== 'professorEmail' && key !== 'id') {
+              // console.log('Key: ' + key + ' Value: ' + req.body[key]);
+
+              // Is it even necessary to sanitize req.body?
+              var grade_value_clean = require('validator').sanitize(req.body[key]).escape();
+              var grade_id_clean = require('validator').sanitize(key).escape();
+              body_array.push({grade_value: grade_value_clean, grade_id: grade_id_clean});
+            }
+          }
+
+          require('async').each(body_array, function (item, callback) {
+            // console.log(require('util').inspect(item, false, null));
+            var query = 'UPDATE uprrp_ges_grades AS g SET grade = \'' + item.grade_value + '\' WHERE g.id = ' + item.grade_id + ';';
+            Grade.query(query, null, function (err, results) {/* console.log(err || results ) */});
+            callback();
+          }, function (err) {
+            if (err) {
               console.log(err);
+            } else {
+              // Successfully updated grades.
+
+              course.user_id = user.id;
+              course.section = req.param('section');
+              course.session = req.param('session');
+              course.course_code = req.param('course_code');
+              course.save(function (err) {
+                if (err) 
+                  console.log(err);
+              });
+              res.redirect('/admin/courses');
+            }
           });
-          res.redirect('/admin/courses');
         }
       });
     }).fail(function (err) {
