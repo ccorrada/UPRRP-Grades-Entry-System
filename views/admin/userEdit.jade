@@ -4,23 +4,25 @@ block content
   .container
     include ../_flash_stage
     .main-content
-      form.form-horizontal(method='POST', action='/admin/user/save/#{user.id}', id='edit-user')
-        .form-group
-          input.form-control(type='text', placeholder='email', name='email', value='#{user.email}')
-        .form-group
-          input.form-control(type='text', placeholder='first names', name='first_names', value='#{user.first_names}')
-        .form-group
-          input.form-control(type='text', placeholder='last names', name='last_names', value='#{user.last_names}')
-        .form-group
-          input.form-control(type='number', placeholder='last four digits of SSN', name='SSN4', value='#{user.SSN4}')
-        .form-group
-          select.form-control(form='edit-user', name='role')
-            - var roles = ['admin', 'professor'];
-            for role in roles
-              if role === user.role
-                option(selected='true') #{role}
-              else
-                option #{role}
-        .form-group
-          button.btn.btn-default(type='submit') Update User
-        input(type='hidden', name='_csrf', value='#{_csrf}')
+      include ../_account_controls
+      .row
+        form.form-horizontal(method='POST', action='/admin/user/save/#{user.id}', id='edit-user')
+          .form-group
+            input.form-control(type='text', placeholder='email', name='email', value='#{user.email}')
+          .form-group
+            input.form-control(type='text', placeholder='first names', name='first_names', value='#{user.first_names}')
+          .form-group
+            input.form-control(type='text', placeholder='last names', name='last_names', value='#{user.last_names}')
+          .form-group
+            input.form-control(type='number', placeholder='last four digits of SSN', name='SSN4', value='#{user.SSN4}')
+          .form-group
+            select.form-control(form='edit-user', name='role')
+              - var roles = ['admin', 'professor'];
+              for role in roles
+                if role === user.role
+                  option(selected='true') #{role}
+                else
+                  option #{role}
+          .form-group
+            button.btn.btn-default(type='submit') Update User
+          input(type='hidden', name='_csrf', value='#{_csrf}')

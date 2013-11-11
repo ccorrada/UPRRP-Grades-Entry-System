@@ -82,9 +82,9 @@ module.exports = {
     
     req.session.destroy();
 
-    req.session.flash = [];
+    // req.session.flash = [];
 
-    req.session.flash.push(FlashMessages.successfulLogout);
+    // req.session.flash.push(FlashMessages.successfulLogout);
 
     res.redirect('/');
   },

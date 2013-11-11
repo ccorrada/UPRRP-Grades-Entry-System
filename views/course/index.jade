@@ -4,15 +4,17 @@ block content
   .container
     include ../_flash_stage
     .main-content
-      h1 Your courses
-      table.table
-        thead
-          tr
-            th Course code
-            th Section
-        each course in courses
-          tr
-            td
-              a(href='/course/' + course.id)= course.course_code
-            td= course.section
+      include ../_account_controls
+      .row
+        h1 Your courses
+        table.table
+          thead
+            tr
+              th Course code
+              th Section
+          each course in courses
+            tr
+              td
+                a(href='/course/' + course.id)= course.course_code
+              td= course.section
 

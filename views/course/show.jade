@@ -4,46 +4,48 @@ block content
   .container
     include ../_flash_stage
     .main-content
-      h1= grades[0].course_code
-      form(method='POST', action='/course/' + course_id + '/save')
-        table.table
-          thead
-            tr
-              th Student
-              th A
-              th B
-              th C
-              th D
-              th F
-          tbody
-            each grade in grades
+      include ../_account_controls
+      .row
+        h1= grades[0].course_code
+        form(method='POST', action='/course/' + course_id + '/save')
+          table.table
+            thead
               tr
-                td= grade.student_number
-                td
-                  if grade.value === 'A'
-                    input(type='radio', name= grade.grade_id, value='A' checked)
-                  else
-                    input(type='radio', name= grade.grade_id, value='A')
-                td
-                  if grade.value === 'B'
-                    input(type='radio', name= grade.grade_id, value='B' checked)
-                  else
-                    input(type='radio', name= grade.grade_id, value='B')
-                td
-                  if grade.value === 'C'
-                    input(type='radio', name= grade.grade_id, value='C' checked)
-                  else
-                    input(type='radio', name= grade.grade_id, value='C')
-                td
-                  if grade.value === 'D'
-                    input(type='radio', name= grade.grade_id, value='D' checked)
-                  else
-                    input(type='radio', name= grade.grade_id, value='D')
-                td
-                  if grade.value === 'F'
-                    input(type='radio', name= grade.grade_id, value='F' checked)
-                  else
-                    input(type='radio', name= grade.grade_id, value='F')
-        input(type='hidden', name='_csrf', value='#{_csrf}')
-        button.btn.btn-default(type='submit', name='save_draft') Save Draft
-        button.btn.btn-default(type='submit', name='save_final') Submit
+                th Student
+                th A
+                th B
+                th C
+                th D
+                th F
+            tbody
+              each grade in grades
+                tr
+                  td= grade.student_number
+                  td
+                    if grade.value === 'A'
+                      input(type='radio', name= grade.grade_id, value='A' checked)
+                    else
+                      input(type='radio', name= grade.grade_id, value='A')
+                  td
+                    if grade.value === 'B'
+                      input(type='radio', name= grade.grade_id, value='B' checked)
+                    else
+                      input(type='radio', name= grade.grade_id, value='B')
+                  td
+                    if grade.value === 'C'
+                      input(type='radio', name= grade.grade_id, value='C' checked)
+                    else
+                      input(type='radio', name= grade.grade_id, value='C')
+                  td
+                    if grade.value === 'D'
+                      input(type='radio', name= grade.grade_id, value='D' checked)
+                    else
+                      input(type='radio', name= grade.grade_id, value='D')
+                  td
+                    if grade.value === 'F'
+                      input(type='radio', name= grade.grade_id, value='F' checked)
+                    else
+                      input(type='radio', name= grade.grade_id, value='F')
+          input(type='hidden', name='_csrf', value='#{_csrf}')
+          button.btn.btn-default(type='submit', name='save_draft') Save Draft
+          button.btn.btn-default(type='submit', name='save_final') Submit
