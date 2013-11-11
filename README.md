@@ -31,7 +31,8 @@ UPRRP Grade Entry System
 4. Clone repo with `git clone git@github.com:crzrcn/UPRRP-Grades-Entry-System.git`.
 5. Install Node.js dependencies with `npm install`.
 6. Run app with `foreman start -f Procfile_dev`.
-7. Get coding.
+7. Seed database with `sails.config.seed()` on the Sails console.
+8. Get coding.
 
 # Environment variables
 
