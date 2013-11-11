@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  .container
+    include ../_flash_stage
+    .main-content
+      .row
+        .col-md-11
+          .table-responsive
+            table.table
+              each course in courses
+                tr
+                  td
+                    a(href='/admin/course/edit/#{course.id}') #{course.course_code} - #{course.section} - #{course.session}
+        .col-md-1
+          a.btn.btn-default(href='/admin/course/new') +

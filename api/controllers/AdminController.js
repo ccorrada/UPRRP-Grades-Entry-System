@@ -126,6 +126,102 @@ module.exports = {
     req.session.flsah = [];
   },
 
+  courseIndex: function (req, res) {
+    Course.find()
+    .then(function (courses) {
+      res.locals.flash = _.clone(req.session.flash) || [];
+      res.view({courses: courses});
+      req.session.flash = []; // Clear flash messages.
+    }, function (err) {
+      console.log(err);
+    });
+  },
+
+  courseNew: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash) || [];
+    res.view({course: {}});
+    req.session.flash = []; // Clear flash messages.
+  },
+
+  courseEdit: function (req, res) {
+    Course.findOne(req.param('id'))
+    .done(function (err, course) {
+      User.findOne(course.user_id)
+      .done(function (err, user) {
+        res.locals.flash = _.clone(req.session.flash) || [];
+        course.professorEmail = user.email;
+        res.view({course: course, controllerAction: 'edit'});
+        req.session.flash = [];
+      });
+    });
+  },
+
+  courseSave: function (req, res) {
+    Course.findOne(req.param('id'))
+    .then(function (course) {
+      User.findOne({email: req.param('professor_email')})
+      .done(function (err, user) {
+        if (user) {
+          course.user_id = user.id;
+          course.section = req.param('section');
+          course.session = req.param('session');
+          course.course_code = req.param('course_code');
+          course.save(function (err) {
+            if (err) 
+              console.log(err);
+          });
+          res.redirect('/admin/courses');
+        }
+      });
+    }).fail(function (err) {
+      console.log(err);
+    });
+  },
+
+  courseCreate: function (req, res) {
+    req.session.flash = [];
+    // Dont' understand promises yet.
+
+    // User.findOne({email: req.param('professorEmail'), role: 'professor'})
+    // .then(function (user) {
+    //   if (user) {
+    //     return Course.create({
+    //       user_id: user.id,
+    //       section: req.param('section'),
+    //       session: req.param('session'),
+    //       course_code: req.param('course_code')
+    //     });
+    //   } else {
+    //     // At this point `user` is undefined which means that no professor was found so I want to throw an error.
+    //     // Right now the following statement does throw the error, but it crashes the server.
+    //     throw new Error('That professor does not exist.');
+    //     // I want to be able to handle the error in the .fail() or something similar in the promise chain.
+    //   }
+    // }).then(function (createSuccess) {
+    //   console.log('Fulfillment: ', createSuccess);
+    // }, function (err) {
+    //   console.log('Error: ', err);
+    // });
+
+    User.findOne({email: req.param('professorEmail'), role: 'professor'}, function (err, user) {
+      if (user) {
+        Course.create({
+          user_id: user.id,
+          section: req.param('section'),
+          session: req.param('session'),
+          course_code: req.param('course_code')
+        }, function (err, user) {
+          if (err) console.log(err);
+          req.session.flash.push(FlashMessages.successfulCourseCreation);
+          res.redirect('/admin/courses');
+        });
+      } else {
+        req.session.flash.push(FlashMessages.noProfessorWithEmail);
+        res.redirect('/admin/course/new');
+      }
+    });
+  },
+
   /**
    * Action blueprints:
    *    `/admin/destroy`

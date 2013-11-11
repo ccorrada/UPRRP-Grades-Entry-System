@@ -29,5 +29,9 @@ module.exports = {
 
   successfulDraftSave: buildFlash(true, 'Your grade draft has been saved.'),
 
-  successfulFinalSave: buildFlash(true, 'Your grades have been saved and submitted. You will recieve an email with a report of your progress.')
+  successfulFinalSave: buildFlash(true, 'Your grades have been saved and submitted. You will recieve an email with a report of your progress.'),
+
+  noProfessorWithEmail: buildFlash(false, 'No professor has this email address.'),
+
+  successfulCourseCreation: buildFlash(true, 'Course created and assigned to professor.')
 }

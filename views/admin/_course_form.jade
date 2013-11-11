@@ -1,0 +1,18 @@
+if controllerAction === 'edit'
+  - var formAction = '/admin/course/save/' + course.id
+  - var buttonTitle = 'Save Course'
+else
+  - var formAction = '/admin/course/create'
+  - var buttonTitle = 'Add Course'
+form.form-horizontal(method='POST', action= formAction)
+  .form-group
+    input.form-control(type='text', placeholder='course code', name='course_code', value=course.course_code || '')
+  .form-group
+    input.form-control(type='text', placeholder='section', name='section', value=course.section || '')
+  .form-group
+    input.form-control(type='text', placeholder='session', name='session', value=course.session || '')
+  .form-group
+    input.form-control(type='email', placeholder='professor email', name='professorEmail', value=course.professorEmail || '')
+  .form-group
+    button.btn.btn-default(type='submit')= buttonTitle
+  input(type='hidden', name='_csrf', value='#{_csrf}')
