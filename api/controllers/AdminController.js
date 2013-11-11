@@ -23,7 +23,13 @@ module.exports = {
    *    `/admin/index`
    *    `/admin`
    */
-   index: function (req, res) {
+  index: function (req, res) {
+    res.locals.flash = _.clone(req.session.flash) || [];
+    res.view();
+    req.session.flash = []; // Clear flash messages.
+  },
+
+  userIndex: function (req, res) {
     User.find().done(function (err, users) {
       res.locals.flash = _.clone(req.session.flash) || [];
       res.view({users: users});
@@ -36,7 +42,7 @@ module.exports = {
    * Action blueprints:
    *    `/admin/new`
    */
-   new: function (req, res) {
+   userNew: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
     res.view();
     req.session.flash = []; // Clear flash messages.
@@ -47,7 +53,7 @@ module.exports = {
    * Action blueprints:
    *    `/admin/create`
    */
-   create: function (req, res) {
+   userCreate: function (req, res) {
     User.create({
       email: req.param('email'),
       role: req.param('role'),
@@ -79,7 +85,7 @@ module.exports = {
    * Action blueprints:
    *    `/admin/edit/:id`
    */
-   edit: function (req, res) {
+  userEdit: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
     User.findOne(req.param('id'))
     .then(
@@ -97,7 +103,7 @@ module.exports = {
    * Action blueprints:
    *    `/admin/save/:id`
    */
-   save: function (req, res) {
+   userSave: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
     User.findOne(req.param('id'))
     .then(
@@ -110,7 +116,7 @@ module.exports = {
         user.save(function (err){
           if (err) {console.log(err);}
         });
-        res.redirect('/admin/index');
+        res.redirect('/admin/users');
       },
       function (err){
         console.log(err);

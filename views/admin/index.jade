@@ -5,17 +5,11 @@ block content
     include ../_flash_stage
     .main-content
       .row
-        .col-md-11
-          .table-responsive
-            table.table
-              each user in users
-                tr
-                  td
-                    a(href='/admin/edit/#{user.id}') #{user.email}
-                  if user.role === 'admin'
-                    td Admin
-                  else
-                    td Professor
-        .col-md-1
-          a.btn.btn-default(href='/admin/new') +
+        ul
+          li
+            a(href='/admin/users') Users
+          li
+            a(href='/admin/courses') Courses
+          li
+            a(href='/admin/grades') Grades
 

@@ -33,14 +33,15 @@ module.exports.routes = {
   'post /authentication/login': 'AuthenticationController.login',
   'get /password': 'PasswordController.new',
   'post /password/change': 'PasswordController.change',
-  'get /admin/index': 'AdminController.index',
-  'get /admin/new': 'AdminController.new',
-  'post /admin/create': 'AdminController.create',
-  'get /admin/edit/:id': 'AdminController.edit',
-  'post /admin/save/:id': 'AdminController.save',
+  'get /admin': 'AdminController.index',
+  'get /admin/user/new': 'AdminController.userNew',
+  'post /admin/user/create': 'AdminController.userCreate',
+  'get /admin/user/edit/:id': 'AdminController.userEdit',
+  'post /admin/user/save/:id': 'AdminController.userSave',
   'get /courses': 'CourseController.index',
   'get /course/:course_id': 'CourseController.show',
-  'post /course/:course_id/save': 'CourseController.save'
+  'post /course/:course_id/save': 'CourseController.save',
+  'get /admin/users': 'AdminController.userIndex'
 
 
   // By default, your root route (aka home page) points to a view
