@@ -88,7 +88,13 @@ module.exports = {
           req.session.flash.push(FlashMessages.successfulDraftSave);
         if (req.body.hasOwnProperty('save_final')) {
           req.session.flash.push(FlashMessages.successfulFinalSave);
-          Mailer.sendProgressReportEmail(req.session.user.email, function () {});
+          Course.findOne(parseInt(req.url.split('/')[2]), function (err, course) {
+            course.done = true;
+            course.save(function (err) {});
+            Mailer.sendProgressReportEmail({
+              email: req.session.user.email
+            }, function () {});
+          });
         }
         res.redirect('/courses');
       }
