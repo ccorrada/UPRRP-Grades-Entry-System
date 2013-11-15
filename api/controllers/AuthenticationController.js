@@ -23,6 +23,10 @@ module.exports = {
    */
    new: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
+    if (req.session.user) {
+      res.locals.user_id = _.clone(req.session.user.id);
+      res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
+    }
     res.view();
     req.session.flash = []; // Clear flash messages.
   },

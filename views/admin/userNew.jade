@@ -19,7 +19,7 @@ block content
             select.form-control(form='new-user', name='role')
               - var roles = ['admin', 'professor'];
               for role in roles
-                if role === 'professor'
+                if user.role === role
                   option(selected='true') #{role}
                 else
                   option #{role}

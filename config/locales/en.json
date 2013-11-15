@@ -13,5 +13,7 @@
   "successfulDraftSave": "Your grade draft has been saved.",
   "successfulFinalSave": "Your grades have been saved and submitted. You will recieve an email with a report of your progress.",
   "noProfessorWithEmail": "No professor has this email address.",
-  "successfulCourseCreation": "Course created and assigned to professor."
+  "successfulCourseCreation": "Course created and assigned to professor.",
+  "localeSaved": "Display language saved.",
+  "userDoesNotExist": "User does not exist."
 }

@@ -33,5 +33,9 @@ module.exports = {
 
   noProfessorWithEmail: buildFlash(false, 'noProfessorWithEmail'),
 
-  successfulCourseCreation: buildFlash(true, 'successfulCourseCreation')
+  successfulCourseCreation: buildFlash(true, 'successfulCourseCreation'),
+
+  localeSaved: buildFlash(true, 'localeSaved'),
+
+  userDoesNotExist: buildFlash(false, 'userDoesNotExist')
 }

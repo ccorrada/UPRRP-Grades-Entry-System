@@ -23,6 +23,10 @@ module.exports = {
     Course.find({user_id: req.session.user.id})
     .then(function (prof_courses) {
       res.locals.flash = _.clone(req.session.flash) || [];
+      if (req.session.user) {
+        res.locals.user_id = _.clone(req.session.user.id);
+        res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
+      }
       res.view({courses: prof_courses});
       req.session.flash = []; // Clear flash messages.
       // console.log(require('util').inspect(prof_courses, null, false));
@@ -44,6 +48,10 @@ module.exports = {
       } else {
         // Results
         res.locals.flash = _.clone(req.session.flash) || [];
+        if (req.session.user) {
+          res.locals.user_id = _.clone(req.session.user.id);
+          res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
+        }
         res.view({grades: results.rows, course_id: course_id_param});
         req.session.flash = []; // Clear flash messages.
       }

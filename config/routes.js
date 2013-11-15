@@ -47,7 +47,9 @@ module.exports.routes = {
   'get /admin/course/edit/:id': 'AdminController.courseEdit',
   'post /admin/course/save/:id': 'AdminController.courseSave',
   'post /admin/course/create': 'AdminController.courseCreate',
-  'get /logout': 'AuthenticationController.destroy'
+  'get /logout': 'AuthenticationController.destroy',
+  'get /user/:id': 'UserController.show',
+  'post /user/:id/save': 'UserController.save'
 
 
   // By default, your root route (aka home page) points to a view

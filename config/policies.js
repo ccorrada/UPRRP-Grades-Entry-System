@@ -26,6 +26,9 @@ module.exports.policies = {
   },
   CourseController: {
     '*': ['sessionLocale', 'authenticated', 'canGrade']
+  },
+  UserController: {
+    '*': ['sessionLocale', 'authenticated', 'canViewUser']
   }
 
   /*
