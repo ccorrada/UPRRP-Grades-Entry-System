@@ -40,6 +40,13 @@ module.exports = {
     section	: {
       type: 'STRING',
       required: true
+    },
+
+    toJSON: function () {
+      var obj = this.toObject();
+      delete obj.done;
+      delete obj.already_dumped;
+      return obj;
     }
   },
 
