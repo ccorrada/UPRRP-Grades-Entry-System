@@ -53,6 +53,12 @@ module.exports = {
       required: true,
       minLength: 4,
       maxLength: 4
+    },
+
+    locale: {
+      type: 'STRING',
+      defaultsTo: 'en',
+      in: ['en', 'es']
     }
   }
 
