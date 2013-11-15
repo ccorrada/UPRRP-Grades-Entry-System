@@ -116,6 +116,7 @@ module.exports = {
         user.save(function (err){
           if (err) {console.log(err);}
         });
+        req.session.flash.push(FlashMessages.successfullySavedUser);
         res.redirect('/admin/users');
       },
       function (err){
@@ -207,6 +208,7 @@ module.exports = {
                 if (err) 
                   console.log(err);
               });
+              req.session.flash.push(FlashMessages.successfullySavedCourse);
               res.redirect('/admin/courses');
             }
           });

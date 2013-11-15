@@ -15,5 +15,7 @@
   "noProfessorWithEmail": "Ningun profesor tiene ese correo electronico.",
   "successfulCourseCreation": "Curso creado y asignado al profesor.",
   "localeSaved": "Lenguage cambiado.",
-  "userDoesNotExist": "Ese usuario no existe."
+  "userDoesNotExist": "Ese usuario no existe.",
+  "successfullySavedUser": "Usuario actualizado.",
+  "successfullySavedCourse": "Curso actualizado."
 }

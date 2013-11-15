@@ -37,5 +37,9 @@ module.exports = {
 
   localeSaved: buildFlash(true, 'localeSaved'),
 
-  userDoesNotExist: buildFlash(false, 'userDoesNotExist')
+  userDoesNotExist: buildFlash(false, 'userDoesNotExist'),
+
+  successfullySavedCourse: buildFlash(true, 'successfullySavedCourse'),
+
+  successfullySavedUser: buildFlash(true, 'successfullySavedUser')
 }
