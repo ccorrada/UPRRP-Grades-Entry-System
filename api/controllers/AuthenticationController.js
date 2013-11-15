@@ -106,6 +106,7 @@ module.exports = {
               // Create session.
               req.session.authenticated = true;
               req.session.user = user;
+              req.session.locale = user.locale;
               // Redirect to course selection screen.
               if (user.role === 'admin') {
                 res.redirect('/admin/index');

@@ -1,3 +1,17 @@
 {
-  "Hello": "Hola"
+  "invalidCredentials": "Credenciales invalidos.",
+  "noEmailEntered": "Ningun corre electronico fue entrado.",
+  "emptyPasswordChange": "No se puede cambiar a una contraseña vacia.",
+  "successfulLogout": "Ha sido desconectado de su cuenta.",
+  "successfulPasswordChange": "Buen cambio de contraseña!",
+  "requestActivationLink": "Prontamente debera recibir un correo electronico de activación!",
+  "invalidActivationToken": "Token de activación no es valido.",
+  "successfullyAddedUser": "Usuario añadido.",
+  "invalidRoleSelected": "Rol seleccionado es invalido.",
+  "invalidName": "Los primeros o ultimos nombres son invalidos.",
+  "invalidSSN4": "Los ultimos 4 digitos del SSN son invalidos.",
+  "successfulDraftSave": "Su borrador de notas ha sido grabado.",
+  "successfulFinalSave": "Sus notas han sido grabadas y sometidas al sistema. Prontamente recibira un correo electronico con un reporte de su progreso.",
+  "noProfessorWithEmail": "Ningun profesor tiene ese correo electronico.",
+  "successfulCourseCreation": "Curso creado y asignado al profesor."
 }

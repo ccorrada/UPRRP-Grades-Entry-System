@@ -4,8 +4,8 @@
       if flash.length > 0
         .flash-stage
           if flash[0].result
-            .alert.alert-dismissable.alert-success= flash[0].message
+            .alert.alert-dismissable.alert-success= i18n(flash[0].message)
               button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;
           else
-            .alert.alert-dismissable.alert-danger= flash[0].message
+            .alert.alert-dismissable.alert-danger= i18n(flash[0].message)
               button.close(type='button', data-dismiss='alert', aria-hidden='true') &times;

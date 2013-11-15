@@ -5,33 +5,33 @@ var buildFlash = function (flash_result, flash_message) {
 }
 
 module.exports = {
-  invalidCredentials: buildFlash(false, 'Invalid credentials.'),
+  invalidCredentials: buildFlash(false, 'invalidCredentials'),
 
-  emptyPasswordChange: buildFlash(false, 'Can\'t change to an empty password!'),
+  emptyPasswordChange: buildFlash(false, 'emptyPasswordChange'),
 
-  successfulLogout: buildFlash(true, 'You have been logged out.'),
+  successfulLogout: buildFlash(true, 'successfulLogout'),
 
-  noEmailEntered: buildFlash(false, 'No email entered.'),
+  noEmailEntered: buildFlash(false, 'noEmailEntered'),
 
-  successfulPasswordChange: buildFlash(true, 'Nice password change!'),
+  successfulPasswordChange: buildFlash(true, 'successfulPasswordChange'),
 
-  requestActivationLink: buildFlash(true, 'You should recieve an activation email soon!'),
+  requestActivationLink: buildFlash(true, 'requestActivationLink'),
 
-  invalidActivationToken: buildFlash(false, 'Invalid activation token!'),
+  invalidActivationToken: buildFlash(false, 'invalidActivationToken'),
 
-  successfullyAddedUser: buildFlash(true, 'Added new user.'),
+  successfullyAddedUser: buildFlash(true, 'successfullyaddedUser'),
 
-  invalidRoleSelected: buildFlash(false, 'Invalid role selected.'),
+  invalidRoleSelected: buildFlash(false, 'invalidRoleSelected'),
 
-  invalidNames: buildFlash(false, 'Invalid first or last names.'),
+  invalidNames: buildFlash(false, 'invalidNames'),
 
-  invalidSSN4: buildFlash(false, 'Invalid SSN4.'),
+  invalidSSN4: buildFlash(false, 'invalidSSN4'),
 
-  successfulDraftSave: buildFlash(true, 'Your grade draft has been saved.'),
+  successfulDraftSave: buildFlash(true, 'successfulDraftSave'),
 
-  successfulFinalSave: buildFlash(true, 'Your grades have been saved and submitted. You will recieve an email with a report of your progress.'),
+  successfulFinalSave: buildFlash(true, 'successfulFinalSave'),
 
-  noProfessorWithEmail: buildFlash(false, 'No professor has this email address.'),
+  noProfessorWithEmail: buildFlash(false, 'noProfessorWithEmail'),
 
-  successfulCourseCreation: buildFlash(true, 'Course created and assigned to professor.')
+  successfulCourseCreation: buildFlash(true, 'successfulCourseCreation')
 }

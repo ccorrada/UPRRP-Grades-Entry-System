@@ -16,16 +16,16 @@ module.exports.policies = {
   // (`true` allows public access) 
   '*': false,
   AuthenticationController: {
-  	'*': true
+  	'*': 'sessionLocale'
   },
   PasswordController: {
   	'*': true
   },
   AdminController: {
-  	'*': ['authenticated', 'isAdmin']
+  	'*': ['sessionLocale', 'authenticated', 'isAdmin']
   },
   CourseController: {
-    '*': ['authenticated', 'canGrade']
+    '*': ['sessionLocale', 'authenticated', 'canGrade']
   }
 
   /*
