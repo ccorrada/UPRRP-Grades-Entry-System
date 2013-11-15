@@ -59,7 +59,7 @@ module.exports = {
       role: req.param('role'),
       first_names: req.param('first_names'),
       last_names: req.param('last_names'),
-      SSN4: parseInt(req.param('SSN4')) // Can there be SSN4s with leading zeroes?
+      SSN4: parseInt(req.param('SSN4'))
     }).done(function (err, user) {
       if (err) {
         console.log(require('util').inspect(err, false, null));
@@ -112,7 +112,7 @@ module.exports = {
         user.role = req.param('role'),
         user.first_names = req.param('first_names'),
         user.last_names = req.param('last_names'),
-        user.SSN4 = parseInt(req.param('SSN4')) // Can there be SSN4s with leading zeroes?
+        user.SSN4 = parseInt(req.param('SSN4'))
         user.save(function (err){
           if (err) {console.log(err);}
         });
