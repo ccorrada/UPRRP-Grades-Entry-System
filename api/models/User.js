@@ -49,7 +49,7 @@ module.exports = {
     },
 
     SSN4: {
-      type: 'INT',
+      type: 'STRING',
       required: true,
       minLength: 4,
       maxLength: 4
