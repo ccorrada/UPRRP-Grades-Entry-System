@@ -15,9 +15,9 @@ module.exports = {
 
   successfulPasswordChange: buildFlash(true, 'successfulPasswordChange'),
 
-  requestActivationLink: buildFlash(true, 'requestActivationLink'),
+  requestPasswordResetLink: buildFlash(true, 'requestPasswordResetLink'),
 
-  invalidActivationToken: buildFlash(false, 'invalidActivationToken'),
+  invalidPasswordResetToken: buildFlash(false, 'invalidPasswordResetToken'),
 
   successfullyAddedUser: buildFlash(true, 'successfullyaddedUser'),
 

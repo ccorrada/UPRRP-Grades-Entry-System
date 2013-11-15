@@ -60,7 +60,7 @@ module.exports = {
               console.log(require('util').inspect(err, false, null));
             } else {
               Mailer.sendActivationEmail(user.email, user.passwordResetToken, function () {});
-              req.session.flash.push(FlashMessages.requestActivationLink);
+              req.session.flash.push(FlashMessages.requestPasswordResetLink);
               res.redirect('/');
             }
           });

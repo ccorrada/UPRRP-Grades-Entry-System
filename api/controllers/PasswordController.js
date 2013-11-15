@@ -55,7 +55,7 @@ module.exports = {
         } else {
           // Trying to change password of an account you do not own.
           // Redirect to login screen
-          req.session.flash.push(FlashMessages.invalidActivationToken);
+          req.session.flash.push(FlashMessages.invalidPasswordResetToken);
           res.redirect('/');
         }
       });
