@@ -27,7 +27,15 @@ module.exports = {
       res.locals.user_id = _.clone(req.session.user.id);
       res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
     }
-    res.view();
+    if (req.session.authenticated) {
+      if (req.session.user.role === 'admin') {
+        res.redirect('/admin/index');
+      } else if (req.session.user.role === 'professor') {
+        res.redirect('/courses');
+      }
+    } else {
+      res.view();
+    }
     req.session.flash = []; // Clear flash messages.
   },
 
