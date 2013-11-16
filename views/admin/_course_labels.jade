@@ -1,0 +1,14 @@
+h1= course.course_code
+h1= course.section
+h1= course.session
+h1= course.professorEmail
+table.table.table-responsive
+  thead
+    tr
+      th Student
+      th Grade
+  tbody
+    each grade in grades
+      tr
+        td= grade.student_number
+        td= grade.value

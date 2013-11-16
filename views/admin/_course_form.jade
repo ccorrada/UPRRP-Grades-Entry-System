@@ -15,7 +15,7 @@ form.form-horizontal(method='POST', action= formAction)
     input.form-control(type='email', placeholder='professor email', name='professorEmail', value=course.professorEmail || '')
   if controllerAction === 'edit'
     .form-group
-      table.table
+      table.table.table-responsive
         thead
           tr
             th Student
