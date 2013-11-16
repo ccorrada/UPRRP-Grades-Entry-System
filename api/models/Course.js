@@ -42,6 +42,10 @@ module.exports = {
       required: true
     },
 
+    dumped_timestamp: {
+      type: 'DATETIME'
+    },
+
     toJSON: function () {
       var obj = this.toObject();
       delete obj.done;
