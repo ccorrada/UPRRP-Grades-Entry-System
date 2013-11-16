@@ -8,13 +8,13 @@ block content
       .row
         form.form-horizontal(method='POST', action='/admin/user/create', id='new-user')
           .form-group
-            input.form-control(type='text', placeholder='email', name='email')
+            input.form-control(type='text', placeholder= i18n('placeholderEmail'), name='email')
           .form-group
-            input.form-control(type='text', placeholder='first names', name='first_names')
+            input.form-control(type='text', placeholder= i18n('placeholderFirstNames'), name='first_names')
           .form-group
-            input.form-control(type='text', placeholder='last names', name='last_names')
+            input.form-control(type='text', placeholder= i18n('placeholderLastNames'), name='last_names')
           .form-group
-            input.form-control(type='number', placeholder='last four digits of SSN', name='SSN4')
+            input.form-control(type='number', placeholder= i18n('placeholderLastSSN'), name='SSN4')
           .form-group
             select.form-control(form='new-user', name='role')
               - var roles = ['admin', 'professor'];
@@ -24,5 +24,5 @@ block content
                 else
                   option #{role}
           .form-group
-            button.btn.btn-default(type='submit') Add User
+            button.btn.btn-default(type='submit')= i18n('btnAddUser')
           input(type='hidden', name='_csrf', value='#{_csrf}')

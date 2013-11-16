@@ -7,23 +7,23 @@ block content
       .row
         .col-md-12
           .landing-page-text-header
-            h1.text-center Welcome to UPRRP: Grades Entry System
+            h1.text-center= i18n('labelWelcome')
       .row
         .col-md-5
           form.form-horizontal(method='POST', action='/authentication/login', role='form')
             .form-group
-              input.form-control(type='email', placeholder='email', name='email')
+              input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email')
             .form-group
-              input.form-control(type='password', placeholder='password', name='password')
+              input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password')
             .form-group
-              button.btn.btn-default(type='submit') Log In
+              button.btn.btn-default(type='submit')= i18n('btnLogin')
             input(type='hidden', name='_csrf', value='#{_csrf}')
         .col-md-2
           .vertical-bar
         .col-md-5
           form.form-horizontal(method='POST', action='/authentication/signup')
             .form-group
-              input.form-control(type='email', placeholder='email', name='email')
+              input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email')
             .form-group
-              button.btn.btn-default(type='submit') Reset Password
+              button.btn.btn-default(type='submit')= i18n('btnChangePassword')
             input(type='hidden', name='_csrf', value='#{_csrf}')

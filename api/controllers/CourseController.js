@@ -100,7 +100,8 @@ module.exports = {
             course.done = true;
             course.save(function (err) {});
             Mailer.sendProgressReportEmail({
-              email: req.session.user.email
+              email: req.session.user.email,
+              res: res
             }, function () {});
           });
         }

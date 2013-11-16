@@ -1,24 +1,24 @@
 if controllerAction === 'edit'
   - var formAction = '/admin/course/save/' + course.id
-  - var buttonTitle = 'Save Course'
+  - var buttonTitle = i18n('btnSaveCourse')
 else
   - var formAction = '/admin/course/create'
-  - var buttonTitle = 'Add Course'
+  - var buttonTitle = i18n('btnUpdateCourse')
 form.form-horizontal(method='POST', action= formAction)
   .form-group
-    input.form-control(type='text', placeholder='course code', name='course_code', value=course.course_code || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '')
   .form-group
-    input.form-control(type='text', placeholder='section', name='section', value=course.section || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseSection'), name='section', value=course.section || '')
   .form-group
-    input.form-control(type='text', placeholder='session', name='session', value=course.session || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '')
   .form-group
-    input.form-control(type='email', placeholder='professor email', name='professorEmail', value=course.professorEmail || '')
+    input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '')
   if controllerAction === 'edit'
     .form-group
       table.table.table-responsive
         thead
           tr
-            th Student
+            th= i18n('labelStudent')
             th A
             th B
             th C

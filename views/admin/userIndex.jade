@@ -14,8 +14,8 @@ block content
                   td
                     a(href='/admin/user/edit/#{user.id}') #{user.email}
                   if user.role === 'admin'
-                    td Admin
+                    td= i18n('labelAdmin')
                   else
-                    td Professor
+                    td= i18n('labelProfessor')
         .col-md-1
           a.btn.btn-default(href='/admin/user/new') +

@@ -6,12 +6,12 @@ block content
     .main-content
       include ../_account_controls
       .row
-        h1 Your courses
+        h1= i18n('labelCourseTableHeader')
         table.table
           thead
             tr
-              th Course code
-              th Section
+              th= i18n('labelCourseCode')
+              th= i18n('labelCourseSection')
           each course in courses
             tr
               td

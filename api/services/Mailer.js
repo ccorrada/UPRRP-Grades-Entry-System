@@ -24,11 +24,11 @@ var makeReport = function (data, callback) {
         if (!err) {
           Course.find({user_id: user.id, done: false}, function (err, pendingCoursesFromQuery) {
             if (!err) {
-              email_data.text += 'You have already finished grading these courses:\n'
+              email_data.text += data.res.i18n('emailTextGradeReportDone') + '\n'
               doneCoursesFromQuery.forEach(function (d_course) {
                 email_data.text += '* ' + d_course.course_code + '-' + d_course.section + '\n';
               });
-              email_data.text += 'You have to grade these courses:\n';
+              email_data.text += data.res.i18n('emailTextGradeReportPending') + '\n';
               pendingCoursesFromQuery.forEach(function (p_course) {
                 email_data.text += '* ' + p_course.course_code + '-' + p_course.section + '\n';
               });
@@ -42,13 +42,13 @@ var makeReport = function (data, callback) {
 };
 
 module.exports = {
-  sendActivationEmail: function (prof_email, token, callback) {
+  sendActivationEmail: function (prof_email, token, res, callback) {
     transport.sendMail({
       from: process.env.EMAIL_USERNAME,
       to: prof_email,
-      subject: 'Your activation link for UPRRP: GES.',
-      text: 'Reset your password at http://localhost:5000/password?token=' + token,
-      html: 'Reset your <a href="http://localhost:5000/password?token=' + token +'">password</a>'
+      subject: res.i18n('emailChangePasswordSubject'),
+      text: res.i18n('emailTextChangePassword', token),
+      html: res.i18n('emailHTMLChangePassword', token)
     }, function (error, response) {
       if (error) {
         console.log(require('util').inspect(error));
@@ -64,7 +64,7 @@ module.exports = {
       transport.sendMail({
         from: process.env.EMAIL_USERNAME,
         to: data.email,
-        subject: 'Your grades progress report.',
+        subject: data.res.i18n('emailGradeReportSubject'),
         text: report.text,
         html: report.html
       }, function (error, response) {

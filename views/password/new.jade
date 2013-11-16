@@ -5,10 +5,10 @@ block content
     include ../_flash_stage
     .row
       .col-md-12
-        h1 Please choose a good password!
+        h1= i18n('labelGoodPassword')
         form.form-horizontal(method='POST', action='/password/change?token=#{token}')
           .form-group
-            input.form-control(type='password', placeholder='new password', name='password')
+            input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password')
           .form-group
-            button.btn.btn-default Change Password
+            button.btn.btn-default= i18n('btnChangePassword')
           input(type='hidden', name='_csrf', value='#{_csrf}')

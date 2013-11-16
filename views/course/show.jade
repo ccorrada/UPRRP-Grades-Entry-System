@@ -11,7 +11,7 @@ block content
           table.table
             thead
               tr
-                th Student
+                th= i18n('labelStudent')
                 th A
                 th B
                 th C
@@ -47,5 +47,5 @@ block content
                     else
                       input(type='radio', name= grade.grade_id, value='F')
           input(type='hidden', name='_csrf', value='#{_csrf}')
-          button.btn.btn-default(type='submit', name='save_draft') Save Draft
-          button.btn.btn-default(type='submit', name='save_final') Submit
+          button.btn.btn-default(type='submit', name='save_draft')= i18n('btnSaveDraft')
+          button.btn.btn-default(type='submit', name='save_final')= i18n('btnSubmit')
