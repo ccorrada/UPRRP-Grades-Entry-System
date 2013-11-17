@@ -1,6 +1,6 @@
 {
   "invalidCredentials": "Credenciales invalidos.",
-  "noEmailEntered": "Ningun corre electronico fue entrado.",
+  "noEmailEntered": "Ningun correo electronico fue entrado.",
   "emptyPasswordChange": "No se puede cambiar a una contraseña vacia.",
   "successfulLogout": "Ha sido desconectado de su cuenta.",
   "successfulPasswordChange": "Buen cambio de contraseña!",
