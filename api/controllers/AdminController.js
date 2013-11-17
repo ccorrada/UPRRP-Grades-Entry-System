@@ -44,6 +44,7 @@ module.exports = {
    */
    userNew: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
+    res.locals.user = _.clone(req.session.user);
     res.view();
     req.session.flash = []; // Clear flash messages.
   },
