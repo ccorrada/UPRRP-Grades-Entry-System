@@ -3,13 +3,14 @@
 var nodemailer = require('nodemailer');
 
 var transport = nodemailer.createTransport(process.env.EMAIL_TRANSPORT_TYPE, {
-  host: process.env.EMAIL_HOST,
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD
-  },
-  secureConnection: true,
-  port: 465
+  host: process.env.EMAIL_HOST
+  //Uncomment if email authentication is needed
+  // auth: {
+  //   user: process.env.EMAIL_USERNAME,
+  //   pass: process.env.EMAIL_PASSWORD
+  // },
+  // secureConnection: true,
+  // port: 465
 });
 
 var makeReport = function (data, callback) {
