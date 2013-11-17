@@ -73,7 +73,7 @@ module.exports = {
         if (err.ValidationError.SSN4)
           req.session.flash.push(FlashMessages.invalidSSN4);
 
-        res.redirect('/admin/new');
+        res.redirect('/admin/user/new');
       } else {
         req.session.flash.push(FlashMessages.successfullyAddedUser);
         res.redirect('/admin/index');
