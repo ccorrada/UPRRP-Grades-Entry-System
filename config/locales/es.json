@@ -51,5 +51,6 @@
   "placeholderCourseSession": "session",
   "placeholderProfessorEmail": "correo electronico del profesor",
   "btnSaveCourse": "Actualizar Curso",
-  "btnCreateCourse": "Crear Curso"
+  "btnCreateCourse": "Crear Curso",
+  "btnCreateUser": "Crear Usuario"
 }
