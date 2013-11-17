@@ -1,6 +1,8 @@
 UPRRP Grade Entry System
 ========================
 
+[![Code Climate](https://codeclimate.com/github/crzrcn/UPRRP-Grades-Entry-System.png)](https://codeclimate.com/github/crzrcn/UPRRP-Grades-Entry-System)
+
 [Demo](http://uprrp-ges.herokuapp.com/)
 
 # Index
@@ -60,7 +62,6 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 * Retain form values afetr error.
 * Test model validations.
 * DRY up Mailer.
-* Add grades progress report email body.
 
 # Team
 
