@@ -3,7 +3,7 @@ if controllerAction === 'edit'
   - var buttonTitle = i18n('btnSaveCourse')
 else
   - var formAction = '/admin/course/create'
-  - var buttonTitle = i18n('btnUpdateCourse')
+  - var buttonTitle = i18n('btnCreateCourse')
 form.form-horizontal(method='POST', action= formAction)
   .form-group
     input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '')

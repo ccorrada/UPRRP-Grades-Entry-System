@@ -37,5 +37,19 @@
   "emailChangePasswordSubject": "Your password change link for UPRRP: GES.",
   "emailGradeReportSubject": "Your grades progress report.",
   "emailTextGradeReportDone": "You have already finished grading these courses:",
-  "emailTextGradeReportPending": "You have to grade these courses:"
+  "emailTextGradeReportPending": "You have to grade these courses:",
+  "labelUsers": "Users",
+  "labelCourses": "Courses",
+  "labelProfessor": "Professor",
+  "labelAdmin": "Admin",
+  "btnUpdateUser": "Update User",
+  "placeholderFirstNames": "first names",
+  "placeholderLastNames": "last names",
+  "placeholderLastSSN": "last 4 digits of SSN",
+  "placeholderCourseCode": "course code",
+  "placeholderCourseSection": "section",
+  "placeholderCourseSession": "session",
+  "placeholderProfessorEmail": "professor email",
+  "btnSaveCourse": "Update Course",
+  "btnCreateCourse": "Create Course"
 }

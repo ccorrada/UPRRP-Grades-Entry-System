@@ -37,5 +37,19 @@
   "emailChangePasswordSubject": "Tu enlace para cambiar tu contraseña de UPRRP: GES.",
   "emailGradeReportSubject": "Tu reporte de calificaciones.",
   "emailTextGradeReportDone": "Ya has calificado estos cursos:",
-  "emailTextGradeReportPending": "Te faltan estos cursos por calificar:"
+  "emailTextGradeReportPending": "Te faltan estos cursos por calificar:",
+  "labelUsers": "Usuarios",
+  "labelCourses": "Cursos",
+  "labelProfessor": "Profesor",
+  "labelAdmin": "Administrador",
+  "btnUpdateUser": "Actualizar Usuario",
+  "placeholderFirstNames": "nombres",
+  "placeholderLastNames": "apellidos",
+  "placeholderLastSSN": "ultimos 4 digitos de SSN",
+  "placeholderCourseCode": "codigo de curso",
+  "placeholderCourseSection": "seccion",
+  "placeholderCourseSession": "session",
+  "placeholderProfessorEmail": "correo electronico del profesor",
+  "btnSaveCourse": "Actualizar Curso",
+  "btnCreateCourse": "Crear Curso"
 }
