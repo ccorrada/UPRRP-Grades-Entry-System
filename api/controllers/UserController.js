@@ -14,6 +14,7 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
+var Q = require('q');
 
 module.exports = {
     
@@ -24,26 +25,42 @@ module.exports = {
    */
    show: function (req, res) {
 
-    User.findOne(req.param('id'), function (err, user) {
-      if (!err) {
-        if (user.length === 0) {
-          req.session.flash.push(FlashMessages.userDoesNotExist);
-        } 
-        res.locals.flash = _.clone(req.session.flash) || [];
-        res.view({user: user});
-        req.session.flash = []; // Clear flash messages.
+    var options = {
+      id: req.param('id')
+    };
+
+    Q(User.findOne(options))
+    .then(function (user) {
+      if (user.length === 0) {
+        req.session.flash.push(FlashMessages.userDoesNotExist);
       }
+      res.locals.flash = _.clone(req.session.flash) || [];
+      res.view({user: user});
+      req.session.flash = [];
+    }).fail(function (err) {
+      console.log(err);
     });
   },
 
   save: function (req, res) {
-    console.log('data:', req.params.all());
-    User.findOne(req.param('id'), function (err, user) {
+    var options = {
+      id: req.param('id')
+    };
+
+    Q(User.findOne(options))
+    .then(function (user) {
       user.locale = req.param('locale');
       user.save(function (err) {
-        req.session.flash.push(FlashMessages.localeSaved);
-        res.redirect('/user/' + req.param('id'));
+        if (!err) {
+          req.session.locale = user.locale;
+          req.session.flash.push(FlashMessages.localeSaved);
+          res.redirect('/user/' + options.id);
+        } else {
+          console.log(err);
+        }
       });
+    }).fail(function (err) {
+      console.log(err);
     });
   },
 
