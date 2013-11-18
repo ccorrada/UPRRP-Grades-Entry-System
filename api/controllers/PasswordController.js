@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var Q = require('q');
+
 module.exports = {
     
   
@@ -34,35 +36,32 @@ module.exports = {
    *    `/passwor/change`
    */
    change: function (req, res) {
-    req.session.flash = [];
-    if (req.param('password') && req.param('token')) {
-      User.findOneByPasswordResetToken(req.param('token')).done(function (err, prof) {
-        if (prof) {
-          require('bcrypt').genSalt(10, function (err, salt) {
-            require('bcrypt').hash(req.param('password'), salt, function (err, hash) {
-              prof.password = hash;
-              prof.passwordResetToken = '';
-              prof.save(function (err) {
-                if (err) {
-                } else {
-                  // Redirect to login screen.
-                  req.session.flash.push(FlashMessages.successfulPasswordChange);
-                  res.redirect('/');
-                }
-              });
-            });
+
+    var options = {
+      token: req.param('token') 
+    };
+
+    Q(User.findOneByPasswordResetToken(options.token))
+    .then(function (user) {
+      if (!user)
+        throw new Error('invalidPasswordResetToken');
+      if (!req.param('password'))
+        throw new Error('emptyPasswordChange');
+
+      require('bcrypt').genSalt(10, function (err1, salt) {
+        require('bcrypt').hash(req.param('password'), salt, function (err2, hash) {
+          user.password = hash;
+          user.passwordResetToken = '';
+          user.save(function (err) {
+            req.session.flash.push(FlashMessages.successfulPasswordChange);
+            res.redirect('/');
           });
-        } else {
-          // Trying to change password of an account you do not own.
-          // Redirect to login screen
-          req.session.flash.push(FlashMessages.invalidPasswordResetToken);
-          res.redirect('/');
-        }
+        });
       });
-    } else {
-      req.session.flash.push(FlashMessages.emptyPasswordChange);
-      res.redirect('/password/new?token=' + req.param('token'));
-    }
+    }).fail(function (err) {
+      req.session.flash.push(FlashMessages[err.message]);
+      res.redirect('/password/new?token=' + options.token);
+    });
   },
 
   /**

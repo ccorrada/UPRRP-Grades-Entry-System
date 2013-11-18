@@ -15,21 +15,24 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+ var Q = require('q');
+
 module.exports = {
     
   index: function (req, res) {
 
+    var options = {
+      user_id: req.session.user.id
+    }
+
     // Find all courses by prof_id and list them.
-    Course.find({user_id: req.session.user.id})
-    .then(function (prof_courses) {
+    Q(Course.find(options))
+    .then(function (user_courses) {
       res.locals.flash = _.clone(req.session.flash) || [];
-      if (req.session.user) {
-        res.locals.user_id = _.clone(req.session.user.id);
-        res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
-      }
-      res.view({courses: prof_courses});
-      req.session.flash = []; // Clear flash messages.
-      // console.log(require('util').inspect(prof_courses, null, false));
+      res.locals.user_id = _.clone(req.session.user.id);
+      res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
+      res.view({courses: user_courses});
+      req.session.flash = [];
     }).fail(function (err) {
       console.log(require('util').inspect(err, null, false));
     });
@@ -39,7 +42,7 @@ module.exports = {
     // Find all grades in that course.
     var course_id_param = require('validator').sanitize(req.param('course_id')).escape();
     var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
-                course_id_param + ';' 
+                course_id_param + ';';
     Grade.query(query, null, function (err, results) {
       // console.log(require('util').inspect(err || results, false, null));
       if (err) {
