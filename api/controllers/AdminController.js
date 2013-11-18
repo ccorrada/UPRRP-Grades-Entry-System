@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var Q = require('q');
+
 module.exports = {
 
 
@@ -106,26 +108,30 @@ module.exports = {
    */
    userSave: function (req, res) {
     res.locals.flash = _.clone(req.session.flash) || [];
-    User.findOne(req.param('id'))
-    .then(
-      function (user){
-        user.email = req.param('email');
-        user.role = req.param('role');
-        user.first_names = req.param('first_names');
-        user.last_names = req.param('last_names');
-        user.SSN4 = parseInt(req.param('SSN4'));
-        user.save(function (err){
-          if (err) {console.log(err);}
-        });
+
+    Q(User.findOne(req.param('id')))
+    .then(function (user) {
+      user.email = req.param('email');
+      user.role = req.param('role');
+      user.first_names = req.param('first_names');
+      user.last_names = req.param('last_names');
+      user.SSN4 = parseInt(req.param('SSN4'));
+      user.save(function (err) {
+        if (err) {
+          if (err.ValidationError.first_names || err.ValidationError.last_names)
+            throw new Error('invalidNames');
+          if (err.ValidationError.SSN4)
+            throw new Error('invalidSSN4');
+          if (err.ValidationError.email)
+            throw new Error('noEmailEntered');
+        }
         req.session.flash.push(FlashMessages.successfullySavedUser);
         res.redirect('/admin/users');
-      },
-      function (err){
-        console.log(err);
-        console.log(require('util').inspect(err, false, null));
-        res.send("Wrong values", 500);
       });
-    req.session.flsah = [];
+    }).fail(function (err) {
+      req.session.flash.push(FlashMessages[err.message]);
+      res.redirect('/admin/user/edit/' + req.param('id'));
+    });
   },
 
   courseIndex: function (req, res) {
@@ -170,11 +176,13 @@ module.exports = {
   },
 
   courseSave: function (req, res) {
-    Course.findOne(req.param('id'))
+
+    Q(Course.findOne(req.param('id')))
     .then(function (course) {
-      User.findOne({email: req.param('professorEmail')})
-      .done(function (err, user) {
-        if (user) {
+      return Q(User.findOneByEmail(req.param('professorEmail')))
+        .then(function (user) {
+          if (!user)
+            throw new Error('noEmailEntered');
           var body_array = [];
 
           // Need to convert req.body into an array because caolan/async has not merged async.each for objects.
@@ -194,72 +202,67 @@ module.exports = {
             var query = 'UPDATE uprrp_ges_grades AS g SET grade = \'' + item.grade_value + '\' WHERE g.id = ' + item.grade_id + ';';
             Grade.query(query, null, function (err, results) {/* console.log(err || results ) */});
             callback();
-          }, function (err) {
-            if (err) {
-              console.log(err);
-            } else {
-              // Successfully updated grades.
-
-              course.user_id = user.id;
-              course.section = req.param('section');
-              course.session = req.param('session');
-              course.course_code = req.param('course_code');
-              course.save(function (err) {
-                if (err)
-                  console.log(err);
-              });
+          }, 
+          function (err) {
+            // Successfully updated grades.
+            course.user_id = user.id;
+            course.section = req.param('section');
+            course.session = req.param('session');
+            course.course_code = req.param('course_code');
+            course.save(function (err) {
+              if (err) {
+                if (err.ValidationError.course_code)
+                  throw new Error('noCourseCode');
+                if (err.ValidationError.session)
+                  throw new Error('noSession');
+                if (err.ValidationError.section)
+                  throw new Error('noSection');
+              }
               req.session.flash.push(FlashMessages.successfullySavedCourse);
               res.redirect('/admin/courses');
-            }
+            });
           });
-        }
-      });
+        });
     }).fail(function (err) {
       console.log(err);
+      req.session.flash.push(FlashMessages[err.message]);
+      res.redirect('/admin/course/edit/' + req.param('id'));
     });
   },
 
   courseCreate: function (req, res) {
     req.session.flash = [];
-    // Dont' understand promises yet.
 
-    // User.findOne({email: req.param('professorEmail'), role: 'professor'})
-    // .then(function (user) {
-    //   if (user) {
-    //     return Course.create({
-    //       user_id: user.id,
-    //       section: req.param('section'),
-    //       session: req.param('session'),
-    //       course_code: req.param('course_code')
-    //     });
-    //   } else {
-    //     // At this point `user` is undefined which means that no professor was found so I want to throw an error.
-    //     // Right now the following statement does throw the error, but it crashes the server.
-    //     throw new Error('That professor does not exist.');
-    //     // I want to be able to handle the error in the .fail() or something similar in the promise chain.
-    //   }
-    // }).then(function (createSuccess) {
-    //   console.log('Fulfillment: ', createSuccess);
-    // }, function (err) {
-    //   console.log('Error: ', err);
-    // });
+    var options = {
+      email: req.param('professorEmail'), 
+      role: 'professor'
+    };
 
-    User.findOne({email: req.param('professorEmail'), role: 'professor'}, function (err, user) {
-      if (user) {
-        Course.create({
-          user_id: user.id,
-          section: req.param('section'),
-          session: req.param('session'),
-          course_code: req.param('course_code')
-        }, function (err, user) {
-          if (err) console.log(err);
-          req.session.flash.push(FlashMessages.successfulCourseCreation);
-          res.redirect('/admin/courses');
-        });
-      } else {
-        req.session.flash.push(FlashMessages.noProfessorWithEmail);
-        res.redirect('/admin/course/new');
+    Q(User.findOne(options))
+    .then(function (user) {
+      if (!user)
+        throw new Error('noProfessorWithEmail');
+      return Course.create({
+        user_id: user.id,
+        section: req.param('section'),
+        session: req.param('session'),
+        course_code: req.param('course_code')
+      }).then(function (user) {
+        req.session.flash.push(FlashMessages.successfulCourseCreation);
+        res.redirect('/admin/courses');
+      });
+    }).fail(function (err) {
+      if (err.message)
+        req.session.flash.push(FlashMessages[err.message]);
+      else {
+        if (err.ValidationError.course_code)
+          req.session.flash.push(FlashMessages['noCourseCode']);
+        if (err.ValidationError.session)
+          req.session.flash.push(FlashMessages['noSession']);
+        if (err.ValidationError.section)
+          req.session.flash.push(FlashMessages['noSection']);
       }
+      res.redirect('/admin/course/new');
     });
   },
 

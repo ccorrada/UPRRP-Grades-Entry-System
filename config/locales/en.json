@@ -52,5 +52,8 @@
   "placeholderProfessorEmail": "professor email",
   "btnSaveCourse": "Update Course",
   "btnCreateCourse": "Create Course",
-  "btnCreateUser": "Create User"
+  "btnCreateUser": "Create User",
+  "noCourseCode": "No course code entered.",
+  "noSection": "No section entered.",
+  "noSession": "No session entered."
 }

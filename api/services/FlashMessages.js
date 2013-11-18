@@ -41,5 +41,11 @@ module.exports = {
 
   successfullySavedCourse: buildFlash(true, 'successfullySavedCourse'),
 
-  successfullySavedUser: buildFlash(true, 'successfullySavedUser')
+  successfullySavedUser: buildFlash(true, 'successfullySavedUser'),
+
+  noCourseCode: buildFlash(false, 'noCourseCode'),
+
+  noSession: buildFlash(false, 'noSession'),
+
+  noSection: buildFlash(false, 'noSection')
 }

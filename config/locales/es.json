@@ -48,9 +48,12 @@
   "placeholderLastSSN": "ultimos 4 digitos de SSN",
   "placeholderCourseCode": "codigo de curso",
   "placeholderCourseSection": "seccion",
-  "placeholderCourseSession": "session",
+  "placeholderCourseSession": "sesion",
   "placeholderProfessorEmail": "correo electronico del profesor",
   "btnSaveCourse": "Actualizar Curso",
   "btnCreateCourse": "Crear Curso",
-  "btnCreateUser": "Crear Usuario"
+  "btnCreateUser": "Crear Usuario",
+  "noCourseCode": "No entro el codigo de curso.",
+  "noSection": "No entro la seccion del curso.",
+  "noSession": "No entro la sesion del curso."
 }
