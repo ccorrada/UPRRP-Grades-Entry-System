@@ -59,7 +59,6 @@ module.exports = {
         });
       });
     }).fail(function (err) {
-      console.log('Break these promises!');
       req.session.flash.push(FlashMessages[err.message]);
       res.redirect('/password/new?token=' + options.token);
     });
