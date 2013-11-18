@@ -54,11 +54,10 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 
 # TODO
 
-* Client-side validations.
 * Re-design flash messaging display on client side to show multiple errors at once.
 * Make sure all error messages are added.
 * UI re-design.
-* Retain form values afetr error.
+* Retain form values after error.
 * Test model validations.
 
 # Team
