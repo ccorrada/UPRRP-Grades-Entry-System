@@ -109,11 +109,11 @@ module.exports = {
     User.findOne(req.param('id'))
     .then(
       function (user){
-        user.email = req.param('email'),
-        user.role = req.param('role'),
-        user.first_names = req.param('first_names'),
-        user.last_names = req.param('last_names'),
-        user.SSN4 = parseInt(req.param('SSN4'))
+        user.email = req.param('email');
+        user.role = req.param('role');
+        user.first_names = req.param('first_names');
+        user.last_names = req.param('last_names');
+        user.SSN4 = parseInt(req.param('SSN4'));
         user.save(function (err){
           if (err) {console.log(err);}
         });
@@ -151,7 +151,7 @@ module.exports = {
         // Find all grades in that course.
         var course_id_param = require('validator').sanitize(req.param('id')).escape();
         var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' +
-                    course_id_param + ';'
+                    course_id_param + ';';
         Grade.query(query, null, function (err, results) {
           // console.log(require('util').inspect(err || results, false, null));
           if (err) {
@@ -160,7 +160,7 @@ module.exports = {
           } else {
             // Results
             res.locals.flash = _.clone(req.session.flash) || [];
-            course.professorEmail = user.email
+            course.professorEmail = user.email;
             res.view({course: course, grades: results.rows, controllerAction: 'edit'});
             req.session.flash = []; // Clear flash messages.
           }
@@ -174,7 +174,6 @@ module.exports = {
     .then(function (course) {
       User.findOne({email: req.param('professorEmail')})
       .done(function (err, user) {
-        console.log(user)
         if (user) {
           var body_array = [];
 
