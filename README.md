@@ -60,7 +60,6 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 * UI re-design.
 * Retain form values afetr error.
 * Test model validations.
-* DRY up Mailer.
 
 # Team
 
