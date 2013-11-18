@@ -8,7 +8,7 @@
   "invalidPasswordResetToken": "Invalid password reset token!",
   "successfullyAddedUser": "Added new user.",
   "invalidRoleSelected": "Invalid role selected.",
-  "invalidName": "Invalid first or last names.",
+  "invalidNames": "Invalid first or last names.",
   "invalidSSN4": "Invalid SSN4.",
   "successfulDraftSave": "Your grade draft has been saved.",
   "successfulFinalSave": "Your grades have been saved and submitted. You will recieve an email with a report of your progress.",
