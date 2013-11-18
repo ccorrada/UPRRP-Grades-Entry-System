@@ -52,14 +52,6 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 2. Commit your changes (`git commit -p`).
 3. Push to the branch (`git push origin my-new-feature`).
 
-# TODO
-
-* Re-design flash messaging display on client side to show multiple errors at once.
-* Make sure all error messages are added.
-* UI re-design.
-* Retain form values after error.
-* Test model validations.
-
 # Team
 
 [Fernando Martinez](http://crzrcn.github.io)
