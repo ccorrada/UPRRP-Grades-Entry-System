@@ -60,24 +60,24 @@ module.exports = {
       role: req.param('role'),
       first_names: req.param('first_names'),
       last_names: req.param('last_names'),
-      SSN4: parseInt(req.param('SSN4'))
-    }).done(function (err, user) {
-      if (err) {
-        console.log(require('util').inspect(err, false, null));
-        if (err.ValidationError.email)
-          req.session.flash.push(FlashMessages.noEmailEntered);
-        if (err.ValidationError.role)
-          req.session.flash.push(FlashMessages.invalidRoleSelected);
-        if (err.ValidationError.first_names || err.ValidationError.last_names)
-          req.session.flash.push(FlashMessages.invalidNames);
-        if (err.ValidationError.SSN4)
-          req.session.flash.push(FlashMessages.invalidSSN4);
+      SSN4: parseInt(req.param('SSN4'),10)
+    }).then(
+        function (user) {
+          req.session.flash.push(FlashMessages.successfullyAddedUser);
+          res.redirect('/admin/index');
+        }
+    ).fail( function (err) {
+      console.log(require('util').inspect(err, false, null));
+      if (err.ValidationError.email)
+        req.session.flash.push(FlashMessages.noEmailEntered);
+      if (err.ValidationError.role)
+        req.session.flash.push(FlashMessages.invalidRoleSelected);
+      if (err.ValidationError.first_names || err.ValidationError.last_names)
+        req.session.flash.push(FlashMessages.invalidNames);
+      if (err.ValidationError.SSN4)
+        req.session.flash.push(FlashMessages.invalidSSN4);
 
-        res.redirect('/admin/user/new');
-      } else {
-        req.session.flash.push(FlashMessages.successfullyAddedUser);
-        res.redirect('/admin/index');
-      }
+      res.redirect('/admin/user/new');
     });
   },
 
@@ -150,8 +150,8 @@ module.exports = {
       User.findOne(course.user_id, function (err, user) {
         // Find all grades in that course.
         var course_id_param = require('validator').sanitize(req.param('id')).escape();
-        var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
-                    course_id_param + ';' 
+        var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' +
+                    course_id_param + ';'
         Grade.query(query, null, function (err, results) {
           // console.log(require('util').inspect(err || results, false, null));
           if (err) {
@@ -206,7 +206,7 @@ module.exports = {
               course.session = req.param('session');
               course.course_code = req.param('course_code');
               course.save(function (err) {
-                if (err) 
+                if (err)
                   console.log(err);
               });
               req.session.flash.push(FlashMessages.successfullySavedCourse);
