@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+ var Q = require('q');
+
 module.exports = {  
   
   /**
@@ -49,40 +51,21 @@ module.exports = {
     req.session.flash = [];
 
     var current_email = req.param('email');
-    
-    if (current_email) {
-      // Email provided.
-      // Since email was provided send an email with a reset password link.
-      // The link in the email is a get request to /reset-password/HASH. The HASH is comprised of [email]:[timestamp]
-      // Insert a hash string into this.passwordResetToken and the current time into this.password_reset_timestamp.
 
-      // Check if this is the first time this User tries to sign-up.
-      // If it is not then overwrite its passwordResetToken and timestamp then resend email.
-      // Otherwise, create User with default values, new password reset token and timestamp then send email.
-
-      User.findOneByEmail(current_email).done(function (err, user) {
-        if (user) {
-          user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
-          user.save(function (err) {
-            if (err) {
-              console.log(require('util').inspect(err, false, null));
-            } else {
-              Mailer.sendActivationEmail(user.email, user.passwordResetToken, res, function () {});
-              req.session.flash.push(FlashMessages.requestPasswordResetLink);
-              res.redirect('/');
-            }
-          });
-        } else {
-          req.session.flash.push(FlashMessages.invalidCredentials);
-          res.redirect('/');
-        }
+    Q(User.findOneByEmail(current_email))
+    .then(function (user) {
+      if (!user)
+        throw new Error('invalidCredentials');
+      user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
+      user.save(function (err) {
+        Mailer.sendActivationEmail(user.email, user.passwordResetToken, res, function () {});
+        req.session.flash.push(FlashMessages.requestPasswordResetLink);
+        res.redirect('/');
       });
-    } else {
-      // No email entered.
-      req.session.flash.push(FlashMessages.noEmailEntered);
-      res.redirect('/');
-    }
-
+    }).fail(function (err) {
+      req.session.flash.push(FlashMessages[err.message]);
+      res.redirect('/');  
+    });
   },
 
 
@@ -108,41 +91,27 @@ module.exports = {
     var current_email = req.param('email');
     var current_password = req.param('password');
 
-    if (current_email && current_password) {
-      User.findOneByEmail(current_email).done(function (err, user) {
-        if (user) {
-          // Found a user with that email.
-          require('bcrypt').compare(current_password, user.password, function (err, result) {
-            if (result) {
-              // Password match
-              // Create session.
-              req.session.authenticated = true;
-              req.session.user = user;
-              req.session.locale = user.locale;
-              // Redirect to course selection screen.
-              if (user.role === 'admin') {
-                res.redirect('/admin/index');
-              } else {
-                res.redirect('/courses');
-              }
-            } else {
-              // Invalid credentials.
-              req.session.flash.push(FlashMessages.invalidCredentials);
-              res.redirect('/');
-            }
-          });
+    Q(User.findOneByEmail(current_email))
+    .then(function (user) {
+      if (!user || !current_password)
+        throw new Error('invalidCredentials');
+      require('bcrypt').compare(current_password, user.password, function (err, result) {
+        // Password match
+        // Create session.
+        req.session.authenticated = true;
+        req.session.user = user;
+        req.session.locale = user.locale;
+        // Redirect to course selection screen.
+        if (user.role === 'admin') {
+          res.redirect('/admin/index');
         } else {
-          // Invalid credentials.
-          req.session.flash.push(FlashMessages.invalidCredentials);
-          res.redirect('/');
+          res.redirect('/courses');
         }
       });
-    } else {
-      // Invalid credentials.
-      req.session.flash.push(FlashMessages.invalidCredentials);
+    }).fail(function (err) {
+      req.session.flash.push(FlashMessages[err.message]);
       res.redirect('/');
-    }
-
+    });
   },
 
   /**
