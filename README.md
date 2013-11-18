@@ -56,7 +56,6 @@ If sensitive data gets leaked to **any** remote branch, the data leaked has to b
 
 * Client-side validations.
 * Re-design flash messaging display on client side to show multiple errors at once.
-* Use promises.
 * Make sure all error messages are added.
 * UI re-design.
 * Retain form values afetr error.
