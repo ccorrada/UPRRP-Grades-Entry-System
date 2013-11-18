@@ -9,7 +9,7 @@ block content
           h1= i18n('labelGoodPassword')
           form.form-horizontal(method='POST', action='/password/change?token=#{token}')
             .form-group
-              input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password')
+              input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password', required= true)
             .form-group
               button.btn.btn-default= i18n('btnChangePassword')
             input(type='hidden', name='_csrf', value='#{_csrf}')

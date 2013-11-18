@@ -6,13 +6,13 @@ else
   - var buttonTitle = i18n('btnCreateCourse')
 form.form-horizontal(method='POST', action= formAction)
   .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '', required= true)
   .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseSection'), name='section', value=course.section || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseSection'), name='section', value=course.section || '', required= true)
   .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '')
+    input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
   .form-group
-    input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '')
+    input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
   if controllerAction === 'edit'
     .form-group
       table.table.table-responsive
