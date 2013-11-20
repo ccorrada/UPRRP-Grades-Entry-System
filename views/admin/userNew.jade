@@ -1,28 +1,30 @@
 extends ../layout
 
 block content
-  .container
+  .container(style='width: 75%;')
     include ../_flash_stage
-    .main-content
-      include ../_account_controls
-      .row
-        form.form-horizontal(method='POST', action='/admin/user/create', id='new-user')
-          .form-group
-            input.form-control(type='text', placeholder= i18n('placeholderEmail'), name='email', required= true)
-          .form-group
-            input.form-control(type='text', placeholder= i18n('placeholderFirstNames'), name='first_names', required= true)
-          .form-group
-            input.form-control(type='text', placeholder= i18n('placeholderLastNames'), name='last_names', required= true)
-          .form-group
-            input.form-control(type='number', placeholder= i18n('placeholderLastSSN'), name='SSN4', required= true)
-          .form-group
-            select.form-control(form='new-user', name='role')
-              - var roles = ['admin', 'professor'];
-              for role in roles
-                if user.role === role
-                  option(selected='true') #{role}
-                else
-                  option #{role}
-          .form-group
-            button.btn.btn-default(type='submit')= i18n('btnCreateUser')
-          input(type='hidden', name='_csrf', value='#{_csrf}')
+    
+  .container(style="width: 25%; text-align: center;")
+    h1 Add new user
+    br
+    .row
+      form.form-horizontal(method='POST', action='/admin/user/create', id='new-user')
+        .form-group
+          input.form-control(type='text', placeholder= i18n('placeholderEmail'), name='email', required= true)
+        .form-group
+          input.form-control(type='text', placeholder= i18n('placeholderFirstNames'), name='first_names', required= true)
+        .form-group
+          input.form-control(type='text', placeholder= i18n('placeholderLastNames'), name='last_names', required= true)
+        .form-group
+          input.form-control(type='number', placeholder= i18n('placeholderLastSSN'), name='SSN4', required= true)
+        .form-group
+          select.form-control(form='new-user', name='role')
+            - var roles = ['admin', 'professor'];
+            for role in roles
+              if user.role === role
+                option(selected='true') #{role}
+              else
+                option #{role}
+        .form-group
+          button.btn.btn-default(type='submit')= i18n('btnCreateUser')
+        input(type='hidden', name='_csrf', value='#{_csrf}')

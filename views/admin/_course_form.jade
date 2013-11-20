@@ -4,7 +4,14 @@ if controllerAction === 'edit'
 else
   - var formAction = '/admin/course/create'
   - var buttonTitle = i18n('btnCreateCourse')
-.container(style='width: 65%;')
+
+.container(style="width: 75%; text-align: center;")
+  if controllerAction === 'edit'
+    h1 Edit Course
+    br
+  else
+    h1 Add new course
+    br
   row
     form.form-horizontal(method='POST', action= formAction)
       .col-md-5
@@ -23,7 +30,8 @@ else
           p Professor's Email
           input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
       if controllerAction === 'edit'
-          .form-group
+          
+          .form-group(style="padding-top: 5px;")
             table.table.table-responsive
               thead
                 tr
@@ -33,6 +41,8 @@ else
                   th C
                   th D
                   th F
+              br
+              br
               tbody
                 each grade in grades
                   tr
@@ -62,6 +72,7 @@ else
                         input(type='radio', name= grade.grade_id, value='F' checked)
                       else
                         input(type='radio', name= grade.grade_id, value='F')
-          .form-group
+      .form-group(style='text-padding: 5px;')
         button.btn.btn-default(type='submit' style='text-align:center')= buttonTitle
       input(type='hidden', name='_csrf', value='#{_csrf}')
+

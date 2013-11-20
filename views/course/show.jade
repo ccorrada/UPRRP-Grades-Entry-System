@@ -4,7 +4,6 @@ block content
   .container
     include ../_flash_stage
     .main-content
-      include ../_account_controls
       .row
         h1= grades[0].course_code
         form(method='POST', action='/course/' + course_id + '/save')

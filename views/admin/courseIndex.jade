@@ -1,17 +1,23 @@
 extends ../layout
 
 block content
-  .container
+  .container(style="width: 65%")
     include ../_flash_stage
     .main-content
-      include ../_account_controls
       .row
-        .col-md-11
+        .col-md-10
+          h1 Courses
+        .col-md-2
+          a.btn.btn-default(href='/admin/course/new') + Add Course
+        .col-md-11 
           .table-responsive
             table.table
+              thead
+                tr
+                  td 
+                    h3 Course
               each course in courses
                 tr
                   td
                     a(href='/admin/course/edit/#{course.id}') #{course.course_code} - #{course.section} - #{course.session}
-        .col-md-1
-          a.btn.btn-default(href='/admin/course/new') +
+        

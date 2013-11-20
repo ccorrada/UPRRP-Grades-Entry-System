@@ -1,10 +1,9 @@
 extends ../layout
 
 block content
-  .container(style="width: 50%; min-height: 400px;").topSpace1
+  .container(style="width: 50%; min-height: 400px;")
     include ../_flash_stage
     .main-content
-      include ../_account_controls
       .row
         h1= i18n('labelCourseTableHeader')
         table.table

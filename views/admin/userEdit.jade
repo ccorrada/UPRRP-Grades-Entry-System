@@ -1,10 +1,11 @@
 extends ../layout
 
 block content
-  .container
+  .container(style="width: 75%")
     include ../_flash_stage
-    .main-content
-      include ../_account_controls
+  .container(style="width: 25%; text-align: center;")
+      h1 Edit user
+      br
       .row
         form.form-horizontal(method='POST', action='/admin/user/save/#{user.id}', id='edit-user')
           .form-group
