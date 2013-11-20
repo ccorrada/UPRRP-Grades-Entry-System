@@ -55,6 +55,7 @@ module.exports = {
           res.locals.user_id = _.clone(req.session.user.id);
           res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
         }
+        console.log('Empty grades: ', results.rows);
         res.view({grades: results.rows, course_id: course_id_param});
         req.session.flash = []; // Clear flash messages.
       }
