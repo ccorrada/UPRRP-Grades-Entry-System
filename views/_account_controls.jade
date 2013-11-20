@@ -1,5 +1,4 @@
-.row
-  .col-md-12
-    a.btn.btn-default.pull-right(href='/logout')= i18n('btnLogout')
-    if user_id
-      a.btn.btn-default.pull-right(href='/user/' + user_id)= user_name
+.col-md-12(style="padding:10px;")
+	a.btn.btn-default.pull-right(href='/logout')= i18n('btnLogout')
+	if user_id
+		a.btn.btn-default.pull-right(href='/user/' + user_id)= user_name
