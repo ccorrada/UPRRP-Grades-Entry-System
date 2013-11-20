@@ -55,5 +55,6 @@
   "btnCreateUser": "Crear Usuario",
   "noCourseCode": "No entro el codigo de curso.",
   "noSection": "No entro la seccion del curso.",
-  "noSession": "No entro la sesion del curso."
+  "noSession": "No entro la sesion del curso.",
+  "noGradesInCourse": "Este curso no tiene calificaciones."
 }

@@ -1,14 +1,23 @@
 extends ../layout
 
 block content
-  .container
+  .container(style="width: 65%")
     include ../_flash_stage
     .main-content
-      include ../_account_controls
       .row
+        .col-md-10
+          h1 Users
+        .col-md-2
+          a.btn.btn-default(href='/admin/user/new') + Add User
         .col-md-11
           .table-responsive
             table.table
+              thead
+                tr
+                  td 
+                    h3 Email
+                  td 
+                    h3 Privileges
               each user in users
                 tr
                   td
@@ -17,5 +26,4 @@ block content
                     td= i18n('labelAdmin')
                   else
                     td= i18n('labelProfessor')
-        .col-md-1
-          a.btn.btn-default(href='/admin/user/new') +
+        
