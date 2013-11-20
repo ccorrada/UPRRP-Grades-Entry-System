@@ -19,7 +19,7 @@ module.exports = {
 
   invalidPasswordResetToken: buildFlash(false, 'invalidPasswordResetToken'),
 
-  successfullyAddedUser: buildFlash(true, 'successfullyaddedUser'),
+  successfullyAddedUser: buildFlash(true, 'successfullyAddedUser'),
 
   invalidRoleSelected: buildFlash(false, 'invalidRoleSelected'),
 

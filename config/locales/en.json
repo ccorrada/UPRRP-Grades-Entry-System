@@ -55,5 +55,6 @@
   "btnCreateUser": "Create User",
   "noCourseCode": "No course code entered.",
   "noSection": "No section entered.",
-  "noSession": "No session entered."
+  "noSession": "No session entered.",
+  "noGradesInCourse": "This course has no grades."
 }
