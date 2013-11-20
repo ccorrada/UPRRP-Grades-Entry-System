@@ -3,14 +3,27 @@ html
   head
     title UPR:RP - GES
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
-    link(href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css", rel="stylesheet")
+    //- link(href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css", rel="stylesheet")
     // STYLES
-    link(rel="stylesheet", href="/linker/styles/beautiful.css")
+    link(rel="stylesheet", href="/linker/styles/bootstrap.css")
+    link(rel="stylesheet", href="/linker/styles/style.css")
     // STYLES END
   body
+    .navbar.navbar-default.header
+        img(src='/linker/images/logo3.png' width=170)
+        ul.nav.nav-pills.floatleft
+            li.active 
+                a Home
+            li 
+                a Tutorial
+            li 
+                a Help 
+
     block content
-    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
-    script(src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")
+
     // SCRIPTS
-    
+    script(type="text/javascript", src="/linker/js/bootstrap.js")
+    script(type="text/javascript", src="/linker/js/bootstrap.min.js")
     // SCRIPTS END
+  .panel-footer
+    p(style="text-align:center; padding-top:1%; color:#666;") This application is in its Alpha version. 2013 &copy Computer Science Department

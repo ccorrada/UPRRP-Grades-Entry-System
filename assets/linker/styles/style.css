@@ -1,0 +1,39 @@
+.header {
+	background-color:white; 
+	background-repeat: no-repeat; 
+	background-position:center; 
+	padding-left:12%; 
+	padding-top:1%; 
+	padding-bottom:1%; 
+	width:100%
+
+}
+.topSpace1{
+	padding-top:1%; 
+}
+.backGallo{
+	background-image: url('/linker/images/gallo.png');
+	background-repeat: no-repeat; 
+	background-position: 50% 60%;
+}
+
+/*.backGallo{
+	background-image: url('/linker/images/banner1.png');
+	background-repeat: no-repeat; 
+	background-position: 50% 50%;
+	background-size: 100%;
+	color:white;
+}*/
+.floatleft{
+	float:right;
+	padding-top:3%; 
+	padding-right: 20%;
+	/*padding-right: 65%;*/
+}
+.vertical-bar {
+  width: 2px;
+  background-color: gray;
+  height: 150px;
+  opacity: 0.3;
+  margin-left: 50%;
+}
