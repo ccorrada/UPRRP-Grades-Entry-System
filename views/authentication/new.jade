@@ -27,8 +27,8 @@ block content
             .col-md-3
               form.form-horizontal(method='POST', action='/authentication/signup')
                 .form-group
-                  p Haven't an account?
-                  p(style="font-size:75%;") Put your email here
+                  p First time or forgot password?
+                  //- p(style="font-size:75%;") Put your email here
                   input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email', required= true)
                 .form-group
                   button.btn.btn-default(type='submit')= i18n('btnChangePassword')
