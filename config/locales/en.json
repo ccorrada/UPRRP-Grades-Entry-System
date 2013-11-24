@@ -56,5 +56,6 @@
   "noCourseCode": "No course code entered.",
   "noSection": "No section entered.",
   "noSession": "No session entered.",
-  "noGradesInCourse": "This course has no grades."
+  "noGradesInCourse": "This course has no grades.",
+  "emailAlreadyExists": "This email is already taken by another user."
 }

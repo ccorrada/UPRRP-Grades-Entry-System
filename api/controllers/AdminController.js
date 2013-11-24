@@ -69,15 +69,18 @@ module.exports = {
           res.redirect('/admin/index');
         }
     ).fail( function (err) {
-      console.log(require('util').inspect(err, false, null));
-      if (err.ValidationError.email)
-        req.session.flash.push(FlashMessages.noEmailEntered);
-      if (err.ValidationError.role)
-        req.session.flash.push(FlashMessages.invalidRoleSelected);
-      if (err.ValidationError.first_names || err.ValidationError.last_names)
-        req.session.flash.push(FlashMessages.invalidNames);
-      if (err.ValidationError.SSN4)
-        req.session.flash.push(FlashMessages.invalidSSN4);
+      if (err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
+        req.session.flash.push(FlashMessages.emailAlreadyExists)
+      if (err.ValidationError) {
+        if (err.ValidationError.email)
+          req.session.flash.push(FlashMessages.noEmailEntered);
+        if (err.ValidationError.role)
+          req.session.flash.push(FlashMessages.invalidRoleSelected);
+        if (err.ValidationError.first_names || err.ValidationError.last_names)
+          req.session.flash.push(FlashMessages.invalidNames);
+        if (err.ValidationError.SSN4)
+          req.session.flash.push(FlashMessages.invalidSSN4);
+      }
 
       res.redirect('/admin/user/new');
     });

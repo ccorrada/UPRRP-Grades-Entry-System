@@ -56,5 +56,6 @@
   "noCourseCode": "No entro el codigo de curso.",
   "noSection": "No entro la seccion del curso.",
   "noSession": "No entro la sesion del curso.",
-  "noGradesInCourse": "Este curso no tiene calificaciones."
+  "noGradesInCourse": "Este curso no tiene calificaciones.",
+  "emailAlreadyExists": "Este correo electronico ya esta en uso por otro usuario."
 }

@@ -47,5 +47,7 @@ module.exports = {
 
   noSession: buildFlash(false, 'noSession'),
 
-  noSection: buildFlash(false, 'noSection')
+  noSection: buildFlash(false, 'noSection'),
+
+  emailAlreadyExists: buildFlash(false, 'emailAlreadyExists')
 }
