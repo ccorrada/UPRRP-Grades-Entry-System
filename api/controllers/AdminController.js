@@ -69,9 +69,10 @@ module.exports = {
           res.redirect('/admin/index');
         }
     ).fail( function (err) {
-      if (err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
-        req.session.flash.push(FlashMessages.emailAlreadyExists)
+      if (err.detail && err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
+        req.session.flash.push(FlashMessages.emailAlreadyExists);
       if (err.ValidationError) {
+        console.log('got here');
         if (err.ValidationError.email)
           req.session.flash.push(FlashMessages.noEmailEntered);
         if (err.ValidationError.role)
