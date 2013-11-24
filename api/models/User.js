@@ -33,32 +33,37 @@ module.exports = {
 
     first_names: {
       type: 'STRING',
-      required: true
+      required: true,
+      alpha: true
     },
 
     last_names: {
       type: 'STRING',
-      required: true
+      required: true,
+      alpha: true
     },
 
     role: {
       type: 'STRING',
       defaultsTo: 'professor',
       in: ['admin', 'professor'],
-      required: true
+      required: true,
+      alpha: true
     },
 
     SSN4: {
       type: 'STRING',
       required: true,
       minLength: 4,
-      maxLength: 4
+      maxLength: 4,
+      numeric: true
     },
 
     locale: {
       type: 'STRING',
       defaultsTo: 'en',
-      in: ['en', 'es']
+      in: ['en', 'es'],
+      alpha: true
     },
 
     toJSON: function () {
