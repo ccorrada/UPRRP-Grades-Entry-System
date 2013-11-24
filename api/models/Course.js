@@ -14,7 +14,8 @@ module.exports = {
 
     course_code	: {
       type: 'STRING',
-      required: true
+      required: true,
+      alphanumeric: true
     },
 
     user_id	: {
@@ -34,12 +35,14 @@ module.exports = {
 
     session	: {
       type: 'STRING',
-      required: true
+      required: true,
+      alphanumeric: true
     },
 
     section	: {
       type: 'STRING',
-      required: true
+      required: true,
+      alphanumeric: true
     },
 
     dumped_timestamp: {
