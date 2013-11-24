@@ -49,6 +49,12 @@ module.exports = {
       type: 'DATETIME'
     },
 
+    gradeType: {
+      type: 'INTEGER',
+      require: true,
+      in: [0, 1, 2]
+    },
+
     toJSON: function () {
       var obj = this.toObject();
       delete obj.done;
