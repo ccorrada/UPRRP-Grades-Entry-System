@@ -18,6 +18,18 @@ module.exports = {
       minLength: 9,
       maxLength: 9,
       unique: true
+    },
+
+    firstNames: {
+      type: 'STRING',
+      required: true,
+      alpha: true
+    },
+
+    lastNames: {
+      type: 'STRING',
+      reuired: true,
+      alpha: true
     }
   }
 
