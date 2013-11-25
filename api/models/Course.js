@@ -55,6 +55,11 @@ module.exports = {
       in: [0, 1, 2]
     },
 
+    department: {
+      type: 'integer',
+      required: true
+    },
+
     toJSON: function () {
       var obj = this.toObject();
       delete obj.done;
