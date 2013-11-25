@@ -24,7 +24,7 @@ module.exports = {
 
     grade	: {
       type: 'STRING',
-      in: ['A', 'B', 'C', 'D', 'F', 'X', 'PS', 'PN', 'PB', 'P', 'NP', 'NP']
+      in: ['A', 'B', 'C', 'D', 'F', 'X', 'PS', 'PN', 'PB', 'P', 'NP', 'NP', 'W']
     },
 
     incomplete: {
