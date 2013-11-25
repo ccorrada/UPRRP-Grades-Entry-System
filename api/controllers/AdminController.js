@@ -181,56 +181,108 @@ module.exports = {
 
   courseSave: function (req, res) {
 
-    Q(Course.findOne(req.param('id')))
-    .then(function (course) {
-      return Q(User.findOneByEmail(req.param('professorEmail')))
-        .then(function (user) {
-          if (!user)
-            throw new Error('noEmailEntered');
-          var body_array = [];
+    // To unshittify this method, leverage the Q library better: 
+    // http://stackoverflow.com/questions/20184760/how-can-i-trigger-a-single-error-handler-with-nested-promises
 
-          // Need to convert req.body into an array because caolan/async has not merged async.each for objects.
-          for (var key in req.body) {
-            if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'course_code' && key !== 'section' && key !== 'session' && key !== 'professorEmail' && key !== 'id') {
-              // console.log('Key: ' + key + ' Value: ' + req.body[key]);
+    Q(Course.findOne(req.param('id'))).then(function (course) {
 
-              // Is it even necessary to sanitize req.body?
-              var grade_value_clean = require('validator').sanitize(req.body[key]).escape();
-              var grade_id_clean = require('validator').sanitize(key).escape();
-              body_array.push({grade_value: grade_value_clean, grade_id: grade_id_clean});
-            }
+      var gradeDeferred = Q.defer();
+      var tempBody = [];
+
+      User.findOneByEmail(req.param('professorEmail'), function (err, user) {
+        if (!user) {
+          gradeDeferred.reject(new Error('noEmailEntered')); // Is this the correct error we want to return here?
+        }
+
+        for (var key in req.body) {
+          if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'course_code' && key !== 'section' && key !== 'session' && key !== 'professorEmail' && key !== 'id') {
+            var gradeValueClean = require('validator').sanitize(req.body[key]).escape();
+            var gradeIdClean = require('validator').sanitize(key).escape();
+
+            tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean});
           }
+        }
 
-          require('async').each(body_array, function (item, callback) {
-            // console.log(require('util').inspect(item, false, null));
-            var query = 'UPDATE uprrp_ges_grades AS g SET grade = \'' + item.grade_value + '\' WHERE g.id = ' + item.grade_id + ';';
-            Grade.query(query, null, function (err, results) {/* console.log(err || results ) */});
-            callback();
-          }, 
-          function (err) {
-            // Successfully updated grades.
-            course.user_id = user.id;
-            course.section = req.param('section');
-            course.session = req.param('session');
-            course.course_code = req.param('course_code');
-            course.save(function (err) {
-              if (err) {
-                if (err.ValidationError.course_code)
-                  throw new Error('noCourseCode');
-                if (err.ValidationError.session)
-                  throw new Error('noSession');
-                if (err.ValidationError.section)
-                  throw new Error('noSection');
-              }
+        require('async').each(tempBody, function (item, callback) {
+          Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
+            if (course.id !== grade.course_id) {
+              callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
+            } else if (course.gradeType === 0) {
+              if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else if (course.gradeType === 1) {
+              if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else if (course.gradeType === 2) {
+              if (['P', 'NP'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else {
+              callback();
+            }
+          });
+        }, function (err) {
+          if (!err) {
+            // Grades are fine. Resolve promise.
+            gradeDeferred.resolve(true);
+          } else {
+            // At least 1 grade is invalid. Reject promise.
+            gradeDeferred.reject(err);
+          }
+        });
+        
+        return gradeDeferred.promise.then(function (gradesAreFine) {
+          var courseDeferred = Q.defer();
+
+          course.user_id = user.id;
+          course.section = req.param('section');
+          course.session = req.param('session');
+          course.course_code = req.param('course_code');
+          course.validate(function (err) {
+            if (err) {
+              if (err.ValidationError.course_code)
+                courseDeferred.reject(new Error('noCourseCode'));
+              if (err.ValidationError.session)
+                courseDeferred.reject(new Error('noSession'));
+              if (err.ValidationError.section)
+                courseDeferred.reject(new Error('noSection'));
+            } else {
+              courseDeferred.resolve(true);
+            }
+          });
+
+          return courseDeferred.promise.then(function (courseIsFine) {
+            // Grades and Course are valid. Save everything!
+            course.save(function (err) {});
+            require('async').each(tempBody, function (item, callback) {
+              Grade.update({id: item.gradeId}, {grade: item.gradeValue}).done(function (err, grades) {
+                if (err) callback(err);
+                else callback();
+              });
+            }, function (err) {
               req.session.flash.push(FlashMessages.successfullySavedCourse);
               res.redirect('/admin/courses');
             });
           });
+        }).fail(function (err) {
+          // How to avoid this extra handler?
+          // How to have nested promises propagate their errors to just one .fail() handler?
+          // Am I doing this wrong? Fuck it. Ship it.
+          req.session.flash.push(FlashMessages[err.message]);
+          res.redirect('/admin/course/edit/' + req.param('id'));
         });
+      });
     }).fail(function (err) {
+      // I think this can never get called... lol.
+      console.log('Error!');
       console.log(err);
-      req.session.flash.push(FlashMessages[err.message]);
-      res.redirect('/admin/course/edit/' + req.param('id'));
+      // req.session.flash.push(FlashMessages[err.message]);
+      // res.redirect('/admin/course/edit/' + req.param('id'));
     });
   },
 

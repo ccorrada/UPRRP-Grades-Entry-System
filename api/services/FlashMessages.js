@@ -49,5 +49,7 @@ module.exports = {
 
   noSection: buildFlash(false, 'noSection'),
 
-  emailAlreadyExists: buildFlash(false, 'emailAlreadyExists')
+  emailAlreadyExists: buildFlash(false, 'emailAlreadyExists'),
+
+  atleastOneInvalidGrade: buildFlash(false, 'atleastOneInvalidGrade')
 }

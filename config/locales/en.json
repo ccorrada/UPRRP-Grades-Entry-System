@@ -57,5 +57,6 @@
   "noSection": "No section entered.",
   "noSession": "No session entered.",
   "noGradesInCourse": "This course has no grades.",
-  "emailAlreadyExists": "This email is already taken by another user."
+  "emailAlreadyExists": "This email is already taken by another user.",
+  "atleastOneInvalidGrade": "At least one grade is invalid. Please refresh the page and try again."
 }
