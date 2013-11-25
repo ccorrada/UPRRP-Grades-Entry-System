@@ -83,41 +83,49 @@ module.exports = {
         }
       }
 
-      require('async').each(tempBody, function (item, callback) {
-        Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
-          if (course.id !== grade.course_id) {
-            callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
-          } else if (course.gradeType === 0) {
-            if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
+      if (req.body.hasOwnProperty('save_final')) {
+        Grade.find({course_id: req.param('courseId')}, function (err, grades) {
+          if (grades.length !== tempBody.length)
+            gradeDeferred.reject(new Error('allStudentsMustHaveAGrade'));
+        })
+      } else {
+        require('async').each(tempBody, function (item, callback) {
+          Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
+            if (course.id !== grade.course_id) {
+              callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
+            } else if (course.gradeType === 0) {
+              if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else if (course.gradeType === 1) {
+              if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else if (course.gradeType === 2) {
+              if (['P', 'NP'].indexOf(item.gradeValue) === -1)
+                callback(new Error('atleastOneInvalidGrade'));
+              else
+                callback();
+            } else {
               callback();
-          } else if (course.gradeType === 1) {
-            if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
-              callback();
-          } else if (course.gradeType === 2) {
-            if (['P', 'NP'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
-              callback();
+            }
+          });
+        }, function (err) {
+          if (!err) {
+            // Grades are fine. Resolve promise.
+            gradeDeferred.resolve(true);
           } else {
-            callback();
+            // At least 1 grade is invalid. Reject promise.
+            gradeDeferred.reject(err);
           }
         });
-      }, function (err) {
-        if (!err) {
-          // Grades are fine. Resolve promise.
-          gradeDeferred.resolve(true);
-        } else {
-          // At least 1 grade is invalid. Reject promise.
-          gradeDeferred.reject(err);
-        }
-      });
+      }
 
       return gradeDeferred.promise;
     }).then(function (gradesAreFine) {
+      console.log('LOL');
       // Save grades.
       console.log('Success!');
       console.log(tempBody);
@@ -146,8 +154,9 @@ module.exports = {
       });
     }).fail(function (err) {
       // Don't save grades.
-      req.body.flash.push(FlashMessages(err.message));
-      res.redirect('/courses');
+      console.log(err);
+      req.session.flash.push(FlashMessages[err.message]);
+      res.redirect('/course/' + req.param('courseId'));
     });
 
 

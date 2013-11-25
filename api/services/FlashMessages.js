@@ -51,5 +51,7 @@ module.exports = {
 
   emailAlreadyExists: buildFlash(false, 'emailAlreadyExists'),
 
-  atleastOneInvalidGrade: buildFlash(false, 'atleastOneInvalidGrade')
+  atleastOneInvalidGrade: buildFlash(false, 'atleastOneInvalidGrade'),
+
+  allStudentsMustHaveAGrade: buildFlash(false, 'allStudentsMustHaveAGrade')
 }

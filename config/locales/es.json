@@ -58,5 +58,6 @@
   "noSession": "No entro la sesion del curso.",
   "noGradesInCourse": "Este curso no tiene calificaciones.",
   "emailAlreadyExists": "Este correo electronico ya esta en uso por otro usuario.",
-  "atleastOneInvalidGrade": "Al menos una calificación es invalida. Recargue la pagina y trate de nuevo."
+  "atleastOneInvalidGrade": "Al menos una calificación es invalida. Recargue la pagina y trate de nuevo.",
+  "allStudentsMustHaveAGrade": "Todos los estudiantes deben tener una calificación antes de someter."
 }
