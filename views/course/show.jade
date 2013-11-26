@@ -6,30 +6,34 @@ block content
     .main-content
       include ../_account_controls
       .row
-        if gradeType === 0
-          - var gradeLabels = ['A', 'B', 'C', 'D', 'F', 'X', i18n('incompleteLabel')]
-        else if gradeType === 1
-          - var gradeLabels = ['PS', 'PN', 'PB', 'P', 'NP', 'X', i18n('incompleteLabel')]
-        else if gradeType === 2
-          - var gradeLabels = ['P', 'NP', 'X', i18n('incompleteLabel')]
+        - console.log(done);
+        if course.done
+          include ../admin/_course_labels
         else
-          - var invalidGradeType = true
-
-        if grades.length > 0
-          h1= grades[0].course_code
-          form(method='POST', action='/course/' + courseId + '/save')
-            table.table
-              thead
-                tr
-                  th= i18n('labelStudent')
-                  each gradeLabel in gradeLabels
-                    th= gradeLabel
-              include ./_grading_table
-            input(type='hidden', name='_csrf', value='#{_csrf}')
-            button.btn.btn-default(type='submit', name='save_draft')= i18n('btnSaveDraft')
-            button.btn.btn-default(type='submit', name='save_final')= i18n('btnSubmit')
-        else
-          if invalidGradeType
-            h1= i18n('unableToDisplayGrades')
+          if gradeType === 0
+            - var gradeLabels = ['A', 'B', 'C', 'D', 'F', 'X', i18n('incompleteLabel')]
+          else if gradeType === 1
+            - var gradeLabels = ['PS', 'PN', 'PB', 'P', 'NP', 'X', i18n('incompleteLabel')]
+          else if gradeType === 2
+            - var gradeLabels = ['P', 'NP', 'X', i18n('incompleteLabel')]
           else
-            h1= i18n('noGradesInCourse')
+            - var invalidGradeType = true
+
+          if grades.length > 0
+            h1= grades[0].course_code
+            form(method='POST', action='/course/' + courseId + '/save')
+              table.table
+                thead
+                  tr
+                    th= i18n('labelStudent')
+                    each gradeLabel in gradeLabels
+                      th= gradeLabel
+                include ./_grading_table
+              input(type='hidden', name='_csrf', value='#{_csrf}')
+              button.btn.btn-default(type='submit', name='save_draft')= i18n('btnSaveDraft')
+              button.btn.btn-default(type='submit', name='save_final')= i18n('btnSubmit')
+          else
+            if invalidGradeType
+              h1= i18n('unableToDisplayGrades')
+            else
+              h1= i18n('noGradesInCourse')

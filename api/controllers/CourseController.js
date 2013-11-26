@@ -56,14 +56,17 @@ module.exports = {
           res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
         }
 
-        var data = {
-          grades: results.rows,
-          courseId: course_id_param,
-          gradeType: results.rows[0].gradeType
-        };
+        Course.findOne(course_id_param).done(function (err, course) {
+          var data = {
+            grades: results.rows,
+            courseId: course_id_param,
+            gradeType: results.rows[0].gradeType,
+            course: course
+          };
 
-        res.view(data);
-        req.session.flash = []; // Clear flash messages.
+          res.view(data);
+          req.session.flash = []; // Clear flash messages.
+        });
       }
     });
 
