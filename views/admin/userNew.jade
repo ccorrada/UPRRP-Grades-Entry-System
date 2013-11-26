@@ -17,8 +17,7 @@ block content
             input.form-control(type='number', placeholder= i18n('placeholderLastSSN'), name='SSN4', required= true)
           .form-group
             select.form-control(form='new-user', name='role')
-              - var roles = ['admin', 'professor'];
-              for role in roles
+              for role in User.ROLES
                 if user.role === role
                   option(selected='true') #{role}
                 else

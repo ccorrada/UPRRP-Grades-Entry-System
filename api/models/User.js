@@ -71,6 +71,8 @@ module.exports = {
       delete obj.password;
       return obj;
     }
-  }
+  },
+
+  ROLES: ['admin', 'professor', 'dumper']
 
 };
