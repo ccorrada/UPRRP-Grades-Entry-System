@@ -160,7 +160,7 @@ module.exports = {
       User.findOne(course.user_id, function (err, user) {
         // Find all grades in that course.
         var course_id_param = require('validator').sanitize(req.param('id')).escape();
-        var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' +
+        var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value, g.incomplete AS incomplete FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' +
                     course_id_param + ';';
         Grade.query(query, null, function (err, results) {
           // console.log(require('util').inspect(err || results, false, null));
@@ -171,7 +171,15 @@ module.exports = {
             // Results
             res.locals.flash = _.clone(req.session.flash) || [];
             course.professorEmail = user.email;
-            res.view({course: course, grades: results.rows, controllerAction: 'edit'});
+
+            var data = {
+              course: course,
+              grades: results.rows,
+              controllerAction: 'edit',
+              gradeType: course.gradeType
+            };
+
+            res.view(data);
             req.session.flash = []; // Clear flash messages.
           }
         });
@@ -195,11 +203,13 @@ module.exports = {
         }
 
         for (var key in req.body) {
-          if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'course_code' && key !== 'section' && key !== 'session' && key !== 'professorEmail' && key !== 'id') {
+          if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'course_code' && key !== 'section' && key !== 'session' && key !== 'professorEmail' && key !== 'id' && key.indexOf(':inc') === -1) {
             var gradeValueClean = require('validator').sanitize(req.body[key]).escape();
             var gradeIdClean = require('validator').sanitize(key).escape();
+            var gradeIncompleteClean = require('validator').sanitize(req.body[key + ':inc']).escape();
+            var gradeIncompleteCleanValue = gradeIncompleteClean === 'on' ? true : false;
 
-            tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean});
+            tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean, gradeIncomplete: gradeIncompleteCleanValue});
           }
         }
 
@@ -260,7 +270,7 @@ module.exports = {
             // Grades and Course are valid. Save everything!
             course.save(function (err) {});
             require('async').each(tempBody, function (item, callback) {
-              Grade.update({id: item.gradeId}, {grade: item.gradeValue}).done(function (err, grades) {
+              Grade.update({id: item.gradeId}, {grade: item.gradeValue, incomplete: item.gradeIncomplete}).done(function (err, grades) {
                 if (err) callback(err);
                 else callback();
               });

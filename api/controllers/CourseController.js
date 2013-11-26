@@ -41,12 +41,12 @@ module.exports = {
   show: function (req, res) {
     // Find all grades in that course.
     var course_id_param = require('validator').sanitize(req.param('course_id')).escape();
-    var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
+    var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
                 course_id_param + ';';
     Grade.query(query, null, function (err, results) {
       // console.log(require('util').inspect(err || results, false, null));
       if (err) {
-        // No results
+        // No results. Really? Empty results does not return an error. This ain't Rails bro. Fix this. - crzrcn
         console.log(err);
       } else {
         // Results
@@ -56,7 +56,13 @@ module.exports = {
           res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
         }
 
-        res.view({grades: results.rows, course_id: course_id_param});
+        var data = {
+          grades: results.rows,
+          courseId: course_id_param,
+          gradeType: results.rows[0].gradeType
+        };
+
+        res.view(data);
         req.session.flash = []; // Clear flash messages.
       }
     });
@@ -75,63 +81,63 @@ module.exports = {
       var gradeDeferred = Q.defer();
 
       for (var key in req.body) {
-        if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'courseId') {
+        if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'courseId' && key.indexOf(':inc') === -1 ) {
           var gradeValueClean = require('validator').sanitize(req.body[key]).escape();
           var gradeIdClean = require('validator').sanitize(key).escape();
+          var gradeIncompleteClean = require('validator').sanitize(req.body[key + ':inc']).escape();
+          var gradeIncompleteCleanValue = gradeIncompleteClean === 'on' ? true : false;
 
-          tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean});
+          tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean, gradeIncomplete: gradeIncompleteCleanValue});
         }
       }
 
       if (req.body.hasOwnProperty('save_final')) {
-        Grade.find({course_id: req.param('courseId')}, function (err, grades) {
-          if (grades.length !== tempBody.length)
+        Grade.query("SELECT * FROM uprrp_ges_grades WHERE course_id = " + require('validator').sanitize(req.param('courseId')).escape() + " AND grade != 'W';", function (err, grades) {
+          if (grades.rows.length !== tempBody.length)
             gradeDeferred.reject(new Error('allStudentsMustHaveAGrade'));
-        })
-      } else {
-        require('async').each(tempBody, function (item, callback) {
-          Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
-            if (course.id !== grade.course_id) {
-              callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
-            } else if (course.gradeType === 0) {
-              if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
-                callback(new Error('atleastOneInvalidGrade'));
-              else
-                callback();
-            } else if (course.gradeType === 1) {
-              if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
-                callback(new Error('atleastOneInvalidGrade'));
-              else
-                callback();
-            } else if (course.gradeType === 2) {
-              if (['P', 'NP'].indexOf(item.gradeValue) === -1)
-                callback(new Error('atleastOneInvalidGrade'));
-              else
-                callback();
-            } else {
-              callback();
-            }
-          });
-        }, function (err) {
-          if (!err) {
-            // Grades are fine. Resolve promise.
-            gradeDeferred.resolve(true);
-          } else {
-            // At least 1 grade is invalid. Reject promise.
-            gradeDeferred.reject(err);
-          }
         });
       }
 
+      require('async').each(tempBody, function (item, callback) {
+        Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
+          if (course.id !== grade.course_id) {
+            callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
+          } else if (course.gradeType === 0) {
+            if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
+              callback(new Error('atleastOneInvalidGrade'));
+            else
+              callback();
+          } else if (course.gradeType === 1) {
+            if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
+              callback(new Error('atleastOneInvalidGrade'));
+            else
+              callback();
+          } else if (course.gradeType === 2) {
+            if (['P', 'NP'].indexOf(item.gradeValue) === -1)
+              callback(new Error('atleastOneInvalidGrade'));
+            else
+              callback();
+          } else {
+            callback();
+          }
+        });
+      }, function (err) {
+        if (!err) {
+          // Grades are fine. Resolve promise.
+          console.log('Resolved grade promise.')
+          gradeDeferred.resolve(true);
+        } else {
+          // At least 1 grade is invalid. Reject promise.
+          console.log('Rejected grade promise.')
+          gradeDeferred.reject(err);
+        }
+      });
+
       return gradeDeferred.promise;
     }).then(function (gradesAreFine) {
-      console.log('LOL');
       // Save grades.
-      console.log('Success!');
-      console.log(tempBody);
-
       require('async').each(tempBody, function (item, callback) {
-        Grade.update({id: item.gradeId}, {grade: item.gradeValue}).done(function (err, grades) {
+        Grade.update({id: item.gradeId}, {grade: item.gradeValue, incomplete: item.gradeIncomplete}).done(function (err, grades) {
           if (err) callback(err);
           else callback();
         });

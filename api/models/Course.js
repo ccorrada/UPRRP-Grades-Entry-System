@@ -55,7 +55,7 @@ module.exports = {
       in: [0, 1, 2]
     },
 
-    department: {
+    departmentId: {
       type: 'integer',
       required: true
     },

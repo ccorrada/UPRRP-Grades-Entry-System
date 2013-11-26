@@ -14,45 +14,30 @@ form.form-horizontal(method='POST', action= formAction)
   .form-group
     input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
   if controllerAction === 'edit'
-    .form-group
-      table.table.table-responsive
-        thead
-          tr
-            th= i18n('labelStudent')
-            th A
-            th B
-            th C
-            th D
-            th F
-        tbody
-          each grade in grades
+    if gradeType === 0
+      - var gradeLabels = ['A', 'B', 'C', 'D', 'F', 'X', i18n('incompleteLabel')]
+    else if gradeType === 1
+      - var gradeLabels = ['PS', 'PN', 'PB', 'P', 'NP', 'X', i18n('incompleteLabel')]
+    else if gradeType === 2
+      - var gradeLabels = ['P', 'NP', 'X', i18n('incompleteLabel')]
+    else
+      - var invalidGradeType = true
+
+    if grades.length > 0
+      h1= grades[0].course_code
+      form(method='POST', action='/course/' + courseId + '/save')
+        table.table
+          thead
             tr
-              td= grade.student_number
-              td
-                if grade.value === 'A'
-                  input(type='radio', name= grade.grade_id, value='A' checked)
-                else
-                  input(type='radio', name= grade.grade_id, value='A')
-              td
-                if grade.value === 'B'
-                  input(type='radio', name= grade.grade_id, value='B' checked)
-                else
-                  input(type='radio', name= grade.grade_id, value='B')
-              td
-                if grade.value === 'C'
-                  input(type='radio', name= grade.grade_id, value='C' checked)
-                else
-                  input(type='radio', name= grade.grade_id, value='C')
-              td
-                if grade.value === 'D'
-                  input(type='radio', name= grade.grade_id, value='D' checked)
-                else
-                  input(type='radio', name= grade.grade_id, value='D')
-              td
-                if grade.value === 'F'
-                  input(type='radio', name= grade.grade_id, value='F' checked)
-                else
-                  input(type='radio', name= grade.grade_id, value='F')
-  .form-group
-    button.btn.btn-default(type='submit')= buttonTitle
-  input(type='hidden', name='_csrf', value='#{_csrf}')
+              th= i18n('labelStudent')
+              each gradeLabel in gradeLabels
+                th= gradeLabel
+          include ../course/_grading_table
+        .form-group
+          button.btn.btn-default(type='submit')= buttonTitle
+        input(type='hidden', name='_csrf', value='#{_csrf}')
+    else
+      if invalidGradeType
+        h1= i18n('unableToDisplayGrades')
+      else
+        h1= i18n('noGradesInCourse')
