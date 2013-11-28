@@ -74,134 +74,99 @@ module.exports = {
 
   save: function (req, res) {
 
-    // To unshittify this method, leverage the Q library better: 
-    // http://stackoverflow.com/questions/20184760/how-can-i-trigger-a-single-error-handler-with-nested-promises
+    var sanitizeInput = function (input) {
+      return require('validator').sanitize(input).escape();
+    };
 
-    var tempBody = [];
+    var allStudentsHaveGrades = true
+      , allGradesBelongTocourse = true
+      , saveFinal = false
+      , studentGrades = {}
+      , courseId = sanitizeInput(req.param('courseId'))
+      , courseGradeType = null;
 
-    Q(Course.findOne(req.param('courseId'))).then(function (course) {
+    // The server receives grades in an object with the format of {gradeId: gradeValue} values. 
+    // Where gradeId is a number or a numeric string.
+    for (var key in req.body) {
+      if (req.body.hasOwnProperty(key)) {
+        if (key === 'save_final') saveFinal = true;
+        else if (new RegExp(/^[0-9]+$/).exec(key) !== null) {
+          var tempGrade = {};
+          tempGrade.id = key;
+          tempGrade.value = sanitizeInput(req.body[key]).toLowerCase();
+          tempGrade.incomplete = req.body[key + ':inc'] === 'on' ? true : false;
 
-      var gradeDeferred = Q.defer();
+          studentGrades[key] = tempGrade;
+        }
+      }
+    }
 
-      for (var key in req.body) {
-        if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf' && key !== 'courseId' && key.indexOf(':inc') === -1 ) {
-          var gradeValueClean = require('validator').sanitize(req.body[key]).escape();
-          var gradeIdClean = require('validator').sanitize(key).escape();
-          var gradeIncompleteClean = require('validator').sanitize(req.body[key + ':inc']).escape();
-          var gradeIncompleteCleanValue = gradeIncompleteClean === 'on' ? true : false;
+    Q(Grade.count().where({course_id: courseId}).where({grade: {'!': 'w'}})).then(function (activeGradeCount) {
+      // We do not count W grades because the form does not send blank grades or grades with W.
+      // If activeGradecount !== the number of grades we got the from form then it means that not all students were set
+      // a grade.
+      if (saveFinal && activeGradeCount !== Object.getOwnPropertyNames(studentGrades).length)
+        throw new Error('allStudentsMustHaveAGrade');
 
-          tempBody.push({gradeValue: gradeValueClean, gradeId: gradeIdClean, gradeIncomplete: gradeIncompleteCleanValue});
+      return Course.findOne().where({id: courseId});
+    }).then(function (course) {
+      // Get course's gradeType
+      courseGradeType = course.gradeType;
+
+      return Grade.find().where({course_id: courseId}).where({grade: {'!': 'w'}});
+    }).then(function (grades) { 
+
+      var gradesAreFinePromise = Q.defer();
+
+      if (saveFinal) {
+        for (var i = 0; i < grades.length; i++) {
+          if (studentGrades.hasOwnProperty(grades[i].id) && Grade.GRADE_TYPES[courseGradeType].indexOf(studentGrades[grades[i].id].value) !== -1) {}
+          else
+            gradesAreFinePromise.reject(new Error('atleastOneInvalidGrade'));
         }
       }
 
-      if (req.body.hasOwnProperty('save_final')) {
-        Grade.query("SELECT * FROM uprrp_ges_grades WHERE course_id = " + require('validator').sanitize(req.param('courseId')).escape() + " AND grade != 'W';", function (err, grades) {
-          if (grades.rows.length !== tempBody.length)
-            gradeDeferred.reject(new Error('allStudentsMustHaveAGrade'));
-        });
-      }
+      gradesAreFinePromise.resolve(true);
 
-      require('async').each(tempBody, function (item, callback) {
-        Grade.findOne({id: item.gradeId, course_id: course.id}, function (err, grade) {
-          if (course.id !== grade.course_id) {
-            callback(new Error('atleastOneInvalidGrade')); // This grade does not belong to the given course.
-          } else if (course.gradeType === 0) {
-            if (['A', 'B', 'C', 'D', 'F', 'X'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
-              callback();
-          } else if (course.gradeType === 1) {
-            if (['PS', 'PN', 'PB', 'P', 'NP'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
-              callback();
-          } else if (course.gradeType === 2) {
-            if (['P', 'NP'].indexOf(item.gradeValue) === -1)
-              callback(new Error('atleastOneInvalidGrade'));
-            else
-              callback();
-          } else {
-            callback();
-          }
-        });
-      }, function (err) {
-        if (!err) {
-          // Grades are fine. Resolve promise.
-          console.log('Resolved grade promise.')
-          gradeDeferred.resolve(true);
-        } else {
-          // At least 1 grade is invalid. Reject promise.
-          console.log('Rejected grade promise.')
-          gradeDeferred.reject(err);
-        }
-      });
-
-      return gradeDeferred.promise;
+      return gradesAreFinePromise.promise;
     }).then(function (gradesAreFine) {
-      // Save grades.
-      require('async').each(tempBody, function (item, callback) {
-        Grade.update({id: item.gradeId}, {grade: item.gradeValue, incomplete: item.gradeIncomplete}).done(function (err, grades) {
-          if (err) callback(err);
-          else callback();
-        });
+      var savePromise = Q.defer();
+      // Save studentGrades.
+      require('async').forEachOf(studentGrades, function (value, key, callback) {
+        Grade.update({id: key}, {grade: value.value, incomplete: value.incomplete}).done(function (err, g) {});
+        callback();
       }, function (err) {
-        // All grades updated.
-        if (req.body.hasOwnProperty('save_draft')) 
-          req.session.flash.push(FlashMessages.successfulDraftSave);
-        if (req.body.hasOwnProperty('save_final')) {
-          req.session.flash.push(FlashMessages.successfulFinalSave);
-          Course.findOne(req.param('courseId'), function (err, course) {
-            course.done = true;
-            course.save(function (err) {});
-            Mailer.sendProgressReportEmail({
-              email: req.session.user.email,
-              res: res
-            }, function () {});
-          });
+        if (err) savePromise.reject();
+        else {
+          if (saveFinal) {
+            Course.update({id: courseId}, {done: true}).done(function (err, course) {
+              if (err) savePromise.reject();
+              else {
+                savePromise.resolve(true);
+                Mailer.sendProgressReportEmail({
+                  email: req.session.user.email,
+                  res: res
+                }, function () {});
+              }
+            });
+          } else {
+            savePromise.resolve(true);
+          }
         }
-        res.redirect('/courses');
       });
+
+      return savePromise.promise;
+    }).then(function (gradesAreSaved) {
+      if (saveFinal) req.session.flash.push(FlashMessages.successfulFinalSave);
+      else req.session.flash.push(FlashMessages.successfulDraftSave);
+
+      res.redirect('/courses');
     }).fail(function (err) {
-      // Don't save grades.
       console.log(err);
+
       req.session.flash.push(FlashMessages[err.message]);
-      res.redirect('/course/' + req.param('courseId'));
+      res.redirect('/course/' + courseId);
     });
-
-
-
-    // var body_array = [];
-
-    // // Need to convert req.body into an array because caolan/async has not merged async.each for objects.
-    // for (var key in req.body) {
-    //   if (req.body.hasOwnProperty(key) && key !== 'save_draft' && key !== 'save_final' && key !== '_csrf') {
-    //     // console.log('Key: ' + key + ' Value: ' + req.body[key]);
-
-    //     var grade_value_clean = require('validator').sanitize(req.body[key]).escape();
-    //     var grade_id_clean = require('validator').sanitize(key).escape();
-    //     body_array.push({grade_value: grade_value_clean, grade_id: grade_id_clean});
-    //   }
-    // }
-    // require('async').each(body_array, function (item, callback) {
-    //   // console.log(require('util').inspect(item, false, null));
-    //   var query = 'UPDATE uprrp_ges_grades AS g SET grade = \'' + item.grade_value + '\' WHERE g.id = ' + item.grade_id + ';';
-    //   Grade.query(query, null, function (err, results) {/* console.log(err || results ) */});
-    //   callback();
-    // }, function (err) {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     // Successfully updated grades.
-
-    //     // If a draft was saved:
-    //     // Add the draft saved success flash message.
-    //     // If save was final:
-    //     // Add the final saved success flash message.
-    //     // Send email with report.
-    //     // Send back to course list.
-        
-    //   }
-    // });
   },
 
 

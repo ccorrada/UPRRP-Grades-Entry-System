@@ -6,17 +6,10 @@ block content
     .main-content
       include ../_account_controls
       .row
-        - console.log(done);
         if course.done
           include ../admin/_course_labels
         else
-          if gradeType === 0
-            - var gradeLabels = ['A', 'B', 'C', 'D', 'F', 'X', i18n('incompleteLabel')]
-          else if gradeType === 1
-            - var gradeLabels = ['PS', 'PN', 'PB', 'P', 'NP', 'X', i18n('incompleteLabel')]
-          else if gradeType === 2
-            - var gradeLabels = ['P', 'NP', 'X', i18n('incompleteLabel')]
-          else
+          if gradeType !== 0 || gradeType !== 1 || gradeType !== 2
             - var invalidGradeType = true
 
           if grades.length > 0
@@ -26,8 +19,8 @@ block content
                 thead
                   tr
                     th= i18n('labelStudent')
-                    each gradeLabel in gradeLabels
-                      th= gradeLabel
+                    each gradeLabel in Grade.GRADE_TYPES[gradeType]
+                      th= gradeLabel.toUpperCase()
                 include ./_grading_table
               input(type='hidden', name='_csrf', value='#{_csrf}')
               button.btn.btn-default(type='submit', name='save_draft')= i18n('btnSaveDraft')

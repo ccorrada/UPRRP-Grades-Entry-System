@@ -45,7 +45,7 @@ module.exports.routes = {
   'get /admin/courses': 'AdminController.courseIndex',
   'get /admin/course/new': 'AdminController.courseNew',
   'get /admin/course/edit/:id': 'AdminController.courseEdit',
-  'post /admin/course/save/:id': 'AdminController.courseSave',
+  'post /admin/course/save/:courseId': 'AdminController.courseSave',
   'post /admin/course/create': 'AdminController.courseCreate',
   'get /logout': 'AuthenticationController.destroy',
   'get /user/:id': 'UserController.show',
