@@ -24,7 +24,7 @@ module.exports = {
 
     grade	: {
       type: 'STRING',
-      in: ['A', 'B', 'C', 'D', 'F', 'X', 'PS', 'PN', 'PB', 'P', 'NP', 'NP', 'W']
+      in: ['a', 'b', 'c', 'd', 'f', 'x', 'ps', 'pn', 'pb', 'p', 'np', 'w']
     },
 
     incomplete: {
@@ -33,6 +33,12 @@ module.exports = {
       required: true
     }
   },
+
+  GRADE_TYPES: [
+    ['a', 'b', 'c', 'd', 'f', 'x'],
+    ['ps', 'pn', 'pb', 'p', 'np'],
+    ['p', 'np']
+  ],
 
   beforeCreate: function (values, next) {
     Grade.find()
