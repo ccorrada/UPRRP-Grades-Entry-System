@@ -188,29 +188,10 @@ module.exports = {
 
   courseSave: function (req, res) {
 
-    var sanitizeInput = function (input) {
-      return require('validator').sanitize(input).escape();
-    };
-
-    var studentGrades = {}
+    var studentGrades = Utils.parseGradesFromForm(req.body)
       , gradeType = null
-      , courseId = sanitizeInput(req.param('courseId'))
+      , courseId = Utils.sanitizeInput(req.param('courseId'))
       , userId = null;
-
-    // The server receives grades in an object with the format of {gradeId: gradeValue} values. 
-    // Where gradeId is a number or a numeric string.
-    for (var key in req.body) {
-      if (req.body.hasOwnProperty(key)) {
-        if (new RegExp(/^[0-9]+$/).exec(key) !== null) {
-          var tempGrade = {};
-          tempGrade.id = key;
-          tempGrade.value = sanitizeInput(req.body[key]).toLowerCase();
-          tempGrade.incomplete = req.body[key + ':inc'] === 'on' ? true : false;
-
-          studentGrades[key] = tempGrade;
-        }
-      }
-    }
 
     Q(User.findOne().where({email: req.param('professorEmail')})).then(function (user) {
       if (!user) throw new Error('noEmailEntered'); // Is this the correct error?

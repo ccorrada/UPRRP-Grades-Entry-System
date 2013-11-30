@@ -41,7 +41,7 @@ module.exports = {
   show: function (req, res) {
     // Find all grades in that course.
     var course_id_param = require('validator').sanitize(req.param('course_id')).escape();
-    var query = 'SELECT g.id AS grade_id, s.student_number, s.first_names, s.last_names, g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
+    var query = 'SELECT g.id AS grade_id, s.student_number, s."firstNames", s."lastNames", g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
                 course_id_param + ';';
     Grade.query(query, null, function (err, results) {
       // console.log(require('util').inspect(err || results, false, null));
@@ -73,32 +73,14 @@ module.exports = {
 
   save: function (req, res) {
 
-    var sanitizeInput = function (input) {
-      return require('validator').sanitize(input).escape();
-    };
-
     var allStudentsHaveGrades = true
       , allGradesBelongTocourse = true
       , saveFinal = false
-      , studentGrades = {}
-      , courseId = sanitizeInput(req.param('courseId'))
+      , studentGrades = Utils.parseGradesFromForm(req.body)
+      , courseId = Utils.sanitizeInput(req.param('courseId'))
       , courseGradeType = null;
 
-    // The server receives grades in an object with the format of {gradeId: gradeValue} values. 
-    // Where gradeId is a number or a numeric string.
-    for (var key in req.body) {
-      if (req.body.hasOwnProperty(key)) {
-        if (key === 'save_final') saveFinal = true;
-        else if (new RegExp(/^[0-9]+$/).exec(key) !== null) {
-          var tempGrade = {};
-          tempGrade.id = key;
-          tempGrade.value = sanitizeInput(req.body[key]).toLowerCase();
-          tempGrade.incomplete = req.body[key + ':inc'] === 'on' ? true : false;
-
-          studentGrades[key] = tempGrade;
-        }
-      }
-    }
+    if (req.body.hasOwnProperty('save_final')) saveFinal = true;
 
     Q(Grade.count().where({course_id: courseId}).where({grade: {'!': 'w'}})).then(function (activeGradeCount) {
       // We do not count W grades because the form does not send blank grades or grades with W.
