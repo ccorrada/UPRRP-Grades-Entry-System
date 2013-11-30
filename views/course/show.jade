@@ -9,10 +9,7 @@ block content
         if course.done
           include ../admin/_course_labels
         else
-          if gradeType !== 0 || gradeType !== 1 || gradeType !== 2
-            - var invalidGradeType = true
-
-          if grades.length > 0
+          if grades.length > 0 && gradeType
             h1= grades[0].course_code
             form(method='POST', action='/course/' + courseId + '/save')
               table.table
@@ -26,7 +23,4 @@ block content
               button.btn.btn-default(type='submit', name='save_draft')= i18n('btnSaveDraft')
               button.btn.btn-default(type='submit', name='save_final')= i18n('btnSubmit')
           else
-            if invalidGradeType
-              h1= i18n('unableToDisplayGrades')
-            else
-              h1= i18n('noGradesInCourse')
+            h1= i18n('unableToDisplayGrades')

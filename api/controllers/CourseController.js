@@ -41,13 +41,12 @@ module.exports = {
   show: function (req, res) {
     // Find all grades in that course.
     var course_id_param = require('validator').sanitize(req.param('course_id')).escape();
-    var query = 'SELECT g.id AS grade_id, s.student_number, g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
+    var query = 'SELECT g.id AS grade_id, s.student_number, s.first_names, s.last_names, g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
                 course_id_param + ';';
     Grade.query(query, null, function (err, results) {
       // console.log(require('util').inspect(err || results, false, null));
       if (err) {
-        // No results. Really? Empty results does not return an error. This ain't Rails bro. Fix this. - crzrcn
-        console.log(err);
+        // No results.
       } else {
         // Results
         res.locals.flash = _.clone(req.session.flash) || [];
@@ -60,7 +59,7 @@ module.exports = {
           var data = {
             grades: results.rows,
             courseId: course_id_param,
-            gradeType: results.rows[0].gradeType,
+            gradeType: results.rows[0] ? results.rows[0].gradeType : null,
             course: course
           };
 
