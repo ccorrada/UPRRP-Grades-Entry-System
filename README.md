@@ -3,7 +3,7 @@ UPRRP Grade Entry System
 
 [![Code Climate](https://codeclimate.com/github/crzrcn/UPRRP-Grades-Entry-System.png)](https://codeclimate.com/github/crzrcn/UPRRP-Grades-Entry-System)
 
-[Demo](http://uprrp-ges.herokuapp.com/)
+<!-- [Demo](http://uprrp-ges.herokuapp.com/) -->
 
 # Index
 
@@ -30,6 +30,7 @@ UPRRP Grade Entry System
 3. Install [Heroku Toolbelt](https://toolbelt.heroku.com/).
 4. Install [Sails.js](http://sailsjs.org/#!getStarted) with `sudo npm install -g sails`.
 4. Download [Postgres.app](http://postgresapp.com/) ([Instructions](http://www.postgresql.org/download/linux/ubuntu/) for Ubuntu).
+4. Download & install [REDIS](http://redis.io/topics/quickstart) for session storing.
 4. Clone repo with `git clone git@github.com:crzrcn/UPRRP-Grades-Entry-System.git`.
 5. Install Node.js dependencies with `npm install`.
 6. Run app with `foreman start -f Procfile_dev`.
