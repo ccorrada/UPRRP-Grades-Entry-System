@@ -13,7 +13,7 @@ form.form-horizontal(method='POST', action= formAction)
     input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
   .form-group
     input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
-  if grades.length > 0 && gradeType
+  if grades.length > 0 && typeof gradeType === 'number'
     h1= grades[0].course_code
     table.table
       thead

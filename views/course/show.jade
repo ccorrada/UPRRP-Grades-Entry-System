@@ -9,7 +9,7 @@ block content
         if course.done
           include ../admin/_course_labels
         else
-          if grades.length > 0 && gradeType
+          if grades.length > 0 && typeof gradeType === 'number'
             h1= grades[0].course_code
             form(method='POST', action='/course/' + courseId + '/save')
               table.table
