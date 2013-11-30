@@ -24,6 +24,6 @@ form.form-horizontal(method='POST', action= formAction)
       include ../course/_grading_table
   else
     h1= i18n('unableToDisplayGrades')
-    .form-group
-      button.btn.btn-default(type='submit')= buttonTitle
-    input(type='hidden', name='_csrf', value='#{_csrf}')
+  .form-group
+    button.btn.btn-default(type='submit')= buttonTitle
+  input(type='hidden', name='_csrf', value='#{_csrf}')
