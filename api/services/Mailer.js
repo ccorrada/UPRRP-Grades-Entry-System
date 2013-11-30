@@ -77,5 +77,21 @@ module.exports = {
         callback();
       });
     });
+  },
+
+  sendCourseReport: function (data, callback) {
+    transport.sendEmail({
+      from: process.env.EMAIL_USERNAME,
+      to: data.profEmail,
+      subject: 'Missing or wrong course.',
+      text: data.text
+    }, function (err, response) {
+      if (error) {
+        console.log(require('util').inspect(error));
+      } else {
+        // console.log(response.message);
+      }
+      callback();
+    });
   }
 }

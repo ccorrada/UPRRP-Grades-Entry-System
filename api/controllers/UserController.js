@@ -64,7 +64,16 @@ module.exports = {
     });
   },
 
-
+  report: function (req, res) {
+    User.findOne(req.param('userId')).then(function (user) {
+      Mailer.sendCourseReport({
+        to: user.email,
+        text: req.body.message
+      }, function () {});
+    }).fail(function (err) {
+      console.log(err);
+    });
+  },
 
 
   /**
