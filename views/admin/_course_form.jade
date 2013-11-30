@@ -13,31 +13,17 @@ form.form-horizontal(method='POST', action= formAction)
     input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
   .form-group
     input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
-  if controllerAction === 'edit'
-    if gradeType === 0
-      - var gradeLabels = ['A', 'B', 'C', 'D', 'F', 'X', i18n('incompleteLabel')]
-    else if gradeType === 1
-      - var gradeLabels = ['PS', 'PN', 'PB', 'P', 'NP', 'X', i18n('incompleteLabel')]
-    else if gradeType === 2
-      - var gradeLabels = ['P', 'NP', 'X', i18n('incompleteLabel')]
-    else
-      - var invalidGradeType = true
-
-    if grades.length > 0
-      h1= grades[0].course_code
-      form(method='POST', action='/course/' + courseId + '/save')
-        table.table
-          thead
-            tr
-              th= i18n('labelStudent')
-              each gradeLabel in gradeLabels
-                th= gradeLabel
-          include ../course/_grading_table
-        .form-group
-          button.btn.btn-default(type='submit')= buttonTitle
-        input(type='hidden', name='_csrf', value='#{_csrf}')
-    else
-      if invalidGradeType
-        h1= i18n('unableToDisplayGrades')
-      else
-        h1= i18n('noGradesInCourse')
+  if grades.length > 0 && gradeType
+    h1= grades[0].course_code
+    table.table
+      thead
+        tr
+          th= i18n('labelStudent')
+          each gradeLabel in Grade.GRADE_TYPES[gradeType]
+            th= gradeLabel
+      include ../course/_grading_table
+  else
+    h1= i18n('unableToDisplayGrades')
+    .form-group
+      button.btn.btn-default(type='submit')= buttonTitle
+    input(type='hidden', name='_csrf', value='#{_csrf}')
