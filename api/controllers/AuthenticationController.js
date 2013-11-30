@@ -24,7 +24,6 @@ module.exports = {
    *    `/authentication/new`
    */
    new: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
     if (req.session.user) {
       res.locals.user_id = _.clone(req.session.user.id);
       res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
@@ -38,7 +37,6 @@ module.exports = {
     } else {
       res.view();
     }
-    req.session.flash = []; // Clear flash messages.
   },
 
 
@@ -47,8 +45,6 @@ module.exports = {
    *    `/authentication/create`
    */
    signup: function (req, res) {
-
-    req.session.flash = [];
 
     var current_email = req.param('email');
 
@@ -59,11 +55,11 @@ module.exports = {
       user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
       user.save(function (err) {
         Mailer.sendActivationEmail(user.email, user.passwordResetToken, res, function () {});
-        req.session.flash.push(FlashMessages.requestPasswordResetLink);
+        req.flash('success', FlashMessages.requestPasswordResetLink);
         res.redirect('/');
       });
     }).fail(function (err) {
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/');  
     });
   },
@@ -77,16 +73,10 @@ module.exports = {
     
     req.session.destroy();
 
-    // req.session.flash = [];
-
-    // req.session.flash.push(FlashMessages.successfulLogout);
-
     res.redirect('/');
   },
 
   login: function (req, res) {
-
-    req.session.flash = [];
 
     var current_email = req.param('email');
     var current_password = req.param('password');
@@ -109,7 +99,7 @@ module.exports = {
         }
       });
     }).fail(function (err) {
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/');
     });
   },

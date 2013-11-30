@@ -1,57 +1,53 @@
 // Flash messages come from here.
 
-var buildFlash = function (flash_result, flash_message) {
-  return {result: flash_result, message: flash_message}
-}
-
 module.exports = {
-  invalidCredentials: buildFlash(false, 'invalidCredentials'),
+  invalidCredentials: 'invalidCredentials',
 
-  emptyPasswordChange: buildFlash(false, 'emptyPasswordChange'),
+  emptyPasswordChange: 'emptyPasswordChange',
 
-  successfulLogout: buildFlash(true, 'successfulLogout'),
+  successfulLogout: 'successfulLogout',
 
-  noEmailEntered: buildFlash(false, 'noEmailEntered'),
+  noEmailEntered: 'noEmailEntered',
 
-  successfulPasswordChange: buildFlash(true, 'successfulPasswordChange'),
+  successfulPasswordChange: 'successfulPasswordChange',
 
-  requestPasswordResetLink: buildFlash(true, 'requestPasswordResetLink'),
+  requestPasswordResetLink: 'requestPasswordResetLink',
 
-  invalidPasswordResetToken: buildFlash(false, 'invalidPasswordResetToken'),
+  invalidPasswordResetToken: 'invalidPasswordResetToken',
 
-  successfullyAddedUser: buildFlash(true, 'successfullyAddedUser'),
+  successfullyAddedUser: 'successfullyAddedUser',
 
-  invalidRoleSelected: buildFlash(false, 'invalidRoleSelected'),
+  invalidRoleSelected: 'invalidRoleSelected',
 
-  invalidNames: buildFlash(false, 'invalidNames'),
+  invalidNames: 'invalidNames',
 
-  invalidSSN4: buildFlash(false, 'invalidSSN4'),
+  invalidSSN4: 'invalidSSN4',
 
-  successfulDraftSave: buildFlash(true, 'successfulDraftSave'),
+  successfulDraftSave: 'successfulDraftSave',
 
-  successfulFinalSave: buildFlash(true, 'successfulFinalSave'),
+  successfulFinalSave: 'successfulFinalSave',
 
-  noProfessorWithEmail: buildFlash(false, 'noProfessorWithEmail'),
+  noProfessorWithEmail: 'noProfessorWithEmail',
 
-  successfulCourseCreation: buildFlash(true, 'successfulCourseCreation'),
+  successfulCourseCreation: 'successfulCourseCreation',
 
-  localeSaved: buildFlash(true, 'localeSaved'),
+  localeSaved: 'localeSaved',
 
-  userDoesNotExist: buildFlash(false, 'userDoesNotExist'),
+  userDoesNotExist: 'userDoesNotExist',
 
-  successfullySavedCourse: buildFlash(true, 'successfullySavedCourse'),
+  successfullySavedCourse: 'successfullySavedCourse',
 
-  successfullySavedUser: buildFlash(true, 'successfullySavedUser'),
+  successfullySavedUser: 'successfullySavedUser',
 
-  noCourseCode: buildFlash(false, 'noCourseCode'),
+  noCourseCode: 'noCourseCode',
 
-  noSession: buildFlash(false, 'noSession'),
+  noSession: 'noSession',
 
-  noSection: buildFlash(false, 'noSection'),
+  noSection: 'noSection',
 
-  emailAlreadyExists: buildFlash(false, 'emailAlreadyExists'),
+  emailAlreadyExists: 'emailAlreadyExists',
 
-  atleastOneInvalidGrade: buildFlash(false, 'atleastOneInvalidGrade'),
+  atleastOneInvalidGrade: 'atleastOneInvalidGrade',
 
-  allStudentsMustHaveAGrade: buildFlash(false, 'allStudentsMustHaveAGrade')
+  allStudentsMustHaveAGrade: 'allStudentsMustHaveAGrade'
 }

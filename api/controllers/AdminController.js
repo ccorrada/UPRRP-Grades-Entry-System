@@ -26,16 +26,12 @@ module.exports = {
    *    `/admin`
    */
   index: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
     res.view();
-    req.session.flash = []; // Clear flash messages.
   },
 
   userIndex: function (req, res) {
     User.find().done(function (err, users) {
-      res.locals.flash = _.clone(req.session.flash) || [];
       res.view({users: users});
-      req.session.flash = []; // Clear flash messages.
     });
   },
 
@@ -45,10 +41,8 @@ module.exports = {
    *    `/admin/new`
    */
    userNew: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
     res.locals.user = _.clone(req.session.user);
     res.view();
-    req.session.flash = []; // Clear flash messages.
   },
 
 
@@ -65,21 +59,21 @@ module.exports = {
       SSN4: parseInt(req.param('SSN4'),10)
     }).then(
         function (user) {
-          req.session.flash.push(FlashMessages.successfullyAddedUser);
+          req.flash('success', FlashMessages.successfullyAddedUser);
           res.redirect('/admin/index');
         }
     ).fail( function (err) {
       if (err.detail && err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
-        req.session.flash.push(FlashMessages.emailAlreadyExists);
+        req.flash('danger', FlashMessages.emailAlreadyExists);
       if (err.ValidationError) {
         if (err.ValidationError.email)
-          req.session.flash.push(FlashMessages.noEmailEntered);
+          req.flash('danger', FlashMessages.noEmailEntered);
         if (err.ValidationError.role)
-          req.session.flash.push(FlashMessages.invalidRoleSelected);
+          req.flash('danger', FlashMessages.invalidRoleSelected);
         if (err.ValidationError.first_names || err.ValidationError.last_names)
-          req.session.flash.push(FlashMessages.invalidNames);
+          req.flash('danger', FlashMessages.invalidNames);
         if (err.ValidationError.SSN4)
-          req.session.flash.push(FlashMessages.invalidSSN4);
+          req.flash('danger', FlashMessages.invalidSSN4);
       }
 
       res.redirect('/admin/user/new');
@@ -92,9 +86,7 @@ module.exports = {
    *    `/admin/edit/:id`
    */
   userEdit: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
-    User.findOne(req.param('id'))
-    .then(
+    User.findOne(req.param('id')).then(
       function (user){
         //Capture if user is undefined
         if (!user) {return res.send('Sorry, cant find that', 404);}
@@ -102,7 +94,6 @@ module.exports = {
     },function (err) {
         res.send('Sorry, cant find that', 404);
     });
-    req.session.flash = []; // Clear flash messages.
   },
 
   /**
@@ -110,7 +101,6 @@ module.exports = {
    *    `/admin/save/:id`
    */
    userSave: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
 
     Q(User.findOne(req.param('id')))
     .then(function (user) {
@@ -128,11 +118,11 @@ module.exports = {
           if (err.ValidationError.email)
             throw new Error('noEmailEntered');
         }
-        req.session.flash.push(FlashMessages.successfullySavedUser);
+        req.flash('success', FlashMessages.successfullySavedUser);
         res.redirect('/admin/users');
       });
     }).fail(function (err) {
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/admin/user/edit/' + req.param('id'));
     });
   },
@@ -140,18 +130,14 @@ module.exports = {
   courseIndex: function (req, res) {
     Course.find()
     .then(function (courses) {
-      res.locals.flash = _.clone(req.session.flash) || [];
       res.view({courses: courses});
-      req.session.flash = []; // Clear flash messages.
     }, function (err) {
       console.log(err);
     });
   },
 
   courseNew: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
     res.view({course: {}});
-    req.session.flash = []; // Clear flash messages.
   },
 
   courseEdit: function (req, res) {
@@ -168,7 +154,6 @@ module.exports = {
             console.log(err);
           } else {
             // Results
-            res.locals.flash = _.clone(req.session.flash) || [];
             course.professorEmail = user.email;
 
             var data = {
@@ -179,7 +164,6 @@ module.exports = {
             };
 
             res.view(data);
-            req.session.flash = []; // Clear flash messages.
           }
         });
       });
@@ -247,18 +231,17 @@ module.exports = {
 
       return savePromise.promise;
     }).then(function (courseAndGradeAreSaved) {
-      req.session.flash.push(FlashMessages.successfullySavedCourse);
+      req.flash('success', FlashMessages.successfullySavedCourse);
       res.redirect('/admin/courses');
     }).fail(function (err) {
       console.log(err);
 
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/admin/course/edit/' + courseId);
     });
   },
 
   courseCreate: function (req, res) {
-    req.session.flash = [];
 
     var options = {
       email: req.param('professorEmail'), 
@@ -275,19 +258,19 @@ module.exports = {
         session: req.param('session'),
         course_code: req.param('course_code')
       }).then(function (user) {
-        req.session.flash.push(FlashMessages.successfulCourseCreation);
+        req.flash('success', FlashMessages.successfulCourseCreation);
         res.redirect('/admin/courses');
       });
     }).fail(function (err) {
       if (err.message)
-        req.session.flash.push(FlashMessages[err.message]);
+        req.flash('danger', FlashMessages[err.message]);
       else {
         if (err.ValidationError.course_code)
-          req.session.flash.push(FlashMessages['noCourseCode']);
+          req.flash('danger', FlashMessages['noCourseCode']);
         if (err.ValidationError.session)
-          req.session.flash.push(FlashMessages['noSession']);
+          req.flash('danger', FlashMessages['noSession']);
         if (err.ValidationError.section)
-          req.session.flash.push(FlashMessages['noSection']);
+          req.flash('danger', FlashMessages['noSection']);
       }
       res.redirect('/admin/course/new');
     });

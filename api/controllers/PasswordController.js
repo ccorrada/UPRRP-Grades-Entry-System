@@ -25,9 +25,7 @@ module.exports = {
    *    `/password/new`
    */
    new: function (req, res) {
-    res.locals.flash = _.clone(req.session.flash) || [];
     res.view({token: req.param('token')});
-    req.session.flash = []; // Clear flash messages.
   },
 
 
@@ -41,8 +39,7 @@ module.exports = {
       token: req.param('token') 
     };
 
-    Q(User.findOneByPasswordResetToken(options.token))
-    .then(function (user) {
+    Q(User.findOneByPasswordResetToken(options.token)).then(function (user) {
       if (!user)
         throw new Error('invalidPasswordResetToken');
       if (!req.param('password'))
@@ -53,13 +50,13 @@ module.exports = {
           user.password = hash;
           user.passwordResetToken = '';
           user.save(function (err) {
-            req.session.flash.push(FlashMessages.successfulPasswordChange);
+            req.flash('success', FlashMessages.successfulPasswordChange);
             res.redirect('/');
           });
         });
       });
     }).fail(function (err) {
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/password/new?token=' + options.token);
     });
   },

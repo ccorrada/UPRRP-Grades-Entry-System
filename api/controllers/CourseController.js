@@ -26,13 +26,10 @@ module.exports = {
     }
 
     // Find all courses by prof_id and list them.
-    Q(Course.find(options))
-    .then(function (user_courses) {
-      res.locals.flash = _.clone(req.session.flash) || [];
+    Q(Course.find(options)).then(function (user_courses) {
       res.locals.user_id = _.clone(req.session.user.id);
       res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
       res.view({courses: user_courses});
-      req.session.flash = [];
     }).fail(function (err) {
       console.log(require('util').inspect(err, null, false));
     });
@@ -49,7 +46,6 @@ module.exports = {
         // No results.
       } else {
         // Results
-        res.locals.flash = _.clone(req.session.flash) || [];
         if (req.session.user) {
           res.locals.user_id = _.clone(req.session.user.id);
           res.locals.user_name = _.clone(req.session.user.first_names + ' ' + req.session.user.last_names);
@@ -64,7 +60,6 @@ module.exports = {
           };
 
           res.view(data);
-          req.session.flash = []; // Clear flash messages.
         });
       }
     });
@@ -138,14 +133,14 @@ module.exports = {
 
       return savePromise.promise;
     }).then(function (gradesAreSaved) {
-      if (saveFinal) req.session.flash.push(FlashMessages.successfulFinalSave);
-      else req.session.flash.push(FlashMessages.successfulDraftSave);
+      if (saveFinal) req.flash('success', FlashMessages.successfulFinalSave);
+      else req.flash('success', FlashMessages.successfulDraftSave);
 
       res.redirect('/courses');
     }).fail(function (err) {
       console.log(err);
 
-      req.session.flash.push(FlashMessages[err.message]);
+      req.flash('danger', FlashMessages[err.message]);
       res.redirect('/course/' + courseId);
     });
   },

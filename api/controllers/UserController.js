@@ -29,14 +29,8 @@ module.exports = {
       id: req.param('id')
     };
 
-    Q(User.findOne(options))
-    .then(function (user) {
-      if (user.length === 0) {
-        req.session.flash.push(FlashMessages.userDoesNotExist);
-      }
-      res.locals.flash = _.clone(req.session.flash) || [];
+    Q(User.findOne(options)).then(function (user) {
       res.view({user: user});
-      req.session.flash = [];
     }).fail(function (err) {
       console.log(err);
     });
@@ -47,13 +41,12 @@ module.exports = {
       id: req.param('id')
     };
 
-    Q(User.findOne(options))
-    .then(function (user) {
+    Q(User.findOne(options)).then(function (user) {
       user.locale = req.param('locale');
       user.save(function (err) {
         if (!err) {
           req.session.locale = user.locale;
-          req.session.flash.push(FlashMessages.localeSaved);
+          req.flash('success', FlashMessages.localeSaved);
           res.redirect('/user/' + options.id);
         } else {
           console.log(err);
