@@ -16,12 +16,12 @@ module.exports.session = {
   // Replace at your own risk in production-- you will invalidate the cookies of your users,
   // forcing them to log in again.
   // secret: 'b29a1c1d5e0903b09577bb11595ba169'
-  secret: process.env.SECRET
+  secret: process.env.SECRET,
 
 
   // In production, uncomment the following lines to set up a shared redis session store
   // that can be shared across multiple Sails.js servers
-  // adapter: 'redis',
+  adapter: 'redis'
   //
   // The following values are optional, if no options are set a redis instance running
   // on localhost is expected.
