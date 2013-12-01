@@ -190,7 +190,7 @@ module.exports = {
       var gradesAreFinePromise = Q.defer();
 
       for (var i = 0; i < grades.length; i++) {
-        if (studentGrades.hasOwnProperty(grades[i].id) && Grade.GRADE_TYPES[courseGradeType].indexOf(studentGrades[grades[i].id].value) !== -1 && !(studentGrades[grades[i].id].value === 'a' && studentGrades[grades[i].id].incomplete)) {}
+        if (studentGrades.hasOwnProperty(grades[i].id) && Grade.GRADE_TYPES[courseGradeType].indexOf(studentGrades[grades[i].id].value) !== -1 && !(['a', 'ps'].indexOf(studentGrades[grades[i].id].value) !== -1 && studentGrades[grades[i].id].incomplete)) {}
         else
           gradesAreFinePromise.reject(new Error('atleastOneInvalidGrade'));
       }
