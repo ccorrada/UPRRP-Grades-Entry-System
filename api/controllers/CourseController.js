@@ -94,12 +94,10 @@ module.exports = {
 
       var gradesAreFinePromise = Q.defer();
 
-      if (saveFinal) {
-        for (var i = 0; i < grades.length; i++) {
-          if (studentGrades.hasOwnProperty(grades[i].id) && Grade.GRADE_TYPES[courseGradeType].indexOf(studentGrades[grades[i].id].value) !== -1) {}
-          else
-            gradesAreFinePromise.reject(new Error('atleastOneInvalidGrade'));
-        }
+      for (var i = 0; i < grades.length; i++) {
+        if (studentGrades.hasOwnProperty(grades[i].id) && Grade.GRADE_TYPES[courseGradeType].indexOf(studentGrades[grades[i].id].value) !== -1 && !(studentGrades[grades[i].id].value === 'a' && studentGrades[grades[i].id].incomplete)) {}
+        else
+          gradesAreFinePromise.reject(new Error('atleastOneInvalidGrade'));
       }
 
       gradesAreFinePromise.resolve(true);
