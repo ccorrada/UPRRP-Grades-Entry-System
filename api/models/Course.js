@@ -52,12 +52,14 @@ module.exports = {
     gradeType: {
       type: 'INTEGER',
       required: true,
-      in: [0, 1, 2]
+      in: [0, 1, 2],
+      defaultsTo: 0 // Dev. Remove later.
     },
 
     departmentId: {
       type: 'integer',
-      required: true
+      required: true,
+      defaultsTo: 1 // Dev. Remove later.
     },
 
     toJSON: function () {

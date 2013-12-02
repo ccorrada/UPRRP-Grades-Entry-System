@@ -248,8 +248,7 @@ module.exports = {
       role: 'professor'
     };
 
-    Q(User.findOne(options))
-    .then(function (user) {
+    Q(User.findOne(options)).then(function (user) {
       if (!user)
         throw new Error('noProfessorWithEmail');
       return Course.create({
@@ -262,6 +261,7 @@ module.exports = {
         res.redirect('/admin/courses');
       });
     }).fail(function (err) {
+      console.log(err);
       if (err.message)
         req.flash('danger', FlashMessages[err.message]);
       else {
