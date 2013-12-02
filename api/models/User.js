@@ -61,7 +61,7 @@ module.exports = {
 
     locale: {
       type: 'STRING',
-      defaultsTo: 'en',
+      defaultsTo: 'es',
       in: ['en', 'es'],
       alpha: true
     },
