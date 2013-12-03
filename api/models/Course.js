@@ -52,7 +52,7 @@ module.exports = {
     gradeType: {
       type: 'INTEGER',
       required: true,
-      in: [0, 1, 2],
+      in: [0, 1],
       defaultsTo: 0 // Dev. Remove later.
     },
 
