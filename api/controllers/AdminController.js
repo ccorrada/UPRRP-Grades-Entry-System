@@ -175,7 +175,8 @@ module.exports = {
     var studentGrades = Utils.parseGradesFromForm(req.body)
       , gradeType = null
       , courseId = Utils.sanitizeInput(req.param('courseId'))
-      , userId = null;
+      , userId = null
+      , sendNoticeToProf = false;
 
     Q(User.findOne().where({email: req.param('professorEmail')})).then(function (user) {
       if (!user) throw new Error('noEmailEntered'); // Is this the correct error?
@@ -183,9 +184,16 @@ module.exports = {
 
       return Course.findOne().where({id: courseId});
     }).then(function (course) {
+      var filterAuditWithdrawalGrades = Q.defer();
+
       courseGradeType = course.gradeType;
 
-      return Grade.find().where({course_id: courseId}).where({grade: {'!':'w'}});
+      Grade.query("SELECT * FROM uprrp_ges_grades WHERE NOT grade = 'au' AND NOT grade = 'w';", function (err, results) {
+        if (err) filterAuditWithdrawalGrades.reject(err);
+        else filterAuditWithdrawalGrades.resolve(results.rows);
+      });
+
+      return filterAuditWithdrawalGrades.promise;
     }).then(function (grades) {
       var gradesAreFinePromise = Q.defer();
 
@@ -204,6 +212,8 @@ module.exports = {
       var savePromise = Q.defer();
 
       // Save the course.
+      if (course.user_id !== userId) sendNoticeToProf = true;
+
       course.user_id = userId;
       course.section = req.param('section');
       course.session = req.param('session');
@@ -218,7 +228,15 @@ module.exports = {
           if (err.ValidationError.section)
             savePromise.reject(new Error('noSection'));
         } else {
-          course.save(function (err) {});
+          course.save(function (err) {
+            if (sendNoticeToProf) {
+              Mailer.sendCourseAssignmentNotice({
+                subject: res.i18n('courseAssignmentSubject'),
+                profEmail: req.param('professorEmail'),
+                text: res.i18n('courseAssignmentEmailText')
+              }, function () {});
+            }
+          });
           require('async').forEachOf(studentGrades, function (value, key, callback) {
             Grade.update({id: key}, {grade: value.value, incomplete: value.incomplete}).done(function (err, g) {});
             callback();

@@ -86,10 +86,16 @@ module.exports = {
 
       return Course.findOne().where({id: courseId});
     }).then(function (course) {
-      // Get course's gradeType
+      var filterAuditWithdrawalGrades = Q.defer();
+
       courseGradeType = course.gradeType;
 
-      return Grade.find().where({course_id: courseId}).where({grade: {'!': 'w'}});
+      Grade.query("SELECT * FROM uprrp_ges_grades WHERE NOT grade = 'au' AND NOT grade = 'w';", function (err, results) {
+        if (err) filterAuditWithdrawalGrades.reject(err);
+        else filterAuditWithdrawalGrades.resolve(results.rows);
+      });
+
+      return filterAuditWithdrawalGrades.promise;
     }).then(function (grades) { 
 
       var gradesAreFinePromise = Q.defer();

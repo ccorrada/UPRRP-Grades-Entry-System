@@ -80,7 +80,7 @@ module.exports = {
   },
 
   sendCourseReport: function (data, callback) {
-    transport.sendEmail({
+    transport.sendMail({
       from: process.env.EMAIL_USERNAME,
       to: data.profEmail,
       subject: 'Missing or wrong course.',
@@ -91,6 +91,18 @@ module.exports = {
       } else {
         // console.log(response.message);
       }
+      callback();
+    });
+  },
+
+  sendCourseAssignmentNotice: function (data, callback) {
+    transport.sendMail({
+      from: process.env.EMAIL_USERNAME,
+      to: data.profEmail,
+      subject: data.subject,
+      text: data.text
+    }, function (err, response) {
+      if (err) console.log(require('util').inspect(error));
       callback();
     });
   }
