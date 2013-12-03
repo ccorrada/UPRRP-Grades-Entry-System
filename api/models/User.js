@@ -51,7 +51,7 @@ module.exports = {
       alpha: true
     },
 
-    SSN4: {
+    ssn4: {
       type: 'STRING',
       required: true,
       minLength: 4,
