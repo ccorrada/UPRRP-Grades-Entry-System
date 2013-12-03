@@ -21,7 +21,7 @@ form.form-horizontal(method='POST', action= formAction)
           tr
             th= i18n('labelStudent')
             each gradeLabel in Grade.GRADE_TYPES[gradeType]
-              th= gradeLabel
+              th= gradeLabel.toUpperCase()
         include ../course/_grading_table
     else
       h1= i18n('unableToDisplayGrades')
