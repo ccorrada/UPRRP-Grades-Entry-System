@@ -6,6 +6,9 @@ tbody
         if grade.value === 'w'
           td
             h1= i18n('withdrewLabel')
+        else if grade.value === 'au'
+          td
+            h1= i18n('auditLabel')
         else
           td
             if grade.value === 'a'
@@ -33,36 +36,6 @@ tbody
             else
               input(type='radio', name= grade.grade_id, value='F')
           td
-            if grade.value === 'x'
-              input(type='radio', name= grade.grade_id, value='X' checked)
-            else
-              input(type='radio', name= grade.grade_id, value='X')
-          td
-            if grade.incomplete
-              input(type='checkbox', name= grade.grade_id + ':inc' checked)
-            else
-              input(type='checkbox', name= grade.grade_id + ':inc')
-      else if gradeType === 1
-        if grade.value === 'w'
-          td
-            h1= i18n('withdrewLabel')
-        else
-          td
-            if grade.value === 'ps'
-              input(type='radio', name= grade.grade_id, value='PS' checked)
-            else
-              input(type='radio', name= grade.grade_id, value='PS')
-          td
-            if grade.value === 'pn'
-              input(type='radio', name= grade.grade_id, value='PN' checked)
-            else
-              input(type='radio', name= grade.grade_id, value='PN')
-          td
-            if grade.value === 'pb'
-              input(type='radio', name= grade.grade_id, value='PB' checked)
-            else
-              input(type='radio', name= grade.grade_id, value='PB')
-          td
             if grade.value === 'p'
               input(type='radio', name= grade.grade_id, value='P' checked)
             else
@@ -82,11 +55,29 @@ tbody
               input(type='checkbox', name= grade.grade_id + ':inc' checked)
             else
               input(type='checkbox', name= grade.grade_id + ':inc')
-      else if gradeType === 2
+      else if gradeType === 1
         if grade.value === 'w'
           td
             h1= i18n('withdrewLabel')
+        else if grade.value === 'au'
+          td
+            h1= i18n('auditLabel')
         else
+          td
+            if grade.value === 'ps'
+              input(type='radio', name= grade.grade_id, value='PS' checked)
+            else
+              input(type='radio', name= grade.grade_id, value='PS')
+          td
+            if grade.value === 'pn'
+              input(type='radio', name= grade.grade_id, value='PN' checked)
+            else
+              input(type='radio', name= grade.grade_id, value='PN')
+          td
+            if grade.value === 'pb'
+              input(type='radio', name= grade.grade_id, value='PB' checked)
+            else
+              input(type='radio', name= grade.grade_id, value='PB')
           td
             if grade.value === 'p'
               input(type='radio', name= grade.grade_id, value='P' checked)
