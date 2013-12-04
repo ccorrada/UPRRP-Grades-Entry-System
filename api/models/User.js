@@ -56,7 +56,7 @@ module.exports = {
       required: true,
       minLength: 4,
       maxLength: 4,
-      numeric: true
+      defaultsTo: '0000'
     },
 
     locale: {
