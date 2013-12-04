@@ -80,24 +80,30 @@ module.exports = {
 
     var current_email = req.param('email');
     var current_password = req.param('password');
+    var authPromise = Q.defer();
 
-    Q(User.findOneByEmail(current_email))
-    .then(function (user) {
+    Q(User.findOneByEmail(current_email)).then(function (user) {
       if (!user || !current_password)
         throw new Error('invalidCredentials');
       require('bcrypt').compare(current_password, user.password, function (err, result) {
-        // Password match
-        // Create session.
-        req.session.authenticated = true;
-        req.session.user = user;
-        req.session.locale = user.locale;
-        // Redirect to course selection screen.
-        if (user.role === 'admin') {
-          res.redirect('/admin/index');
+        if (result) {
+          // Password match
+          // Create session.
+          req.session.authenticated = true;
+          req.session.user = user;
+          req.session.locale = user.locale;
+          // Redirect to course selection screen.
+          if (user.role === 'admin') {
+            res.redirect('/admin/index');
+          } else {
+            res.redirect('/courses');
+          }
         } else {
-          res.redirect('/courses');
+          authPromise.reject(new Error('invalidCredentials'));
         }
       });
+
+      return authPromise.promise;
     }).fail(function (err) {
       req.flash('danger', FlashMessages[err.message]);
       res.redirect('/');

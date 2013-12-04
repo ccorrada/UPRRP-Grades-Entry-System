@@ -178,7 +178,7 @@ module.exports = {
       , userId = null
       , sendNoticeToProf = false;
 
-    Q(User.findOne().where({email: req.param('professorEmail')})).then(function (user) {
+    Q(User.findOne().where({email: req.param('professorEmail'), role: 'professor'})).then(function (user) {
       if (!user) throw new Error('noEmailEntered'); // Is this the correct error?
       else userId = user.id;
 
@@ -233,7 +233,8 @@ module.exports = {
               Mailer.sendCourseAssignmentNotice({
                 subject: res.i18n('emailCourseAssignmentNoticeSubject'),
                 profEmail: req.param('professorEmail'),
-                text: res.i18n('courseAssignmentEmailText')
+                text: res.i18n('courseAssignmentEmailText'),
+                course: course
               }, function () {});
             }
           });
