@@ -21,6 +21,8 @@ Icon
 
 *.sql
 
+assets/grade_dumps/*
+
 
 # Thumbnails
 ._*
