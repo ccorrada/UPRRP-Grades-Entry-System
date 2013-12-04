@@ -231,7 +231,7 @@ module.exports = {
           course.save(function (err) {
             if (sendNoticeToProf) {
               Mailer.sendCourseAssignmentNotice({
-                subject: res.i18n('courseAssignmentSubject'),
+                subject: res.i18n('emailCourseAssignmentNoticeSubject'),
                 profEmail: req.param('professorEmail'),
                 text: res.i18n('courseAssignmentEmailText')
               }, function () {});

@@ -42,6 +42,15 @@ var makeReport = function (data, callback) {
   });
 };
 
+function generateMessage(){
+  var message =  res.i18n('emailSubmitGradesReminderDear');
+  for(var course in data.courses){
+    message += '<p>' + course + '</p>';
+  }
+  message += res.i18n('emailSubmitGradesReminderText');
+  return message;
+}
+
 module.exports = {
   sendActivationEmail: function (prof_email, token, res, callback) {
     transport.sendMail({
@@ -105,5 +114,17 @@ module.exports = {
       if (err) console.log(require('util').inspect(error));
       callback();
     });
-  }
+  },
+
+  // sendSubmitGradesReminder: function (data, callback) {
+  //   transport.sendMail({
+  //     from: process.env.EMAIL_USERNAME,
+  //     to: data.profEmail,
+  //     subject: data.subject,
+  //     text: data.text
+  //   }, function (err, response) {
+  //     if (err) console.log(require('util').inspect(error));
+  //     callback();
+  //   });
+  // }
 }
