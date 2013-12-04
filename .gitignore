@@ -19,6 +19,8 @@ node_modules
 .LSOverride
 Icon
 
+*.sql
+
 
 # Thumbnails
 ._*
