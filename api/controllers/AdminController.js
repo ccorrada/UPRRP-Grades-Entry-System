@@ -233,7 +233,8 @@ module.exports = {
               Mailer.sendCourseAssignmentNotice({
                 subject: res.i18n('courseAssignmentSubject'),
                 profEmail: req.param('professorEmail'),
-                text: res.i18n('courseAssignmentEmailText')
+                text: res.i18n('courseAssignmentEmailText'),
+                course: course
               }, function () {});
             }
           });
