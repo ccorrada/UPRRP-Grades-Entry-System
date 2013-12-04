@@ -29,7 +29,7 @@
 module.exports.routes = {
 
   'get /': 'AuthenticationController.new',
-  'post /authenticate/signup': 'AuthenticationController.signup',
+  'post /authentication/changeResetToken': 'AuthenticationController.changeResetToken',
   'post /authentication/login': 'AuthenticationController.login',
   'get /password': 'PasswordController.new',
   'post /password/change': 'PasswordController.change',

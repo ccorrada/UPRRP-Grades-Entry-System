@@ -57,7 +57,7 @@ module.exports = {
       });
     }).fail(function (err) {
       req.flash('danger', FlashMessages[err.message]);
-      res.redirect('/password/new?token=' + options.token);
+      res.redirect('/password/?token=' + options.token);
     });
   },
 
