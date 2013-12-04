@@ -38,7 +38,7 @@ module.exports = {
   show: function (req, res) {
     // Find all grades in that course.
     var course_id_param = require('validator').sanitize(req.param('course_id')).escape();
-    var query = 'SELECT g.id AS grade_id, s.student_number, s."firstNames", s."lastNames", g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
+    var query = 'SELECT g.id AS grade_id, s.student_number, s.name, g.grade AS value, g.incomplete AS incomplete, c."gradeType" AS "gradeType" FROM uprrp_ges_students AS s, uprrp_ges_grades AS g, uprrp_ges_courses AS c WHERE s.id = g.student_id AND g.course_id = c.id AND c.id = ' + 
                 course_id_param + ';';
     Grade.query(query, null, function (err, results) {
       // console.log(require('util').inspect(err || results, false, null));
