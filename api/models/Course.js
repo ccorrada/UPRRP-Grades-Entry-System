@@ -62,6 +62,12 @@ module.exports = {
       defaultsTo: 1 // Dev. Remove later.
     },
 
+    title: {
+      type: 'string',
+      required: true,
+      alphanumeric: true
+    },
+
     toJSON: function () {
       var obj = this.toObject();
       delete obj.done;
