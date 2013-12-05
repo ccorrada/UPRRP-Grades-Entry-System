@@ -34,13 +34,13 @@ module.exports = {
     first_names: {
       type: 'STRING',
       required: true,
-      alpha: true
+      // alpha: true
     },
 
     last_names: {
       type: 'STRING',
       required: true,
-      alpha: true
+      // alpha: true
     },
 
     role: {

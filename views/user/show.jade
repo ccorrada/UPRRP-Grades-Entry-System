@@ -3,22 +3,25 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
+  .container.container1.paddingtop5
     .main-content
-      include ../_account_controls
       .row
-        h1= user.first_names
-        h1= user.last_names
-        h1= user.email
-        form.form-horizontal(method='POST', action='/user/' + user.id + '/save', id='user-locale')
-          .form-group
-            select.form-control(form='user-locale', name='locale')
-              - var locales = ['en', 'es']
-              for locale in locales
-                if user.locale === locale
-                  option(selected='true')= locale
-                else
-                  option= locale
-          .form-group
-            button.btn.btn-default(type='submit')= i18n('btnSaveUser')
-          input(type='hidden', name='_csrf', value='#{_csrf}')
-          input(type='hidden', name='id', value=user.id)
+        .col-md-4
+        h3= "User :  " + user.first_names + " " +  user.last_names
+        h4= "Email:  " + user.email
+      .row
+          h4= "Idioma de Preferencia :"
+        .col-md-2
+          form.form-horizontal(method='POST', action='/user/' + user.id + '/save', id='user-locale')
+            .form-group
+              select.form-control(form='user-locale', name='locale') Idioma de Preferencia
+                - var locales = ['en', 'es']
+                for locale in locales
+                  if user.locale === locale
+                    option(selected='true')= locale
+                  else
+                    option= locale
+            .form-group
+              button.btn.btn-default(type='submit')= i18n('btnSaveUser')
+            input(type='hidden', name='_csrf', value='#{_csrf}')
+            input(type='hidden', name='id', value=user.id)

@@ -1,16 +1,17 @@
 extends ../layout
 
 block content
-  .container.backGallo
+  .container
     include ../_flash_stage
-  .container.container1
+  .container.container1.backGallo
     .landing-page
       .row
         .col-md-12
           .landing-page-text-header
             h1.text-center= i18n('labelWelcome')
             h2.text-center= i18n('labelWelcome1')
-      .row
+      .jumbotron(style="opacity:0.7; filter:alpha(opacity=40); color:gray;")
+        .row
           .col-md-4
             form.form-horizontal(method='POST', action='/authentication/login', role='form')
               .form-group
@@ -20,7 +21,7 @@ block content
               .form-group
                 button.btn.btn-default(type='submit')= i18n('btnLogin')
               input(type='hidden', name='_csrf', value='#{_csrf}')
-          .col-md-2
+          .col-md-3
             .vertical-bar
           .col-md-4
             form.form-horizontal(method='POST', action='/authentication/signup')

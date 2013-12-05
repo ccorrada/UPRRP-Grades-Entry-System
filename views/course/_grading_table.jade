@@ -5,10 +5,10 @@ tbody
       if gradeType === 0
         if grade.value === 'w'
           td
-            h1= i18n('withdrewLabel')
+            p= i18n('withdrewLabel')
         else if grade.value === 'au'
           td
-            h1= i18n('auditLabel')
+            p= i18n('auditLabel')
         else
           td
             if grade.value === 'a'

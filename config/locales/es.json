@@ -81,5 +81,9 @@
   "usersTableHeadName" : "Email",
   "usersTableHeadRole": "Rol",
   "usersAdd": "Añadir Usuario",
-  "usersUpdate": "Editar Usuario"
+  "usersUpdate": "Editar Usuario",
+  "withdrewLabel": "W",
+  "auditLabel": "AU",
+  "newCourseTitle": "Añadir un curso"
+
 }

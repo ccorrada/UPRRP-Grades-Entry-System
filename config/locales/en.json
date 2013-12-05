@@ -66,5 +66,7 @@
   "atleastOneInvalidGrade": "At least one grade is invalid. Please refresh the page and try again.",
   "allStudentsMustHaveAGrade": "All students must have an assigned grade before submitting.",
   "labelGrade": "Grade",
-  "incompleteLabel": "Incomplete"
+  "incompleteLabel": "Incomplete",
+  "withdrewLabel": "W",
+  "auditLabel": "AU"
 }

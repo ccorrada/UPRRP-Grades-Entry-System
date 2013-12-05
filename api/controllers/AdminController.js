@@ -291,7 +291,7 @@ module.exports = {
         if (err.ValidationError.section)
           req.flash('danger', FlashMessages['noSection']);
       }
-      res.redirect('/admin/course/new');
+      res.redirect('/admin/courses');
     });
   },
 
