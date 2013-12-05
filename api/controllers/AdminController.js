@@ -22,7 +22,6 @@ module.exports = {
 
   /**
    * Action blueprints:
-   *    `/admin/index`
    *    `/admin`
    */
   index: function (req, res) {
@@ -60,7 +59,7 @@ module.exports = {
     }).then(
         function (user) {
           req.flash('success', FlashMessages.successfullyAddedUser);
-          res.redirect('/admin/index');
+          res.redirect('/admin');
         }
     ).fail( function (err) {
       if (err.detail && err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
