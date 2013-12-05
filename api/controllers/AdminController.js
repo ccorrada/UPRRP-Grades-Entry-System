@@ -22,7 +22,6 @@ module.exports = {
 
   /**
    * Action blueprints:
-   *    `/admin/index`
    *    `/admin`
    */
   index: function (req, res) {

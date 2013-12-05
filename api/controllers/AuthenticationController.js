@@ -17,8 +17,8 @@
 
  var Q = require('q');
 
-module.exports = {  
-  
+module.exports = {
+
   /**
    * Action blueprints:
    *    `/authentication/new`
@@ -61,7 +61,7 @@ module.exports = {
       });
     }).fail(function (err) {
       req.flash('danger', FlashMessages[err.message]);
-      res.redirect('/');  
+      res.redirect('/');
     });
   },
 
@@ -71,7 +71,7 @@ module.exports = {
    *    `/authentication/destroy`
    */
    destroy: function (req, res) {
-    
+
     req.session.destroy();
 
     res.redirect('/');
@@ -95,7 +95,7 @@ module.exports = {
           req.session.locale = user.locale;
           // Redirect to course selection screen.
           if (user.role === 'admin') {
-            res.redirect('/admin/index');
+            res.redirect('/admin');
           } else {
             res.redirect('/courses');
           }
@@ -117,5 +117,5 @@ module.exports = {
    */
   _config: {}
 
-  
+
 };
