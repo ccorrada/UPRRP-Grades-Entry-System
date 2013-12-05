@@ -217,6 +217,7 @@ module.exports = {
       course.section = req.param('section');
       course.session = req.param('session');
       course.course_code = req.param('course_code');
+      course.title = req.param('title');
       course.validate(function (err) {
         if (err) {
           console.log(err);
@@ -273,7 +274,8 @@ module.exports = {
         user_id: user.id,
         section: req.param('section'),
         session: req.param('session'),
-        course_code: req.param('course_code')
+        course_code: req.param('course_code'),
+        title: req.param('title')
       }).then(function (user) {
         req.flash('success', FlashMessages.successfulCourseCreation);
         res.redirect('/admin/courses');
