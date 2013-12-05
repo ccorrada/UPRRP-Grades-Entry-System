@@ -30,7 +30,7 @@ module.exports = {
     }
     if (req.session.authenticated) {
       if (req.session.user.role === 'admin') {
-        res.redirect('/admin/index');
+        res.redirect('/admin');
       } else if (req.session.user.role === 'professor') {
         res.redirect('/courses');
       }
