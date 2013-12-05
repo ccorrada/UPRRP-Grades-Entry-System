@@ -20,15 +20,9 @@ module.exports = {
       unique: true
     },
 
-    firstNames: {
-      type: 'STRING',
+    name: {
+      type: 'string',
       required: true,
-      alpha: true
-    },
-
-    lastNames: {
-      type: 'STRING',
-      reuired: true,
       alpha: true
     }
   }

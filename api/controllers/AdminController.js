@@ -56,7 +56,7 @@ module.exports = {
       role: req.param('role'),
       first_names: req.param('first_names'),
       last_names: req.param('last_names'),
-      SSN4: parseInt(req.param('SSN4'),10)
+      ssn4: parseInt(req.param('ssn4'),10)
     }).then(
         function (user) {
           req.flash('success', FlashMessages.successfullyAddedUser);
@@ -72,8 +72,8 @@ module.exports = {
           req.flash('danger', FlashMessages.invalidRoleSelected);
         if (err.ValidationError.first_names || err.ValidationError.last_names)
           req.flash('danger', FlashMessages.invalidNames);
-        if (err.ValidationError.SSN4)
-          req.flash('danger', FlashMessages.invalidSSN4);
+        if (err.ValidationError.ssn4)
+          req.flash('danger', FlashMessages.invalidssn4);
       }
 
       res.redirect('/admin/user/new');
@@ -108,13 +108,13 @@ module.exports = {
       user.role = req.param('role');
       user.first_names = req.param('first_names');
       user.last_names = req.param('last_names');
-      user.SSN4 = parseInt(req.param('SSN4'));
+      user.ssn4 = parseInt(req.param('ssn4'));
       user.save(function (err) {
         if (err) {
           if (err.ValidationError.first_names || err.ValidationError.last_names)
             throw new Error('invalidNames');
-          if (err.ValidationError.SSN4)
-            throw new Error('invalidSSN4');
+          if (err.ValidationError.ssn4)
+            throw new Error('invalidssn4');
           if (err.ValidationError.email)
             throw new Error('noEmailEntered');
         }
@@ -263,7 +263,7 @@ module.exports = {
   courseCreate: function (req, res) {
 
     var options = {
-      email: req.param('professorEmail'), 
+      email: req.param('professorEmail'),
       role: 'professor'
     };
 

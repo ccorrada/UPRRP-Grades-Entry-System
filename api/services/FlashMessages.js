@@ -21,7 +21,7 @@ module.exports = {
 
   invalidNames: 'invalidNames',
 
-  invalidSSN4: 'invalidSSN4',
+  invalidssn4: 'invalidssn4',
 
   successfulDraftSave: 'successfulDraftSave',
 

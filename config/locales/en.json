@@ -9,7 +9,7 @@
   "successfullyAddedUser": "Added new user.",
   "invalidRoleSelected": "Invalid role selected.",
   "invalidNames": "Invalid first or last names.",
-  "invalidSSN4": "Invalid SSN4.",
+  "invalidssn4": "Invalid ssn4.",
   "successfulDraftSave": "Your grade draft has been saved.",
   "successfulFinalSave": "Your grades have been saved and submitted. You will recieve an email with a report of your progress.",
   "noProfessorWithEmail": "No professor has this email address.",

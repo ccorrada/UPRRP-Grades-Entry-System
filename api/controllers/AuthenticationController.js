@@ -42,9 +42,9 @@ module.exports = {
 
   /**
    * Action blueprints:
-   *    `/authentication/create`
+   *    `/authentication/changeResetToken`
    */
-   signup: function (req, res) {
+   changeResetToken: function (req, res) {
 
     var current_email = req.param('email');
 
@@ -54,6 +54,7 @@ module.exports = {
         throw new Error('invalidCredentials');
       user.passwordResetToken = require('crypto').randomBytes(20).toString('hex');
       user.save(function (err) {
+        console.log(err);
         Mailer.sendActivationEmail(user.email, user.passwordResetToken, res, function () {});
         req.flash('success', FlashMessages.requestPasswordResetLink);
         res.redirect('/');

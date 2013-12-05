@@ -3,3 +3,4 @@
 assets
 views/layout.jade
 README.md
+assets/grade_dumps/*
