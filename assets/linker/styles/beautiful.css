@@ -58,7 +58,9 @@
 .main-content {
   margin-top: 15px;
 }
-
+body{
+  background-color: #f1f1f1;
+}
 body, html {
   height: 100%;
 }

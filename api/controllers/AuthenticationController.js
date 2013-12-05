@@ -33,7 +33,7 @@ module.exports = {
         res.redirect('/admin');
       } else if (req.session.user.role === 'professor') {
         res.redirect('/courses');
-      }
+      } 
     } else {
       res.view();
     }
@@ -96,8 +96,10 @@ module.exports = {
           // Redirect to course selection screen.
           if (user.role === 'admin') {
             res.redirect('/admin');
-          } else {
+          } else if (user.role === 'professor'){
             res.redirect('/courses');
+          } else if (user.role === 'dumper'){
+            res.redirect('/admin');
           }
         } else {
           authPromise.reject(new Error('invalidCredentials'));

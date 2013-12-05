@@ -3,18 +3,24 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
-  .container.container1
+  .container.container1.paddingtop5
     .main-content
-      .row
         h1= i18n('labelCourseTableHeader')
-        table.table
-          thead
-            tr
-              th= i18n('labelCourseCode')
-              th= i18n('labelCourseSection')
-          each course in courses
-            tr
-              td
-                a(href='/course/' + course.id)= course.course_code
-              td= course.section
+        h3=i18n('coursesSemester') + " " + i18n('coursesYear')
+        br
+        .row
+          .col-md-8
+            table.table.table-responsive
+              thead
+                tr
+                  th
+                    h4= i18n('labelCourseCode')
+                  th
+                    h4= i18n('labelCourseSection')
+              tbody
+                each course in courses
+                  tr
+                    td
+                      a(href='/course/' + course.id)= course.course_code
+                    td= course.section
 

@@ -3,6 +3,7 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
+  .container.container1.paddingtop5
     .main-content
       .row
         if course.done
@@ -10,6 +11,7 @@ block content
         else
           if grades.length > 0 && typeof gradeType === 'number'
             h1= grades[0].course_code
+            h3=i18n('coursesSemester') + " " + i18n('coursesYear')
             form(method='POST', action='/course/' + courseId + '/save')
               table.table
                 thead

@@ -23,7 +23,9 @@ block content
                     a(href='/admin/user/edit/#{user.id}') #{user.email}
                   if user.role === 'admin'
                     td= i18n('labelAdmin')
-                  else
+                  if user.role === 'professor'
                     td= i18n('labelProfessor')
+                  if user.role === 'dumper'
+                    td= i18n('labelDumper')
         .col-md-1
           a.btn.btn-default(href='/admin/user/new') +

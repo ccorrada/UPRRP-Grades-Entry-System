@@ -25,7 +25,6 @@ module.exports = {
    *    `/password/new`
    */
    new: function (req, res) {
-    console.log("llego :)");
     res.view({token: req.param('token')});
   },
 

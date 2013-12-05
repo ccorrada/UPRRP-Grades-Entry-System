@@ -5,12 +5,10 @@ block content
     include ../_flash_stage
   .container.container1.backGallo
     .landing-page
-      .row
-        .col-md-12
-          .landing-page-text-header
-            h1.text-center= i18n('labelWelcome')
-            h2.text-center= i18n('labelWelcome1')
-      .jumbotron(style="opacity:0.7; filter:alpha(opacity=40); color:gray;")
+      .jumbotron(style="opacity:0.7; filter:alpha(opacity=40); color:gray")
+        .landing-page-text-header
+          h2.text-center= i18n('labelWelcome')
+          h3.text-center= i18n('labelWelcome1')
         .row
           .col-md-4
             form.form-horizontal(method='POST', action='/authentication/login', role='form')

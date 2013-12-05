@@ -3,16 +3,20 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
-  .container.container1
+  .container.container1.paddingtop5
     h1.text-left=i18n('adminPanelTitle')
-    .container(style="width: 25%; text-align: left;").paddingtop5
-      .main-content
-        .row
-          ul.nav.nav-tabs.nav-justified
+    br
+    .main-content
+      .row
+        ul.nav.nav-tabs.nav-justified(style="width: 30%; padding-left:5%;")
+          li
+            a(href='/admin/users')= i18n('labelUsers')
+          br
+          li
+            a(href='/admin/courses')= i18n('labelCourses')
+          br
+          if req.session.user.role === 'dumper'
             li
-              a(href='/admin/users')= i18n('labelUsers')
-            br
-            li
-              a(href='/admin/courses')= i18n('labelCourses')
+              a(href='#')= i18n('btnDumper')
 
 
