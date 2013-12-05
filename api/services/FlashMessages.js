@@ -49,5 +49,7 @@ module.exports = {
 
   atleastOneInvalidGrade: 'atleastOneInvalidGrade',
 
-  allStudentsMustHaveAGrade: 'allStudentsMustHaveAGrade'
+  allStudentsMustHaveAGrade: 'allStudentsMustHaveAGrade',
+
+  successfullySavedCourse: 'successfullySavedCourse'
 }

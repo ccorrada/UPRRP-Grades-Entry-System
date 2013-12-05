@@ -1,29 +1,31 @@
 extends ../layout
 
 block content
-  .container
+  .container.backGallo
     include ../_flash_stage
+  .container.container1
     .landing-page
       .row
         .col-md-12
           .landing-page-text-header
             h1.text-center= i18n('labelWelcome')
+            h2.text-center= i18n('labelWelcome1')
       .row
-        .col-md-5
-          form.form-horizontal(method='POST', action='/authentication/login', role='form')
-            .form-group
-              input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email', required= true)
-            .form-group
-              input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password', required= true)
-            .form-group
-              button.btn.btn-default(type='submit')= i18n('btnLogin')
-            input(type='hidden', name='_csrf', value='#{_csrf}')
-        .col-md-2
-          .vertical-bar
-        .col-md-5
-          form.form-horizontal(method='POST', action='/authentication/changeResetToken')
-            .form-group
-              input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email', required= true)
-            .form-group
-              button.btn.btn-default(type='submit')= i18n('btnChangePassword')
-            input(type='hidden', name='_csrf', value='#{_csrf}')
+          .col-md-4
+            form.form-horizontal(method='POST', action='/authentication/login', role='form')
+              .form-group
+                input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email', required= true)
+              .form-group
+                input.form-control(type='password', placeholder= i18n('placeholderPassword'), name='password', required= true)
+              .form-group
+                button.btn.btn-default(type='submit')= i18n('btnLogin')
+              input(type='hidden', name='_csrf', value='#{_csrf}')
+          .col-md-2
+            .vertical-bar
+          .col-md-4
+            form.form-horizontal(method='POST', action='/authentication/signup')
+              .form-group
+                input.form-control(type='email', placeholder= i18n('placeholderEmail'), name='email', required= true)
+              .form-group
+                button.btn.btn-default(type='submit')= i18n('btnChangePassword')
+              input(type='hidden', name='_csrf', value='#{_csrf}')

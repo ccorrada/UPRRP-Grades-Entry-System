@@ -3,8 +3,10 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
+  .container(style="width: 25%; text-align: center;").paddingtop5.container1
     .main-content
-      include ../_account_controls
+      h1= i18n('usersUpdate')
+      br
       .row
         form.form-horizontal(method='POST', action='/admin/user/save/#{user.id}', id='edit-user')
           .form-group
@@ -25,3 +27,4 @@ block content
           .form-group
             button.btn.btn-default(type='submit')= i18n('btnUpdateUser')
           input(type='hidden', name='_csrf', value='#{_csrf}')
+          

@@ -1,30 +1,36 @@
 if controllerAction === 'edit'
   - var formAction = '/admin/course/save/' + course.id
   - var buttonTitle = i18n('btnSaveCourse')
+  h1= i18n('saveCourseTitle')
 else
   - var formAction = '/admin/course/create'
   - var buttonTitle = i18n('btnCreateCourse')
-form.form-horizontal(method='POST', action= formAction)
-  .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '', required= true)
-  .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseSection'), name='section', value=course.section || '', required= true)
-  .form-group
-    input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
-  .form-group
-    input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
-  if grades
-    if grades.length > 0 && typeof gradeType === 'number'
-      h1= grades[0].course_code
-      table.table
-        thead
-          tr
-            th= i18n('labelStudent')
-            each gradeLabel in Grade.GRADE_TYPES[gradeType]
-              th= gradeLabel.toUpperCase()
-        include ../course/_grading_table
-    else
-      h1= i18n('unableToDisplayGrades')
-  .form-group
-    button.btn.btn-default(type='submit')= buttonTitle
-  input(type='hidden', name='_csrf', value='#{_csrf}')
+  h1= i18n('newCourseTitle')
+br
+.row
+  form.form-horizontal(method='POST', action= formAction)
+    .form-group
+      input.form-control(type='text', placeholder= i18n('placeholderCourseCode'), name='course_code', value=course.course_code || '', required= true)
+    .form-group
+      input.form-control(type='text', placeholder= i18n('placeholderCourseSection'), name='section', value=course.section || '', required= true)
+    .form-group
+      input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
+    .form-group
+      input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
+    if grades
+      if grades.length > 0 && typeof gradeType === 'number'
+        h1= grades[0].course_code
+        table.table
+          thead
+            tr
+              th= i18n('labelStudent')
+              each gradeLabel in Grade.GRADE_TYPES[gradeType]
+                th= gradeLabel.toUpperCase()
+          include ../course/_grading_table
+      else
+        br
+        h4= i18n('unableToDisplayGrades')
+        br
+    .form-group
+      button.btn.btn-default(type='submit')= buttonTitle
+    input(type='hidden', name='_csrf', value='#{_csrf}')

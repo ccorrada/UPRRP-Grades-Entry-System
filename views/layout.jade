@@ -8,6 +8,11 @@ html
     link(rel="stylesheet", href="/linker/styles/beautiful.css")
     // STYLES END
   body
+    .navbar.navbar-default.header
+        a(href='/')
+            img(src='/linker/images/logo3.png' width=170)
+        if req.path !== "/"
+            include ./_account_controls
     block content
     script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
     script(src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js")

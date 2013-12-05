@@ -1,5 +1,7 @@
-.row
-  .col-md-12
-    a.btn.btn-default.pull-right(href='/logout')= i18n('btnLogout')
-    if user_id
-      a.btn.btn-default.pull-right(href='/user/' + user_id)= user_name
+.controls
+	ul.nav.nav-pills
+		if user_id
+			li
+				a(href='/user/' + user_id)= user_name
+		li
+			a(href='/logout')= i18n('btnLogout')

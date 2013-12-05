@@ -60,7 +60,7 @@ module.exports = {
     }).then(
         function (user) {
           req.flash('success', FlashMessages.successfullyAddedUser);
-          res.redirect('/admin/index');
+          res.redirect('/admin/users');
         }
     ).fail( function (err) {
       if (err.detail && err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')

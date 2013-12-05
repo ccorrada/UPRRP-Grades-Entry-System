@@ -1,17 +1,22 @@
 extends ../layout
 
 block content
-  .container
+  .container.container1
     include ../_flash_stage
-    .main-content
-      include ../_account_controls
+    .main-content.paddingtop5
+      h1=i18n('coursesPanelTitle')
+      br
       .row
-        .col-md-11
-          .table-responsive
-            table.table
+        .col-md-8
+          table.table.table-responsive
+            thead
+              tr
+                th
+                  h4=i18n('coursesTableHeadName')
+            tbody
               each course in courses
                 tr
-                  td
+                  td 
                     a(href='/admin/course/edit/#{course.id}') #{course.course_code} - #{course.section} - #{course.session}
         .col-md-1
           a.btn.btn-default(href='/admin/course/new') +

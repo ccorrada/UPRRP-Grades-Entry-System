@@ -3,12 +3,16 @@ extends ../layout
 block content
   .container
     include ../_flash_stage
-    .main-content
-      include ../_account_controls
-      .row
-        ul
-          li
-            a(href='/admin/users')= i18n('labelUsers')
-          li
-            a(href='/admin/courses')= i18n('labelCourses')
+  .container.container1
+    h1.text-left=i18n('adminPanelTitle')
+    .container(style="width: 25%; text-align: left;").paddingtop5
+      .main-content
+        .row
+          ul.nav.nav-tabs.nav-justified
+            li
+              a(href='/admin/users')= i18n('labelUsers')
+            br
+            li
+              a(href='/admin/courses')= i18n('labelCourses')
+
 

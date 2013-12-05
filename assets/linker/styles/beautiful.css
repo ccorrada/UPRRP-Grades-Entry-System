@@ -5,11 +5,42 @@
   opacity: 0.3;
   margin-left: 50%;
 }
-
-.landing-page {
-  margin-top: 25%;
+.container1 {
+  min-height: 75%;
+  /*width: 75%;*/
 }
+.header {
+  background-color:white;
+  background-repeat: no-repeat;
+  background-position:center;
+  /*padding-left:12%;
+  padding-top:1%;*/
+  width:100%;
+}
+.landing-page {
+  margin-top: 13%;
+  margin-bottom: 10%;
+}
+.width25 {
+  width: 25%;
+}
+.margin-left{
+  margin-left: 10%;
+}
+.paddingtop5 {
+  padding-top: 4%;
 
+}
+.controls{
+  float:right;
+  margin-top: 1%;
+  margin-right: 5%;
+}
+.backGallo{
+  background-image: url('/linker/images/gallo.png');
+  background-repeat: no-repeat;
+  background-position: 50% 60%;
+}
 .landing-page-text-header {
   margin-bottom: 45px;
 }
@@ -19,9 +50,13 @@
   position: absolute;
   width: 100%;
 }
+.navbar{
+  padding: 10px;
+  padding-left: 10%;
 
+}
 .main-content {
-  margin-top: 87px;
+  margin-top: 15px;
 }
 
 body, html {
