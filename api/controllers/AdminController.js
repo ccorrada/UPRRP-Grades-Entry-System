@@ -59,7 +59,11 @@ module.exports = {
     }).then(
         function (user) {
           req.flash('success', FlashMessages.successfullyAddedUser);
+<<<<<<< HEAD
           res.redirect('/admin/users');
+=======
+          res.redirect('/admin');
+>>>>>>> a69d32486c9ed4b7725cdc8a0779ff7f71aa3f0e
         }
     ).fail( function (err) {
       if (err.detail && err.detail.match(/\([a-z]*\)/)[0].replace(/\(/, '').replace(/\)/, '') === 'email')
