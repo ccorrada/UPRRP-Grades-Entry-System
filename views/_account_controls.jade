@@ -1,7 +1,18 @@
 .controls
 	ul.nav.nav-pills
-		if user_id
+		li 
+			a(href='/')= i18n('btnHome')
+		if req.session.user.role === 'professor'
 			li
 				a(href='/user/' + user_id)= user_name
+			li
+				a(href='/courses')= i18n('btnCourse')
+
+		else
+			li 
+				a(href='/admin/courses')= i18n('btnCourse')
+			li
+				a(href='/admin/users')= i18n('btnUser')
+			
 		li
 			a(href='/logout')= i18n('btnLogout')
