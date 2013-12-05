@@ -61,5 +61,8 @@
   "atleastOneInvalidGrade": "Al menos una calificación es invalida. Recargue la pagina y trate de nuevo.",
   "allStudentsMustHaveAGrade": "Todos los estudiantes deben tener una calificación antes de someter.",
   "labelGrade": "Calificación",
-  "incompleteLabel": "Incompleto"
+  "incompleteLabel": "Incompleto",
+  "withdrewLabel": "W",
+  "auditLabel": "AU"
+
 }
