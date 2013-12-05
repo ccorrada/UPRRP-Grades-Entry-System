@@ -16,6 +16,8 @@ br
     .form-group
       input.form-control(type='text', placeholder= i18n('placeholderCourseSession'), name='session', value=course.session || '', required= true)
     .form-group
+      input.form-control(type='text', placeholder= i18n('placeholderCourseTitle'), name='session', value=course.title || '', required= true)
+    .form-group
       input.form-control(type='email', placeholder= i18n('placeholderProfessorEmail'), name='professorEmail', value=course.professorEmail || '', required= true)
     if grades
       if grades.length > 0 && typeof gradeType === 'number'

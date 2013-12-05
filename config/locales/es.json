@@ -92,5 +92,6 @@
   "newCourseTitle": "Añadir un curso",
   "coursesSemester": "Primer Semestre", 
   "coursesYear": "2013",
-  "btnDumper" : "Dump Database"
+  "btnDumper" : "Dump Database",
+  "placeholderCourseTitle": "Nombre del Curso"
 }
